@@ -22,7 +22,8 @@
         "psr-4": { "Omnipay\\PaymentWall\\" : "src/" }
     },
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.3.3",
+        "paymentwall/paymentwall-php": "dev-master",
         "omnipay/common": "~2.0"
     },
     "require-dev": {
