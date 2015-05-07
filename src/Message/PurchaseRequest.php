@@ -142,7 +142,7 @@ namespace Omnipay\PaymentWall\Message;
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @see Omnipay\PaymentWall\Gateway
  */
-class PurchaseRequest extends AbstractRestRequest
+class PurchaseRequest extends AbstractLibraryRequest
 {
 
     /**

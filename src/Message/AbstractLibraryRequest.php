@@ -1,6 +1,6 @@
 <?php
 /**
- * PaymentWall Abstract REST Request
+ * PaymentWall Abstract Library Request
  */
 
 namespace Omnipay\PaymentWall\Message;
@@ -8,12 +8,12 @@ namespace Omnipay\PaymentWall\Message;
 use Guzzle\Http\EntityBody;
 
 /**
- * PaymentWall Abstract REST Request
+ * PaymentWall Abstract Library Request
  *
  * FIXME: This is not finished yet -- just a stub.  The endpoints are incorrect, they
  * need to be grabbed from the existing code.  Not ready for use yet.
  *
- * This is the parent class for all PaymentWall REST requests.
+ * This is the parent class for all PaymentWall Library requests.
  *
  * Test payments can be performed by setting a 'dev-flag' header to any
  * value that PHP evaluates as true and using the following card number
@@ -31,9 +31,10 @@ use Guzzle\Http\EntityBody;
  * Any valid CVV that is not listed above will result in a success when using the test system
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
+ * @link https://github.com/paymentwall/paymentwall-php
  * @see \Omnipay\PaymentWall\Gateway
  */
-abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractRequest
+abstract class AbstractLibraryRequest extends \Omnipay\Common\Message\AbstractRequest
 {
     const API_VERSION = '1';
 
@@ -82,63 +83,63 @@ abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractReque
     }
 
     /**
-     * Get the gateway siteKey -- used in every request
+     * Get the gateway apiType -- used in every request
      *
      * @return string
      */
-    public function getSiteKey()
+    public function getApiType()
     {
-        return $this->getParameter('siteKey');
+        return $this->getParameter('apiType');
     }
 
     /**
-     * Set the gateway siteKey -- used in every request
+     * Set the gateway apiType -- used in every request
      *
-     * @return AbstractRestRequest provides a fluent interface.
+     * @return Gateway provides a fluent interface.
      */
-    public function setSiteKey($value)
+    public function setApiType($value)
     {
-        return $this->setParameter('siteKey', $value);
+        return $this->setParameter('apiType', $value);
     }
 
     /**
-     * Get the gateway siteDomain -- used in every request
-     *
-     * @return string
-     */
-    public function getSiteDomain()
-    {
-        return $this->getParameter('siteDomain');
-    }
-
-    /**
-     * Set the gateway siteDomain -- used in every request
-     *
-     * @return AbstractRestRequest provides a fluent interface.
-     */
-    public function setSiteDomain($value)
-    {
-        return $this->setParameter('siteDomain', $value);
-    }
-
-    /**
-     * Get the request accountId -- used in every request
+     * Get the gateway publicKey -- used in every request
      *
      * @return string
      */
-    public function getAccountId()
+    public function getPublicKey()
     {
-        return $this->getParameter('accountId');
+        return $this->getParameter('publicKey');
     }
 
     /**
-     * Set the request accountId -- used in every request
+     * Set the gateway publicKey -- used in every request
      *
-     * @return AbstractRestRequest provides a fluent interface.
+     * @return Gateway provides a fluent interface.
      */
-    public function setAccountId($value)
+    public function setPublicKey($value)
     {
-        return $this->setParameter('accountId', $value);
+        return $this->setParameter('publicKey', $value);
+    }
+
+    /**
+     * Get the gateway privateKey -- used in every request
+     *
+     * @return string
+     */
+    public function getPrivateKey()
+    {
+        return $this->getParameter('privateKey');
+    }
+
+    /**
+     * Set the gateway privateKey -- used in every request
+     *
+     * @return Gateway provides a fluent interface.
+     */
+    public function setPrivateKey($value)
+    {
+        return $this->setParameter('privateKey', $value);
     }
 
     /**
@@ -152,18 +153,50 @@ abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractReque
      */
     public function getData()
     {
-        $this->validate('siteKey');
+        $this->validate('publicKey');
         $data = array(
-            'site_key'          => $this->getSiteKey(),
-            'account_id'        => $this->getAccountId(),
-            'browser_ip'        => $this->getClientIp(),
-            'browser_domain'    => $this->getSiteDomain(),
+            'public_key'        => $this->getPublicKey(),
         );
         return $data;
     }
 
+    /**
+     * Initialise the PaymentWall Config Instance.
+     *
+     * @return void
+     */
+    public static function setPaymentWallObject()
+    {
+        // Initialise the PaymentWall configuration
+        \Paymentwall_Config::getInstance()->set(array(
+            'api_type'    => $this->getApiType(),
+            'public_key'  => $this->getPublicKey(),
+            'private_key' => $this->getPrivateKey(),
+        ));
+    }
+
+    /**
+     * Get the PaymentWall Config Instance.
+     *
+     * @return \Paymentwall_Config
+     */
+    public static function getPaymentWallObject()
+    {
+        if (\Paymentwall_Config::getInstance()->getPublicKey() == false) {
+            self::setPaymentWallObject();
+        }
+        return \Paymentwall_Config::getInstance();
+    }
+
     public function sendData($data)
     {
+        // Initialise the PaymentWall configuration
+        static::setPaymentWallObject();
+
+        // FIXME -- TODO everything else from here including sending the data.
+        // See the code in the previous version of the library or on the PaymentWall site
+
+/*
         // don't throw exceptions for 4xx errors
         $this->httpClient->getEventDispatcher()->addListener(
             'request.error',
@@ -205,7 +238,8 @@ abstract class AbstractRestRequest extends \Omnipay\Common\Message\AbstractReque
         $httpResponse = $httpRequest->send();
         # fwrite($handle, "Response == " . print_r($httpResponse, true) . "\n");
         # fclose($handle);
+*/
 
-        return $this->response = new RestResponse($this, $httpResponse->json(), $httpResponse->getStatusCode());
+        return $this->response = new LibraryResponse($this, $httpResponse->json(), $httpResponse->getStatusCode());
     }
 }

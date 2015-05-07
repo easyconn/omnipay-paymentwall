@@ -1,6 +1,6 @@
 <?php
 /**
- * PaymentWall REST Response
+ * PaymentWall Library Response
  */
 
 namespace Omnipay\PaymentWall\Message;
@@ -9,14 +9,14 @@ use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
 
 /**
- * PaymentWall REST Response
+ * PaymentWall Library Response
  *
- * This is the response class for all PaymentWall REST requests.
+ * This is the response class for all PaymentWall Library requests.
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @see \Omnipay\PaymentWall\Gateway
  */
-class RestResponse extends AbstractResponse
+class LibraryResponse extends AbstractResponse
 {
     protected $statusCode;
 

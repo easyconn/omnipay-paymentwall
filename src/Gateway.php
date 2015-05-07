@@ -7,12 +7,15 @@ namespace Omnipay\PaymentWall;
 
 use Omnipay\Common\AbstractGateway;
 
+// Pull in paymentwall library which has no namespacing.
+require_once __DIR__ . '/../vendor/paymentwall/paymentwall-php/lib/paymentwall.php';
+
 /**
  * PaymentWall Gateway
  *
  * Paymentwall is the leading digital payments platform for globally monetizing
- * digital goods and services. Paymentwall assists game publishers, dating sites,
- * rewards sites, SaaS companies and many other verticals to monetize their
+ * digital goods and services. Paymentwall assists game publishers, dating publics,
+ * rewards publics, SaaS companies and many other verticals to monetize their
  * digital content and services.
  *
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
@@ -30,8 +33,9 @@ use Omnipay\Common\AbstractGateway;
  *
  *   // Initialise the gateway
  *   $gateway->initialize(array(
- *       'siteKey'      => '1234asdf1234asdf',
- *       'siteDomain'   => 'MySiteDomain',
+ *       'apiType'      => $gateway::API_GOODS,
+ *       'publicKey'    => 'YOUR_PUBLIC_KEY',
+ *       'privateKey'   => 'YOUR_PRIVATE_KEY',
  *       'testMode'     => true, // Or false when you are ready for live transactions
  *   ));
  *
@@ -85,9 +89,15 @@ use Omnipay\Common\AbstractGateway;
  * @see \Omnipay\PaymentWall\Message\AbstractRestRequest
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @link https://www.paymentwall.com/
+ * @link https://github.com/paymentwall/paymentwall-php
  */
 class Gateway extends AbstractGateway
 {
+
+	const API_VC	= Paymentwall_Config::API_VC;
+	const API_GOODS	= Paymentwall_Config::API_GOODS;
+	const API_CART	= Paymentwall_Config::API_CART;
+
     /**
      * Get the gateway display name
      *
@@ -106,50 +116,71 @@ class Gateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return array(
-            'siteKey'       => '',
-            'siteDomain'    => '',
+            'apiType'       => 0,
+            'publicKey'     => '',
+            'privateKey'    => '',
             'testMode'      => false,
         );
     }
 
     /**
-     * Get the gateway siteKey -- used in every request
+     * Get the gateway apiType -- used in every request
      *
      * @return string
      */
-    public function getSiteKey()
+    public function getApiType()
     {
-        return $this->getParameter('siteKey');
+        return $this->getParameter('apiType');
     }
 
     /**
-     * Set the gateway siteKey -- used in every request
+     * Set the gateway apiType -- used in every request
      *
      * @return Gateway provides a fluent interface.
      */
-    public function setSiteKey($value)
+    public function setApiType($value)
     {
-        return $this->setParameter('siteKey', $value);
+        return $this->setParameter('apiType', $value);
     }
 
     /**
-     * Get the gateway siteDomain -- used in every request
+     * Get the gateway publicKey -- used in every request
      *
      * @return string
      */
-    public function getSiteDomain()
+    public function getPublicKey()
     {
-        return $this->getParameter('siteDomain');
+        return $this->getParameter('publicKey');
     }
 
     /**
-     * Set the gateway siteDomain -- used in every request
+     * Set the gateway publicKey -- used in every request
      *
      * @return Gateway provides a fluent interface.
      */
-    public function setSiteDomain($value)
+    public function setPublicKey($value)
     {
-        return $this->setParameter('siteDomain', $value);
+        return $this->setParameter('publicKey', $value);
+    }
+
+    /**
+     * Get the gateway privateKey -- used in every request
+     *
+     * @return string
+     */
+    public function getPrivateKey()
+    {
+        return $this->getParameter('privateKey');
+    }
+
+    /**
+     * Set the gateway privateKey -- used in every request
+     *
+     * @return Gateway provides a fluent interface.
+     */
+    public function setPrivateKey($value)
+    {
+        return $this->setParameter('privateKey', $value);
     }
 
     //
