@@ -10,6 +10,14 @@ use Omnipay\Common\AbstractGateway;
 /**
  * PaymentWall Gateway
  *
+ * Paymentwall is the leading digital payments platform for globally monetizing
+ * digital goods and services. Paymentwall assists game publishers, dating sites,
+ * rewards sites, SaaS companies and many other verticals to monetize their
+ * digital content and services.
+ *
+ * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
+ * and the Brick API to communicate to PaymentWall.
+ *
  * FIXME: This is not finished yet -- just a stub.  The endpoints are incorrect, they
  * need to be grabbed from the existing code.  Not ready for use yet.
  *
