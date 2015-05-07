@@ -30,6 +30,7 @@
         "omnipay/tests": "~2.0",
         "omnipay/dummy": "dev-master"
     },
+    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.x-dev"
