@@ -19,7 +19,9 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Omnipay\\PaymentWall\\" : "src/" }
+        "psr-4": {
+            "Omnipay\\PaymentWall\\": "src/"
+        }
     },
     "require": {
         "php": ">=5.3.3",

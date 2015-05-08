@@ -5,7 +5,7 @@
 
 namespace Omnipay\PaymentWall\Message;
 
-use Guzzle\Http\EntityBody;
+// use Guzzle\Http\EntityBody;
 
 /**
  * PaymentWall Abstract Library Request
@@ -240,6 +240,34 @@ abstract class AbstractLibraryRequest extends \Omnipay\Common\Message\AbstractRe
         # fclose($handle);
 */
 
-        return $this->response = new LibraryResponse($this, $httpResponse->json(), $httpResponse->getStatusCode());
+        $tokenModel = new Paymentwall_OneTimeToken();
+        $token =  $tokenModel->create(array(
+            'public_key' => Paymentwall_Config::getInstance()->getPublicKey(),
+            'card[number]' => '4242424242424242',
+            'card[exp_month]' => '11',
+            'card[exp_year]' => '19',
+            'card[cvv]' => '123'
+        ));
+
+        $charge = new Paymentwall_Charge();
+        $charge->create(array(
+            'token' => $token->getToken()
+        ));
+
+        $response = $charge->getPublicData();
+
+        if ($charge->isSuccessful()) {
+            if ($charge->isCaptured()) {
+                return $response;
+            } elseif ($charge->isUnderReview()) {
+                return $response
+            }
+        } else {
+            $errors = json_decode($response, true);
+            echo $errors['error']['code'];
+            echo $errors['error']['message'];
+        }
+
+        //return $this->response = new LibraryResponse($this, $httpResponse->json(), $httpResponse->getStatusCode());
     }
 }
