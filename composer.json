@@ -12,21 +12,16 @@
     ],
     "homepage": "https://github.com/incube8/omnipay-paymentwall",
     "license": "MIT",
-    "config": {
-        "preferred-install": "dist",
-        "github-oauth": {
-            "github.com": "1533513c91ac7d5f026a74590430940a8a05682e"
-        }
-    },
     "authors": [
         {
             "name": "Del",
             "email": "del@incube8.sg"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Omnipay\\PaymentWall\\": "src/"
+    "config": {
+        "preferred-install": "dist",
+        "github-oauth": {
+            "github.com": "4c3f0f5ecc58b6ccc34d7d3a4684839cbe94fab2"
         }
     },
     "repositories": [
@@ -43,6 +38,11 @@
     "require-dev": {
         "omnipay/tests": "~2.0",
         "omnipay/dummy": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Omnipay\\PaymentWall\\": "src/"
+        }
     },
     "extra": {
         "branch-alias": {
