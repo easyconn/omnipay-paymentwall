@@ -8,7 +8,12 @@ namespace Omnipay\PaymentWall;
 use Omnipay\Common\AbstractGateway;
 
 // Pull in paymentwall library which has no namespacing.
-require_once __DIR__ . '/../vendor/paymentwall/paymentwall-php/lib/paymentwall.php';
+$dirname = __FILE__;
+do {
+    $dirname = dirname($dirname);
+    $filename = $dirname . '/vendor/paymentwall/paymentwall-php/lib/paymentwall.php';
+} while (! file_exists($filename));
+require_once $filename;
 
 /**
  * PaymentWall Gateway
