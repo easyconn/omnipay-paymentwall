@@ -18,12 +18,6 @@
             "email": "del@incube8.sg"
         }
     ],
-    "config": {
-        "preferred-install": "dist",
-        "github-oauth": {
-            "github.com": "4c3f0f5ecc58b6ccc34d7d3a4684839cbe94fab2"
-        }
-    },
     "repositories": [
         {
             "type": "vcs",
