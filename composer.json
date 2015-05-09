@@ -25,6 +25,7 @@
     },
     "require": {
         "php": ">=5.3.3",
+        "paymentwall/paymentwall-php": "dev-master",
         "omnipay/common": "~2.0"
     },
     "require-dev": {
