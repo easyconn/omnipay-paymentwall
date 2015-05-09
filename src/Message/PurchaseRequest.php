@@ -106,8 +106,6 @@ namespace Omnipay\PaymentWall\Message;
  *   message.  This card token can then be used to make purchases
  *   in place of card data, just like other gateways.
  * * Refunds are not supported, these must be done manually.
- * * Currently there are no transaction references being returned from
- *   the gateway.
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @link https://www.paymentwall.com/
@@ -272,7 +270,19 @@ class PurchaseRequest extends AbstractLibraryRequest
 
         // Get the response data -- this is returned as a JSON string.
         $charge_response = $charge->getPublicData();
-        $this->response = new Response($this, json_decode($charge_response, true));
+        $charge_data = json_decode($charge_response, true);
+        // echo "Charge Data == " . print_r($charge_data, true) . "\n";
+
+        // Get the remaining data from the response
+        // echo "Charge == " . print_r($charge, true) . "\n";
+        // echo "Charge ID == " . $charge->getId() . "\n";
+        // echo "Card == " . print_r($charge->getCard(), true) . "\n";
+        // echo "Card Token == " . $charge->getCard()->getToken() . "\n";
+        $charge_data['transaction_reference'] = $charge->getId();
+        $charge_data['card_reference'] = $charge->getCard()->getToken();
+
+        // Construct the response object
+        $this->response = new Response($this, $charge_data);
 
         if ($charge->isSuccessful()) {
             if ($charge->isCaptured()) {

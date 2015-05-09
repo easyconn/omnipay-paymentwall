@@ -102,10 +102,8 @@ class Response extends AbstractResponse
     public function getTransactionReference()
     {
         // This is usually correct for payments, authorizations, etc
-        if (isset($this->data['payment']) &&
-            isset($this->data['payment']['charge']) &&
-            isset($this->data['payment']['charge']['order_id'])) {
-            return $this->data['payment']['charge']['order_id'];
+        if (isset($this->data['transaction_reference'])) {
+            return $this->data['transaction_reference'];
         }
         return null;
     }
@@ -119,10 +117,8 @@ class Response extends AbstractResponse
      */
     public function getCardReference()
     {
-        if (isset($this->data['payment']) &&
-            isset($this->data['payment']['card']) &&
-            isset($this->data['payment']['card']['auth_token'])) {
-            return $this->data['payment']['card']['auth_token'];
+        if (isset($this->data['card_reference'])) {
+            return $this->data['card_reference'];
         }
         return null;
     }

@@ -14,21 +14,6 @@ namespace Omnipay\PaymentWall\Message;
  *
  * This is the parent class for all PaymentWall Library requests.
  *
- * Test payments can be performed by setting a 'dev-flag' header to any
- * value that PHP evaluates as true and using the following card number
- * / CVV combinations:
- *
- * Card Numbers:
- * 4242424242424242
- * 4000000000000002
- *
- * CVV Codes | Expected Response
- * 111         Error: Please ensure the CVV/CVC number is correct before retrying the transaction
- * 222         Error: Please contact your credit card company to check your available balance
- * 333         Error: Please contact your credit card company to approve your payment
- *
- * Any valid CVV that is not listed above will result in a success when using the test system
- *
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @link https://www.paymentwall.com/
  * @link https://github.com/paymentwall/paymentwall-php

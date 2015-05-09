@@ -84,8 +84,6 @@ require_once __DIR__ . '/../vendor/paymentwall/paymentwall-php/lib/paymentwall.p
  *   message.  This card token can then be used to make purchases
  *   in place of card data, just like other gateways.
  * * Refunds are not supported, these must be done manually.
- * * Currently there are no transaction references being returned from
- *   the gateway.
  *
  * @see \Omnipay\Common\AbstractGateway
  * @see \Omnipay\PaymentWall\Message\AbstractRestRequest
