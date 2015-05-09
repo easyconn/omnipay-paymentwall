@@ -194,4 +194,15 @@ class Gateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\PaymentWall\Message\PurchaseRequest', $parameters);
     }
+
+    /**
+     * Create a void request.
+     *
+     * @param array $parameters
+     * @return \Omnipay\PaymentWall\Message\VoidRequest
+     */
+    public function void(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PaymentWall\Message\VoidRequest', $parameters);
+    }
 }

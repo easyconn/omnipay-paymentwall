@@ -1,12 +1,12 @@
 <?php
 /**
- * PaymentWall REST Purchase Request
+ * PaymentWall Purchase Request
  */
 
 namespace Omnipay\PaymentWall\Message;
 
 /**
- * PaymentWall REST Purchase Request
+ * PaymentWall Purchase Request
  *
  * Paymentwall is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall assists game publishers, dating publics,
@@ -15,9 +15,6 @@ namespace Omnipay\PaymentWall\Message;
  *
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
  * and the Brick API to communicate to PaymentWall.
- *
- * FIXME: There are no  transaction references coming back from the gateway and there
- * are no cards being stored.  Also see Quirks, below.
  *
  * <h3>Examples</h3>
  *
