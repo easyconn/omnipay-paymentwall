@@ -21,9 +21,6 @@ require_once __DIR__ . '/../vendor/paymentwall/paymentwall-php/lib/paymentwall.p
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
  * and the Brick API to communicate to PaymentWall.
  *
- * FIXME: There are no  transaction references coming back from the gateway and there
- * are no cards being stored.  Also see Quirks, below.
- *
  * <h4>Example</h4>
  *
  * <code>

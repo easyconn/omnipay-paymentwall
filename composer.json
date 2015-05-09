@@ -10,8 +10,14 @@
         "pay",
         "payment"
     ],
-    "homepage": "https://github.com/delatbabel/omnipay-paymentwall",
+    "homepage": "https://github.com/incube8/omnipay-paymentwall",
     "license": "MIT",
+    "config": {
+        "preferred-install": "dist",
+        "github-oauth": {
+            "github.com": "af05dd1901aa50a110b76a99ca5d4be8cd631af6"
+        }
+    },
     "authors": [
         {
             "name": "Del",
@@ -32,7 +38,12 @@
         "omnipay/tests": "~2.0",
         "omnipay/dummy": "dev-master"
     },
-    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/incube8/paymentwall-php"
+        }
+    ],
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.x-dev"
