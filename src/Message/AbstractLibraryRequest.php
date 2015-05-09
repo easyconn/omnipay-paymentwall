@@ -31,56 +31,13 @@ namespace Omnipay\PaymentWall\Message;
  * Any valid CVV that is not listed above will result in a success when using the test system
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
+ * @link https://www.paymentwall.com/
  * @link https://github.com/paymentwall/paymentwall-php
  * @see \Omnipay\PaymentWall\Gateway
  */
 abstract class AbstractLibraryRequest extends \Omnipay\Common\Message\AbstractRequest
 {
     const API_VERSION = '1';
-
-    /**
-     * Sandbox Endpoint URL
-     *
-     * @var string URL
-     */
-    // PaymentWall staging endpoint
-    # protected $testEndpoint = 'https://staging.paymentwall.com/api/';
-    // PaymentWall dev endpoint
-    protected $testEndpoint = 'http://dev.paymentwall.com/api/';
-    // Look here for POST test results if you're using this endpoint:
-    // http://www.posttestserver.com/
-    # protected $testEndpoint = 'http://posttestserver.com/post.php';
-
-    /**
-     * Live Endpoint URL
-     *
-     * @var string URL
-     */
-    protected $liveEndpoint = 'https://www.paymentwall.com/api/';
-
-    /**
-     * Get HTTP Method.
-     *
-     * This is nearly always POST but can be over-ridden in sub classes.
-     *
-     * @return string
-     */
-    protected function getHttpMethod()
-    {
-        return 'POST';
-    }
-
-    /**
-     * Get API endpoint URL
-     *
-     * @return string
-     */
-    protected function getEndpoint()
-    {
-        $base = $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
-        // return $base . '/' . self::API_VERSION;
-        return $base;
-    }
 
     /**
      * Get the gateway apiType -- used in every request
@@ -165,7 +122,7 @@ abstract class AbstractLibraryRequest extends \Omnipay\Common\Message\AbstractRe
      *
      * @return void
      */
-    public static function setPaymentWallObject()
+    public function setPaymentWallObject()
     {
         // Initialise the PaymentWall configuration
         \Paymentwall_Config::getInstance()->set(array(
@@ -180,10 +137,10 @@ abstract class AbstractLibraryRequest extends \Omnipay\Common\Message\AbstractRe
      *
      * @return \Paymentwall_Config
      */
-    public static function getPaymentWallObject()
+    public function getPaymentWallObject()
     {
         if (\Paymentwall_Config::getInstance()->getPublicKey() == false) {
-            self::setPaymentWallObject();
+            $this->setPaymentWallObject();
         }
         return \Paymentwall_Config::getInstance();
     }
@@ -191,83 +148,6 @@ abstract class AbstractLibraryRequest extends \Omnipay\Common\Message\AbstractRe
     public function sendData($data)
     {
         // Initialise the PaymentWall configuration
-        static::setPaymentWallObject();
-
-        // FIXME -- TODO everything else from here including sending the data.
-        // See the code in the previous version of the library or on the PaymentWall site
-
-/*
-        // don't throw exceptions for 4xx errors
-        $this->httpClient->getEventDispatcher()->addListener(
-            'request.error',
-            function ($event) {
-                if ($event['response']->isClientError()) {
-                    $event->stopPropagation();
-                }
-            }
-        );
-
-        // Headers
-        $headers = ['Accept' => 'application/json'];
-        if ($this->getTestMode()) {
-            $headers['dev-flag'] = '1';
-        }
-
-        // Guzzle HTTP Client createRequest does funny things when a GET request
-        // has attached data, so don't send the data if the method is GET.
-        if ($this->getHttpMethod() == 'GET') {
-            $httpRequest = $this->httpClient->createRequest(
-                $this->getHttpMethod(),
-                $this->getEndpoint(),
-                $headers
-            );
-        } else {
-            $httpRequest = $this->httpClient->createRequest(
-                $this->getHttpMethod(),
-                $this->getEndpoint(),
-                $headers,
-                $data
-            );
-        }
-
-        // Might be useful to have some debug code here.  Perhaps hook to whatever
-        // logging engine is being used.
-        # $handle = fopen('debug.txt', 'a');
-        # fwrite($handle, "Data == " . print_r($data, true) . "\n");
-
-        $httpResponse = $httpRequest->send();
-        # fwrite($handle, "Response == " . print_r($httpResponse, true) . "\n");
-        # fclose($handle);
-*/
-
-        $tokenModel = new Paymentwall_OneTimeToken();
-        $token =  $tokenModel->create(array(
-            'public_key' => Paymentwall_Config::getInstance()->getPublicKey(),
-            'card[number]' => '4242424242424242',
-            'card[exp_month]' => '11',
-            'card[exp_year]' => '19',
-            'card[cvv]' => '123'
-        ));
-
-        $charge = new Paymentwall_Charge();
-        $charge->create(array(
-            'token' => $token->getToken()
-        ));
-
-        $response = $charge->getPublicData();
-
-        if ($charge->isSuccessful()) {
-            if ($charge->isCaptured()) {
-                return $response;
-            } elseif ($charge->isUnderReview()) {
-                return $response
-            }
-        } else {
-            $errors = json_decode($response, true);
-            echo $errors['error']['code'];
-            echo $errors['error']['message'];
-        }
-
-        //return $this->response = new LibraryResponse($this, $httpResponse->json(), $httpResponse->getStatusCode());
+        $this->setPaymentWallObject();
     }
 }

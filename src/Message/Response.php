@@ -16,14 +16,60 @@ use Omnipay\Common\Message\RequestInterface;
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @see \Omnipay\PaymentWall\Gateway
  */
-class LibraryResponse extends AbstractResponse
+class Response extends AbstractResponse
 {
     protected $statusCode;
+
+    /** @var boolean */
+    protected $captured = false;
+
+    /** @var boolean */
+    protected $underReview = false;
 
     public function __construct(RequestInterface $request, $data, $statusCode = 200)
     {
         parent::__construct($request, $data);
         $this->statusCode = $statusCode;
+    }
+
+    /**
+     * Set captured status
+     *
+     * @param boolean $captured
+     * @return Response provides a fluent interface
+     */
+    public function setCaptured($captured) {
+        $this->captured = $captured;
+        return $this;
+    }
+
+    /**
+     * Get captured status
+     *
+     * @return boolean
+     */
+    public function isCaptured() {
+        return $this->captured;
+    }
+
+    /**
+     * Set under review status
+     *
+     * @param boolean $underReview
+     * @return Response provides a fluent interface
+     */
+    public function setUnderReview($underReview) {
+        $this->underReview = $underReview;
+        return $this;
+    }
+
+    /**
+     * Get under review status
+     *
+     * @return boolean
+     */
+    public function isUnderReview() {
+        return $this->underReview;
     }
 
     public function isSuccessful()
@@ -33,12 +79,12 @@ class LibraryResponse extends AbstractResponse
             return false;
         }
 
-        if (! empty($this->data['error'])) {
-            return false;
+        if (! empty($this->data['success'])) {
+            return true;
         }
 
-        if (! empty($this->data['response']['success'])) {
-            return $this->data['response']['success'];
+        if (empty($this->data['error'])) {
+            return true;
         }
 
         // PaymentWall returns an empty response for API calls that are not
@@ -85,6 +131,10 @@ class LibraryResponse extends AbstractResponse
 
     public function getCode()
     {
-        return $this->statusCode;
+        if (isset($this->data['error']) &&
+            isset($this->data['error']['code'])) {
+            return $this->data['error']['code'];
+        }
+        return null;
     }
 }

@@ -94,9 +94,9 @@ require_once __DIR__ . '/../vendor/paymentwall/paymentwall-php/lib/paymentwall.p
 class Gateway extends AbstractGateway
 {
 
-	const API_VC	= Paymentwall_Config::API_VC;
-	const API_GOODS	= Paymentwall_Config::API_GOODS;
-	const API_CART	= Paymentwall_Config::API_CART;
+	const API_VC	= \Paymentwall_Config::API_VC;
+	const API_GOODS	= \Paymentwall_Config::API_GOODS;
+	const API_CART	= \Paymentwall_Config::API_CART;
 
     /**
      * Get the gateway display name

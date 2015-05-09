@@ -140,6 +140,8 @@ namespace Omnipay\PaymentWall\Message;
  * </code>
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
+ * @link https://www.paymentwall.com/
+ * @link https://github.com/paymentwall/paymentwall-php
  * @see Omnipay\PaymentWall\Gateway
  */
 class PurchaseRequest extends AbstractLibraryRequest
@@ -163,6 +165,26 @@ class PurchaseRequest extends AbstractLibraryRequest
     public function setPackageId($value)
     {
         return $this->setParameter('packageId', $value);
+    }
+
+    /**
+     * Get the request accountId -- used in every purchase request
+     *
+     * @return string
+     */
+    public function getAccountId()
+    {
+        return $this->getParameter('accountId');
+    }
+
+    /**
+     * Set the request accountId -- used in every purchase request
+     *
+     * @return PurchaseRequest provides a fluent interface.
+     */
+    public function setAccountId($value)
+    {
+        return $this->setParameter('accountId', $value);
     }
 
     /**
@@ -191,11 +213,13 @@ class PurchaseRequest extends AbstractLibraryRequest
         // an account ID.
         $this->validate('amount', 'currency', 'accountId');
         $data                   = parent::getData();
-        $data['price']          = $this->getAmount();
+        $data['amount']         = $this->getAmount();
         $data['currency']       = $this->getCurrency();
         $data['account_id']     = $this->getAccountId();
         $data['package_id']     = $this->getPackageId();
         $data['package_name']   = $this->getPackageName();
+        $data['description']    = $this->getDescription();
+        $data['browser_ip']     = $this->getClientIp();
 
         // Use account id for package id if package id is not set.
         if (empty($data['package_id'])) {
@@ -246,5 +270,56 @@ class PurchaseRequest extends AbstractLibraryRequest
     protected function getEndpoint()
     {
         return parent::getEndpoint() . 'payments/submit/';
+    }
+
+    public function sendData($data)
+    {
+        // Initialise the PaymentWall configuration, done in the parent function.
+        parent::sendData($data);
+
+        // Create a one time token
+        $tokenModel = new \Paymentwall_OneTimeToken();
+        $token =  $tokenModel->create([
+            'public_key'        => $this->getPublicKey(),
+            'card[number]'      => $data['card_number'],
+            'card[exp_month]'   => $data['expiration_month'],
+            'card[exp_year]'    => $data['expiration_year'],
+            'card[cvv]'         => $data['cvv']
+        ]);
+
+        //  echo "Token data = " . print_r($token, true) . "\n";
+
+        // Create the charge and apply the token
+        $charge_data = [
+            'email'                 => $data['billing_email'],
+            // 'customer[firstname]'   => $purchase->getValue('name'),
+            'uid'                   => $data['account_id'],
+            'plan'                  => $data['package_id'],
+            'amount'                => $data['amount'],
+            'currency'              => $data['currency'],
+            'token'                 => $token->getToken(),
+            'fingerprint'           => $data['description'],
+            'description'           => $data['description'],
+            'browser_ip'            => $data['browser_ip'],
+            // 'browser_domain'        => $purchase->getValue('browser_domain'),
+        ];
+        $charge = new \Paymentwall_Charge();
+        $charge->create($charge_data);
+
+        // Get the response data -- this is returned as a JSON string.
+        $charge_response = $charge->getPublicData();
+        $this->response = new Response($this, json_decode($charge_response, true));
+
+        if ($charge->isSuccessful()) {
+            if ($charge->isCaptured()) {
+                $this->response->setCaptured(true);
+                return $this->response;
+            } elseif ($charge->isUnderReview()) {
+                $this->response->setUnderReview(true);
+                return $this->response;
+            }
+        } else {
+            return $this->response;
+        }
     }
 }
