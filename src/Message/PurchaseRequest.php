@@ -175,6 +175,26 @@ class PurchaseRequest extends AbstractLibraryRequest
         return $this->setParameter('packageName', $value);
     }
 
+    /**
+     * Get the request email -- used in every purchase request
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->getParameter('email');
+    }
+
+    /**
+     * Set the request email -- used in every purchase request
+     *
+     * @return PurchaseRequest provides a fluent interface.
+     */
+    public function setEmail($value)
+    {
+        return $this->setParameter('email', $value);
+    }
+
     public function getData()
     {
         // An amount parameter is required, as is a currency and
@@ -202,7 +222,13 @@ class PurchaseRequest extends AbstractLibraryRequest
         // A card token can be provided if the card has been stored
         // in the gateway.
         if ($this->getCardReference()) {
+            $this->validate('email');
             $data['token'] = $this->getCardReference();
+            $data['billing_email'] = $this->getEmail();
+        } elseif ($this->getToken()) {
+            $this->validate('email');
+            $data['token'] = $this->getToken();
+            $data['billing_email'] = $this->getEmail();
 
         // If no card token is provided then there must be a valid
         // card presented.
