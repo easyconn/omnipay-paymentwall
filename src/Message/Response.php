@@ -92,6 +92,13 @@ class Response extends AbstractResponse
         return false;
     }
 
+    /**
+     * Get Transaction Reference
+     *
+     * This doesn't work yet.
+     *
+     * @return string
+     */
     public function getTransactionReference()
     {
         // This is usually correct for payments, authorizations, etc

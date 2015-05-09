@@ -10,8 +10,7 @@ namespace Omnipay\PaymentWall\Message;
 /**
  * PaymentWall Abstract Library Request
  *
- * FIXME: This is not finished yet -- just a stub.  The endpoints are incorrect, they
- * need to be grabbed from the existing code.  Not ready for use yet.
+ * FIXME: This is not finished yet.
  *
  * This is the parent class for all PaymentWall Library requests.
  *
@@ -143,11 +142,5 @@ abstract class AbstractLibraryRequest extends \Omnipay\Common\Message\AbstractRe
             $this->setPaymentWallObject();
         }
         return \Paymentwall_Config::getInstance();
-    }
-
-    public function sendData($data)
-    {
-        // Initialise the PaymentWall configuration
-        $this->setPaymentWallObject();
     }
 }

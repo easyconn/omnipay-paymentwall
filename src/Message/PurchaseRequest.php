@@ -8,59 +8,16 @@ namespace Omnipay\PaymentWall\Message;
 /**
  * PaymentWall REST Purchase Request
  *
- * Route: /payments/submit/
+ * Paymentwall is the leading digital payments platform for globally monetizing
+ * digital goods and services. Paymentwall assists game publishers, dating publics,
+ * rewards publics, SaaS companies and many other verticals to monetize their
+ * digital content and services.
  *
- * Method: POST
+ * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
+ * and the Brick API to communicate to PaymentWall.
  *
- * <h3>Parameters</h3>
- *
- * Information taken from the PaymentWall API documentation:
- *
- * * site_key          [required] - public key for the site
- * * account_id        [required] -
- * * browser_ip        [required] - ip address of the user making a payment
- * * billing_email     [required] - Email where customer wishes to receive receipt. Can use account email
- * * package_id        [required] -
- * * package_name      [required] -
- * * price             [required] -
- * * currency          [required] - ISO 4217 to charge in
- * * token             [optional] - Authorization Token. Used in lieu of credit card information
- *
- * The following properties can all be replaced by an authorization token:
- *
- * * name              [required] - name on the card
- * * card_number       [required] -
- * * expiration_month  [required] -
- * * expiration_year   [required] -
- * * cvv               [required] -
- * * address_street    [optional] -
- * * address_city      [optional] -
- * * address_state     [optional] -
- * * address_country   [required] -
- * * address_zip       [optional] - you should include this to improve the success rate
- * * phone_number      [required] -
- * * remember_my_card  [optional] - default false, use this flag to store the credit card authorization token
- * * return_raw_error  [optional] - Default true - if an error occurs during processing the raw error list
- *   will be returned instead of the /api/forms data with inline error
- *
- * <h4>Test Payments</h4>
- *
- * Test payments can be performed by setting a 'dev-flag' header to any
- * value that PHP evaluates as true and using the following card number
- * / CVV combinations:
- *
- * Card Numbers:
- *
- * * 4242424242424242
- * * 4000000000000002
- *
- * CVV Codes and Expected Response:
- *
- * * 111 Error: Please ensure the CVV/CVC number is correct before retrying the transaction
- * * 222 Error: Please contact your credit card company to check your available balance
- * * 333 Error: Please contact your credit card company to approve your payment
- *
- * Any valid CVV that is not listed above will result in a success when using the test system
+ * FIXME: There are no  transaction references coming back from the gateway and there
+ * are no cards being stored.  Also see Quirks, below.
  *
  * <h3>Examples</h3>
  *
@@ -73,8 +30,9 @@ namespace Omnipay\PaymentWall\Message;
  *
  *   // Initialise the gateway
  *   $gateway->initialize(array(
- *       'siteKey'      => '1234asdf1234asdf',
- *       'siteDomain'   => 'MySiteDomain',
+ *       'apiType'      => $gateway::API_GOODS,
+ *       'publicKey'    => 'YOUR_PUBLIC_KEY',
+ *       'privateKey'   => 'YOUR_PRIVATE_KEY',
  *       'testMode'     => true, // Or false when you are ready for live transactions
  *   ));
  * </code>
@@ -138,6 +96,18 @@ namespace Omnipay\PaymentWall\Message;
  *       echo "Transaction reference = " . $sale_id . "\n";
  *   }
  * </code>
+ *
+ * <h4>Quirks</h4>
+ *
+ * * There is no separate createCard message in this gateway.  The
+ *   PaymentWall gateway only supports card creation at the time of a
+ *   purchase.  Instead, a cardReference is returned when a purchase
+ *   message is sent, as a component of the response to the purchase
+ *   message.  This card token can then be used to make purchases
+ *   in place of card data, just like other gateways.
+ * * Refunds are not supported, these must be done manually.
+ * * Currently there are no transaction references being returned from
+ *   the gateway.
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @link https://www.paymentwall.com/
@@ -260,34 +230,28 @@ class PurchaseRequest extends AbstractLibraryRequest
         return $data;
     }
 
-    /**
-     * Get transaction endpoint.
-     *
-     * Purchases are created using the /payments/submit/ resource.
-     *
-     * @return string
-     */
-    protected function getEndpoint()
-    {
-        return parent::getEndpoint() . 'payments/submit/';
-    }
-
     public function sendData($data)
     {
-        // Initialise the PaymentWall configuration, done in the parent function.
-        parent::sendData($data);
+        // Initialise the PaymentWall configuration
+        $this->setPaymentWallObject();
 
-        // Create a one time token
-        $tokenModel = new \Paymentwall_OneTimeToken();
-        $token =  $tokenModel->create([
-            'public_key'        => $this->getPublicKey(),
-            'card[number]'      => $data['card_number'],
-            'card[exp_month]'   => $data['expiration_month'],
-            'card[exp_year]'    => $data['expiration_year'],
-            'card[cvv]'         => $data['cvv']
-        ]);
+        if (empty($data['token'])) {
+            // Create a one time token
+            $tokenModel = new \Paymentwall_OneTimeToken();
+            $tokenObject =  $tokenModel->create([
+                'public_key'        => $this->getPublicKey(),
+                'card[number]'      => $data['card_number'],
+                'card[exp_month]'   => $data['expiration_month'],
+                'card[exp_year]'    => $data['expiration_year'],
+                'card[cvv]'         => $data['cvv']
+            ]);
 
-        //  echo "Token data = " . print_r($token, true) . "\n";
+            //  echo "Token data = " . print_r($tokenObject, true) . "\n";
+            $token = $tokenObject->getToken();
+        } else {
+            // Use the token passed in
+            $token = $data['token'];
+        }
 
         // Create the charge and apply the token
         $charge_data = [
@@ -297,7 +261,7 @@ class PurchaseRequest extends AbstractLibraryRequest
             'plan'                  => $data['package_id'],
             'amount'                => $data['amount'],
             'currency'              => $data['currency'],
-            'token'                 => $token->getToken(),
+            'token'                 => $token,
             'fingerprint'           => $data['description'],
             'description'           => $data['description'],
             'browser_ip'            => $data['browser_ip'],

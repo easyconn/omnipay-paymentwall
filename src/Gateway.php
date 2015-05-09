@@ -21,8 +21,8 @@ require_once __DIR__ . '/../vendor/paymentwall/paymentwall-php/lib/paymentwall.p
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
  * and the Brick API to communicate to PaymentWall.
  *
- * FIXME: This is not finished yet -- just a stub.  The endpoints are incorrect, they
- * need to be grabbed from the existing code.  Not ready for use yet.
+ * FIXME: There are no  transaction references coming back from the gateway and there
+ * are no cards being stored.  Also see Quirks, below.
  *
  * <h4>Example</h4>
  *
@@ -84,6 +84,8 @@ require_once __DIR__ . '/../vendor/paymentwall/paymentwall-php/lib/paymentwall.p
  *   message.  This card token can then be used to make purchases
  *   in place of card data, just like other gateways.
  * * Refunds are not supported, these must be done manually.
+ * * Currently there are no transaction references being returned from
+ *   the gateway.
  *
  * @see \Omnipay\Common\AbstractGateway
  * @see \Omnipay\PaymentWall\Message\AbstractRestRequest
