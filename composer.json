@@ -15,7 +15,7 @@
     "config": {
         "preferred-install": "dist",
         "github-oauth": {
-            "github.com": "af05dd1901aa50a110b76a99ca5d4be8cd631af6"
+            "github.com": "1533513c91ac7d5f026a74590430940a8a05682e"
         }
     },
     "authors": [
@@ -29,6 +29,12 @@
             "Omnipay\\PaymentWall\\": "src/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/delatbabel/paymentwall-php"
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "paymentwall/paymentwall-php": "dev-master",
@@ -38,12 +44,6 @@
         "omnipay/tests": "~2.0",
         "omnipay/dummy": "dev-master"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/incube8/paymentwall-php"
-        }
-    ],
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.x-dev"
