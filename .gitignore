@@ -3,3 +3,8 @@ documents
 reports
 vendor
 .idea
+dirlist.cache
+dirlist.app
+dirlist.vendor
+demo.php
+demo.sh
