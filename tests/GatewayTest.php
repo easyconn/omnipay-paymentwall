@@ -34,7 +34,7 @@ class GatewayTest extends GatewayTestCase
             'accountId'                 => 12341234,
             'packageId'                 => 1234,
             'packageName'               => 'Super Deluxe Excellent Discount Package',
-            'card'                  => $this->card,
+            'card'                      => $this->card,
         ]);
 
         $this->assertInstanceOf('Omnipay\PaymentWall\Message\PurchaseRequest', $request);
