@@ -41,7 +41,6 @@ class PurchaseRequestTest extends TestCase
             'apiType'               => $gateway::API_GOODS,
             'publicKey'             => 't_1e4df15bd0a1348cd2cf13e66feac9',
             'privateKey'            => 't_9add70aa98ca4e244ae43a5760b8aa',
-            'testMode'              => true,
             'amount'                => '10.00',
             'currency'              => 'AUD',
             'clientIp'              => '127.0.0.1',

@@ -38,7 +38,6 @@ require_once $filename;
  *       'apiType'      => $gateway::API_GOODS,
  *       'publicKey'    => 'YOUR_PUBLIC_KEY',
  *       'privateKey'   => 'YOUR_PRIVATE_KEY',
- *       'testMode'     => true, // Or false when you are ready for live transactions
  *   ));
  *
  *   // Create a credit card object
@@ -121,7 +120,6 @@ class Gateway extends AbstractGateway
             'apiType'       => 0,
             'publicKey'     => '',
             'privateKey'    => '',
-            'testMode'      => false,
         );
     }
 
