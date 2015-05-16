@@ -57,7 +57,7 @@ use Omnipay\Common\AbstractGateway;
  *       'packageId'                 => 1234,
  *       'description'               => 'Super Deluxe Excellent Discount Package',
  *       'fingerprint'               => '*token provided by Brick.js*',
- *       'browser_domain'            => 'SiteName.com',
+ *       'browserDomain'             => 'SiteName.com',
  *       'card'                      => $card,
  *   ));
  *   $response = $transaction->send();

@@ -60,7 +60,7 @@ use Omnipay\Common\Exception\RuntimeException;
  *       'packageId'                 => 1234,
  *       'description'               => 'Super Deluxe Excellent Discount Package',
  *       'fingerprint'               => '*token provided by Brick.js*',
- *       'browser_domain'            => 'SiteName.com',
+ *       'browserDomain'             => 'SiteName.com',
  *       'card'                      => $card,
  *   ));
  *   $response = $transaction->send();
@@ -83,7 +83,7 @@ use Omnipay\Common\Exception\RuntimeException;
  *       'packageId'                 => 1234,
  *       'description'               => 'Super Deluxe Excellent Discount Package',
  *       'fingerprint'               => '*token provided by Brick.js*',
- *       'browser_domain'            => 'SiteName.com',
+ *       'browserDomain'             => 'SiteName.com',
  *       'cardReference'             => 'token_asdf1234asdf1234',
  *   ));
  *   $response = $transaction->send();
@@ -201,7 +201,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     /**
      * Set the request FingerPrint
      *
-     * Required parameter fingerprint, if browser_ip and browser_domain are not supplied
+     * Required parameter fingerprint, if browserIp and browserDomain are not supplied
      *
      *
      *
@@ -216,13 +216,13 @@ class PurchaseRequest extends AbstractLibraryRequest
 
     public function getBrowserDomain()
     {
-        return $this->getParameter('browser_domain');
+        return $this->getParameter('browserDomain');
     }
 
     /**
      * Set the request FingerPrint
      *
-     * Required parameter browser_domain, if fingerprint is not supplied
+     * Required parameter browserDomain, if fingerprint is not supplied
      *
      * Domain of the website where the payment is originating from
      *
@@ -232,7 +232,7 @@ class PurchaseRequest extends AbstractLibraryRequest
      */
     public function setBrowserDomain($value)
     {
-        return $this->setParameter('browser_domain', $value);
+        return $this->setParameter('browserDomain', $value);
     }
 
     public function getPingBackURL()
@@ -276,7 +276,7 @@ class PurchaseRequest extends AbstractLibraryRequest
         if ($this->getFingerprint()) {
             $requiredParams[] = 'fingerprint';
         } else {
-            array_push($requiredParams, ['browser_ip', 'browser_domain']);
+            array_push($requiredParams, ['browserIp', 'browserDomain']);
         }
 
         $this->validate();
