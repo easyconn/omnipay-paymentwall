@@ -45,12 +45,7 @@ use Omnipay\Common\AbstractGateway;
  *               'expiryYear'            => '2020',
  *               'cvv'                   => '123',
  *               'email'                 => 'customer@example.com',
- *               'billingAddress1'       => '1 Scrubby Creek Road',
- *               'billingCountry'        => 'AU',
- *               'billingCity'           => 'Scrubby Creek',
  *               'billingPostcode'       => '4999',
- *               'billingState'          => 'QLD',
- *               'billingPhone'          => '12341234',
  *   ));
  *
  *   // Do a purchase transaction on the gateway
@@ -60,7 +55,9 @@ use Omnipay\Common\AbstractGateway;
  *       'currency'                  => 'AUD',
  *       'clientIp'                  => '127.0.0.1',
  *       'packageId'                 => 1234,
- *       'packageName'               => 'Super Deluxe Excellent Discount Package',
+ *       'description'               => 'Super Deluxe Excellent Discount Package',
+ *       'fingerprint'               => '*token provided by Brick.js*',
+ *       'browser_domain'            => 'SiteName.com',
  *       'card'                      => $card,
  *   ));
  *   $response = $transaction->send();
