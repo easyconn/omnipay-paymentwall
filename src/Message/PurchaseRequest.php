@@ -5,6 +5,8 @@
 
 namespace Omnipay\PaymentWall\Message;
 
+use Omnipay\Common\Exception\RuntimeException;
+
 /**
  * PaymentWall Purchase Request
  *
@@ -112,7 +114,7 @@ class PurchaseRequest extends AbstractLibraryRequest
 {
 
     /**
-     * Get the request packageId -- used in every purchase request
+     * Get the request packageId
      *
      * @return string
      */
@@ -122,7 +124,13 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request packageId -- used in every purchase request
+     * Set the request packageId
+     *
+     * Optional parameter, plan
+     *
+     * Identifies the product ID, sent back as goodsid parameter in Pingbacks
+     *
+     * @param mixed $value
      *
      * @return PurchaseRequest provides a fluent interface.
      */
@@ -132,7 +140,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the request accountId -- used in every purchase request
+     * Get the request accountId
      *
      * @return string
      */
@@ -142,7 +150,14 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request accountId -- used in every purchase request
+     * Set the request accountId
+     *
+     * Optional parameter, uuid
+     *
+     * Identifies the internal end-user ID within merchant's system. Used for uid
+     * parameter in Pingbacks. If omitted, email is used as uid parameter in Pingbacks
+     *
+     * @param mixed $value
      *
      * @return PurchaseRequest provides a fluent interface.
      */
@@ -152,27 +167,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the request packageName -- used in every purchase request
-     *
-     * @return string
-     */
-    public function getPackageName()
-    {
-        return $this->getParameter('packageName');
-    }
-
-    /**
-     * Set the request packageName -- used in every purchase request
-     *
-     * @return PurchaseRequest provides a fluent interface.
-     */
-    public function setPackageName($value)
-    {
-        return $this->setParameter('packageName', $value);
-    }
-
-    /**
-     * Get the request email -- used in every purchase request
+     * Get the request email
      *
      * @return string
      */
@@ -182,7 +177,15 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request email -- used in every purchase request
+     * Set the request email
+     *
+     * Required parameter, email
+     *
+     * End-user's email
+     *
+     * PaymentWall will use this email to send the transaction receipt
+     *
+     * @param mixed $value
      *
      * @return PurchaseRequest provides a fluent interface.
      */
@@ -191,131 +194,167 @@ class PurchaseRequest extends AbstractLibraryRequest
         return $this->setParameter('email', $value);
     }
 
-    public function getData()
+    public function getFingerprint()
     {
-        // An amount parameter is required, as is a currency and
-        // an account ID.
-        $this->validate('amount', 'currency', 'accountId');
-        $data                   = parent::getData();
-        $data['amount']         = $this->getAmount();
-        $data['currency']       = $this->getCurrency();
-        $data['account_id']     = $this->getAccountId();
-        $data['package_id']     = $this->getPackageId();
-        $data['package_name']   = $this->getPackageName();
-        $data['description']    = $this->getDescription();
-        $data['browser_ip']     = $this->getClientIp();
-
-        // Use account id for package id if package id is not set.
-        if (empty($data['package_id'])) {
-            $data['package_id']   = $this->getAccountId();
-        }
-
-        // Use transaction description for package name if package name is not set.
-        if (empty($data['package_name'])) {
-            $data['package_name']   = $this->getDescription();
-        }
-
-        // A card token can be provided if the card has been stored
-        // in the gateway.
-        if ($this->getCardReference()) {
-            $this->validate('email');
-            $data['token'] = $this->getCardReference();
-            $data['billing_email'] = $this->getEmail();
-        } elseif ($this->getToken()) {
-            $this->validate('email');
-            $data['token'] = $this->getToken();
-            $data['billing_email'] = $this->getEmail();
-
-        // If no card token is provided then there must be a valid
-        // card presented.
-        } else {
-            $this->validate('card');
-            $card = $this->getCard();
-            $card->validate();
-            $data['name']               = $card->getName();
-            $data['card_number']        = $card->getNumber();
-            $data['expiration_month']   = $card->getExpiryMonth();
-            $data['expiration_year']    = $card->getExpiryYear();
-            $data['cvv']                = $card->getCvv();
-            $data['address_street']     = $card->getBillingAddress1();
-            $data['address_city']       = $card->getBillingCity();
-            $data['address_state']      = $card->getBillingState();
-            $data['address_country']    = $card->getBillingCountry();
-            $data['address_zip']        = $card->getBillingPostcode();
-            $data['phone_number']       = $card->getBillingPhone();
-            $data['billing_email']      = $card->getEmail();
-            $data['remember_my_card']   = 1;
-        }
-
-        return $data;
+        return $this->getParameter('fingerprint');
     }
 
+    /**
+     * Set the request FingerPrint
+     *
+     * Required parameter fingerprint, if browser_ip and browser_domain are not supplied
+     *
+     *
+     *
+     * @param string $value
+     *
+     * @return PurchaseRequest provides a fluent interface.
+     */
+    public function setFingerprint($value)
+    {
+        return $this->setParameter('fingerprint', $value);
+    }
+
+    public function getBrowserDomain()
+    {
+        return $this->getParameter('browser_domain');
+    }
+
+    /**
+     * Set the request FingerPrint
+     *
+     * Required parameter browser_domain, if fingerprint is not supplied
+     *
+     * Domain of the website where the payment is originating from
+     *
+     * @param string $value Name or URL of the site making the payment
+     *
+     * @return PurchaseRequest provides a fluent interface.
+     */
+    public function setBrowserDomain($value)
+    {
+        return $this->setParameter('browser_domain', $value);
+    }
+
+    public function getPingBackURL()
+    {
+        return $this->getParameter('pingback_url');
+    }
+
+    /**
+     * Set the request FingerPrint
+     *
+     * Optional parameter pingback_url
+     *
+     * URL of pingback listener script where pingbacks should be sent. Takes effect
+     * only if activated for the merchant account per request. Requires widget call
+     * to be signed with signature version 2 or higher.
+     *
+     * Use this to override the default pingback url. Allows you to share a project
+     * (and one set of keys) across multiple testing environments while still
+     * receiving the pingbacks
+     *
+     * @param string $value a valid, absolute URL including http(s)
+     *
+     * @return PurchaseRequest provides a fluent interface.
+     */
+    public function setPingBackURL($value)
+    {
+        return $this->setParameter('pingback_url', $value);
+    }
+
+    /**
+     * Build an array from the ParameterBag object that is ready for sendData
+     *
+     * @see https://www.paymentwall.com/en/documentation/Brick/2968#charge_create
+     * @return array
+     */
+    public function getData()
+    {
+        // verify that required parameters are provided
+        // calls \Omnipay\Common\Message\AbstractRequest::validate()
+        $requiredParams = ['amount', 'currency', 'accountId', 'description', 'email'];
+        if ($this->getFingerprint()) {
+            $requiredParams[] = 'fingerprint';
+        } else {
+            array_push($requiredParams, ['browser_ip', 'browser_domain']);
+        }
+
+        $this->validate();
+        $card = $this->getCard();
+        return [
+            'token'     => $this->getToken(),
+            'card'      => [
+                'public_key'        => $this->getPublicKey(),
+                'card[number]'      => $card->getNumber(),
+                'card[exp_month]'   => $card->getExpiryMonth(),
+                'card[exp_year]'    => $card->getExpiryYear(),
+                'card[cvv]'         => $card->getCvv(),
+            ],
+            'purchase'  => [
+                'token'                 => null,
+                'email'                 => $card->getEmail(),
+                'customer[firstname]'   => $card->getFirstName(),
+                'customer[lastname]'    => $card->getLastName(),
+                'uid'                   => $this->getAccountId(),
+                'plan'                  => $this->getPackageId(),
+                'amount'                => $this->getAmount(),
+                'currency'              => $this->getCurrency(),
+                'fingerprint'           => $this->getFingerprint(),
+                'description'           => $this->getDescription(),
+                'browser_ip'            => $this->getClientIp(),
+                'browser_domain'        => $this->getBrowserDomain(),
+                'customer[zip]'         => $card->getBillingPostcode(),
+                'pingback_url'          => $this->getPingBackURL(),
+            ]
+        ];
+    }
+
+
+    /**
+     * Submit a payment through the PaymentWall Library
+     *
+     * @param mixed $data
+     *
+     * @throws RuntimeException
+     * @return Response
+     */
     public function sendData($data)
     {
+        if (empty($data['card']) or empty($data['purchase'])) {
+            $data = $this->getData();
+        }
+
         // Initialise the PaymentWall configuration
         $this->setPaymentWallObject();
 
-        if (empty($data['token'])) {
+        // if no token exist, create one
+        $token = $data['token'];
+        if (empty($token)) {
             // Create a one time token
             $tokenModel = new \Paymentwall_OneTimeToken();
-            $tokenObject =  $tokenModel->create([
-                'public_key'        => $this->getPublicKey(),
-                'card[number]'      => $data['card_number'],
-                'card[exp_month]'   => $data['expiration_month'],
-                'card[exp_year]'    => $data['expiration_year'],
-                'card[cvv]'         => $data['cvv']
-            ]);
+            $tokenObject = $tokenModel->create($data['card']);
 
-            //  echo "Token data = " . print_r($tokenObject, true) . "\n";
             $token = $tokenObject->getToken();
-        } else {
-            // Use the token passed in
-            $token = $data['token'];
+        }
+        if (empty($token)) {
+            throw new RuntimeException('Payment Token could not be created');
         }
 
-        // Create the charge and apply the token
-        $charge_data = [
-            'email'                 => $data['billing_email'],
-            // 'customer[firstname]'   => $purchase->getValue('name'),
-            'uid'                   => $data['account_id'],
-            'plan'                  => $data['package_id'],
-            'amount'                => $data['amount'],
-            'currency'              => $data['currency'],
-            'token'                 => $token,
-            'fingerprint'           => $data['description'],
-            'description'           => $data['description'],
-            'browser_ip'            => $data['browser_ip'],
-            // 'browser_domain'        => $purchase->getValue('browser_domain'),
-        ];
+        $data['purchase']['token'] = $token;
         $charge = new \Paymentwall_Charge();
-        $charge->create($charge_data);
-
-        // Get the response data -- this is returned as a JSON string.
-        $charge_response = $charge->getPublicData();
-        $charge_data = json_decode($charge_response, true);
-        // echo "Charge Data == " . print_r($charge_data, true) . "\n";
-
-        // Get the remaining data from the response
-        // echo "Charge == " . print_r($charge, true) . "\n";
-        // echo "Charge ID == " . $charge->getId() . "\n";
-        // echo "Card == " . print_r($charge->getCard(), true) . "\n";
-        // echo "Card Token == " . $charge->getCard()->getToken() . "\n";
-        $charge_data['transaction_reference'] = $charge->getId();
-        $charge_data['card_reference'] = $charge->getCard()->getToken();
+        $charge->create($data['purchase']);
 
         // Construct the response object
-        $this->response = new Response($this, $charge_data);
+        $this->response = new Response($this, $charge->getProperties());
 
         if ($charge->isSuccessful()) {
             if ($charge->isCaptured()) {
                 $this->response->setCaptured(true);
-                return $this->response;
             } elseif ($charge->isUnderReview()) {
                 $this->response->setUnderReview(true);
-                return $this->response;
             }
-        } else {
-            return $this->response;
         }
+        return $this->response;
     }
 }

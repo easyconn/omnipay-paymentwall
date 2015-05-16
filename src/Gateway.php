@@ -7,14 +7,6 @@ namespace Omnipay\PaymentWall;
 
 use Omnipay\Common\AbstractGateway;
 
-// Pull in paymentwall library which has no namespacing.
-$dirname = __FILE__;
-do {
-    $dirname = dirname($dirname);
-    $filename = $dirname . '/vendor/paymentwall/paymentwall-php/lib/paymentwall.php';
-} while (! file_exists($filename));
-require_once $filename;
-
 /**
  * PaymentWall Gateway
  *
@@ -25,6 +17,9 @@ require_once $filename;
  *
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
  * and the Brick API to communicate to PaymentWall.
+ *
+ * Add this to your app bootstrap file to pull in the library
+ * require_once __DIR__ . '/path/to/vendor/paymentwall/paymentwall-php/lib/paymentwall.php';
  *
  * <h4>Example</h4>
  *
