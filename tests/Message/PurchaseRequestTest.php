@@ -59,12 +59,12 @@ class PurchaseRequestTest extends TestCase
     {
         $data = $this->request->getData();
 
-        $this->assertSame('10.00', $data['amount']);
+        $this->assertSame('10.00', $data['purchase']['amount']);
 
-        $this->assertSame($this->card->getNumber(), $data['card_number']);
-        $this->assertSame($this->card->getExpiryMonth(), $data['expiration_month']);
-        $this->assertSame($this->card->getExpiryYear(), $data['expiration_year']);
-        $this->assertSame($this->card->getCvv(), $data['cvv']);
+        $this->assertSame($this->card->getNumber(), $data['card']['card[number]']);
+        $this->assertSame($this->card->getExpiryMonth(), $data['card']['card[exp_month]']);
+        $this->assertSame($this->card->getExpiryYear(), $data['card']['card[exp_year]']);
+        $this->assertSame($this->card->getCvv(), $data['card']['card[cvv]']);
     }
 
 /* Can't do this because can't create mocks.
