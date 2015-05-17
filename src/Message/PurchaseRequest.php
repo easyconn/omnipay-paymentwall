@@ -203,7 +203,8 @@ class PurchaseRequest extends AbstractLibraryRequest
      *
      * Required parameter fingerprint, if browserIp and browserDomain are not supplied
      *
-     *
+     * This value is produced by the Brick.js (if utilized) and contains both the
+     * IP and Domain info
      *
      * @param string $value
      *
@@ -220,7 +221,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request FingerPrint
+     * Set the request browserDomain
      *
      * Required parameter browserDomain, if fingerprint is not supplied
      *
@@ -241,7 +242,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request FingerPrint
+     * Set the request PingBackURL
      *
      * Optional parameter pingback_url
      *
