@@ -238,13 +238,13 @@ class PurchaseRequest extends AbstractLibraryRequest
 
     public function getPingBackURL()
     {
-        return $this->getParameter('pingback_url');
+        return $this->getParameter('pingBackURL');
     }
 
     /**
      * Set the request PingBackURL
      *
-     * Optional parameter pingback_url
+     * Optional parameter pingBackURL
      *
      * URL of pingback listener script where pingbacks should be sent. Takes effect
      * only if activated for the merchant account per request. Requires widget call
@@ -260,7 +260,7 @@ class PurchaseRequest extends AbstractLibraryRequest
      */
     public function setPingBackURL($value)
     {
-        return $this->setParameter('pingback_url', $value);
+        return $this->setParameter('pingBackURL', $value);
     }
 
     /**
