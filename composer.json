@@ -1,50 +1,46 @@
 {
-  "name": "aaronluman/omnipay-paymentwall",
-  "type": "library",
-  "description": "PaymentWall driver for the Omnipay payment processing library",
-  "keywords": [
-    "PaymentWall",
-    "gateway",
-    "merchant",
-    "omnipay",
-    "pay",
-    "payment"
-  ],
-  "homepage": "https://github.com/incube8/omnipay-paymentwall",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Del",
-      "email": "del@incube8.sg"
+    "name": "delatbabel/omnipay-paymentwall",
+    "type": "library",
+    "description": "PaymentWall driver for the Omnipay payment processing library",
+    "keywords": [
+        "PaymentWall",
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment"
+    ],
+    "homepage": "https://github.com/incube8/omnipay-paymentwall",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Del",
+            "email": "del@incube8.sg"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/delatbabel/paymentwall-php"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "paymentwall/paymentwall-php": "dev-master",
+        "omnipay/common": "~2.0"
     },
-    {
-      "name": "Aaron Luman",
-      "email": "aaron.luman@gmail.com"
+    "require-dev": {
+        "omnipay/tests": "~2.0",
+        "omnipay/dummy": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Omnipay\\PaymentWall\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
     }
-  ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/aaronluman/paymentwall-php"
-    }
-  ],
-  "require": {
-    "php": ">=5.3.3",
-    "aaronluman/paymentwall-php": "dev-master",
-    "omnipay/common": "~2.0"
-  },
-  "require-dev": {
-    "omnipay/tests": "~2.0",
-    "omnipay/dummy": "dev-master"
-  },
-  "autoload": {
-    "psr-4": {
-      "Omnipay\\PaymentWall\\": "src/"
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
-  }
 }
