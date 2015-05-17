@@ -33,7 +33,6 @@ namespace Omnipay\PaymentWall\Message;
  *       'apiType'      => $gateway::API_GOODS,
  *       'publicKey'    => 'YOUR_PUBLIC_KEY',
  *       'privateKey'   => 'YOUR_PRIVATE_KEY',
- *       'testMode'     => true, // Or false when you are ready for live transactions
  *   ));
  * </code>
  *

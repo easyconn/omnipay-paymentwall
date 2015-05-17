@@ -7,13 +7,15 @@ namespace Omnipay\PaymentWall;
 
 use Omnipay\Common\AbstractGateway;
 
-// Pull in paymentwall library which has no namespacing.
-$dirname = __FILE__;
-do {
-    $dirname = dirname($dirname);
-    $filename = $dirname . '/vendor/paymentwall/paymentwall-php/lib/paymentwall.php';
-} while (! file_exists($filename));
-require_once $filename;
+if (!class_exists('Paymentwall_Instance')) {
+    // Pull in paymentwall library which has no namespacing.
+    $dirname = __FILE__;
+    do {
+        $dirname = dirname($dirname);
+        $filename = $dirname . '/vendor/paymentwall/paymentwall-php/lib/paymentwall.php';
+    } while (! file_exists($filename));
+    require_once $filename;
+}
 
 /**
  * PaymentWall Gateway
@@ -25,6 +27,9 @@ require_once $filename;
  *
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
  * and the Brick API to communicate to PaymentWall.
+ *
+ * Add this to your app bootstrap file to pull in the library
+ * require_once __DIR__ . '/path/to/vendor/paymentwall/paymentwall-php/lib/paymentwall.php';
  *
  * <h4>Example</h4>
  *
@@ -38,7 +43,6 @@ require_once $filename;
  *       'apiType'      => $gateway::API_GOODS,
  *       'publicKey'    => 'YOUR_PUBLIC_KEY',
  *       'privateKey'   => 'YOUR_PRIVATE_KEY',
- *       'testMode'     => true, // Or false when you are ready for live transactions
  *   ));
  *
  *   // Create a credit card object
@@ -51,12 +55,7 @@ require_once $filename;
  *               'expiryYear'            => '2020',
  *               'cvv'                   => '123',
  *               'email'                 => 'customer@example.com',
- *               'billingAddress1'       => '1 Scrubby Creek Road',
- *               'billingCountry'        => 'AU',
- *               'billingCity'           => 'Scrubby Creek',
  *               'billingPostcode'       => '4999',
- *               'billingState'          => 'QLD',
- *               'billingPhone'          => '12341234',
  *   ));
  *
  *   // Do a purchase transaction on the gateway
@@ -66,7 +65,9 @@ require_once $filename;
  *       'currency'                  => 'AUD',
  *       'clientIp'                  => '127.0.0.1',
  *       'packageId'                 => 1234,
- *       'packageName'               => 'Super Deluxe Excellent Discount Package',
+ *       'description'               => 'Super Deluxe Excellent Discount Package',
+ *       'fingerprint'               => '*token provided by Brick.js*',
+ *       'browserDomain'             => 'SiteName.com',
  *       'card'                      => $card,
  *   ));
  *   $response = $transaction->send();
@@ -121,7 +122,6 @@ class Gateway extends AbstractGateway
             'apiType'       => 0,
             'publicKey'     => '',
             'privateKey'    => '',
-            'testMode'      => false,
         );
     }
 
