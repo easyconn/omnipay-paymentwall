@@ -193,6 +193,11 @@ class PurchaseRequest extends AbstractLibraryRequest
         return $this->setParameter('email', $value);
     }
 
+    /**
+     * Get the Brick.js fingerprint
+     *
+     * @return string
+     */
     public function getFingerprint()
     {
         return $this->getParameter('fingerprint');
@@ -215,6 +220,11 @@ class PurchaseRequest extends AbstractLibraryRequest
         return $this->setParameter('fingerprint', $value);
     }
 
+    /**
+     * Get browserDomain
+     *
+     * @return string Site name or URL
+     */
     public function getBrowserDomain()
     {
         return $this->getParameter('browserDomain');
@@ -236,6 +246,11 @@ class PurchaseRequest extends AbstractLibraryRequest
         return $this->setParameter('browserDomain', $value);
     }
 
+    /**
+     * Get the custom pingBack URL
+     *
+     * @return string
+     */
     public function getPingBackURL()
     {
         return $this->getParameter('pingBackURL');
