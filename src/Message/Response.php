@@ -95,15 +95,13 @@ class Response extends AbstractResponse
     /**
      * Get Transaction Reference
      *
-     * This doesn't work yet.
-     *
      * @return string
      */
     public function getTransactionReference()
     {
         // This is usually correct for payments, authorizations, etc
-        if (isset($this->data['transaction_reference'])) {
-            return $this->data['transaction_reference'];
+        if (isset($this->data['id'])) {
+            return $this->data['id'];
         }
         return null;
     }
@@ -111,14 +109,12 @@ class Response extends AbstractResponse
     /**
      * Get Card Reference
      *
-     * This doesn't work yet.
-     *
      * @return string
      */
     public function getCardReference()
     {
-        if (isset($this->data['card_reference'])) {
-            return $this->data['card_reference'];
+        if (isset($this->data['card']['token'])) {
+            return $this->data['card']['token'];
         }
         return null;
     }
