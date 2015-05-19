@@ -6,6 +6,7 @@
 namespace Omnipay\PaymentWall\Message;
 
 use Omnipay\Common\Exception\RuntimeException;
+use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
  * PaymentWall Purchase Request
@@ -159,11 +160,17 @@ class PurchaseRequest extends AbstractLibraryRequest
     /**
      * Get the request email
      *
+     * The email can be in the parameter bag or the card data
+     *
      * @return string
      */
     public function getEmail()
     {
-        return $this->getParameter('email');
+        $email = $this->getParameter('email');
+        if (empty($email)) {
+            $email = $this->getCard()->getEmail();
+        }
+        return $email;
     }
 
     /**
@@ -272,6 +279,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     /**
      * Build an array from the ParameterBag object that is ready for sendData
      *
+     * @throws InvalidRequestException directly for missing email, indirectly through validate
      * @link https://www.paymentwall.com/en/documentation/Brick/2968#charge_create
      * @return array
      */
@@ -279,15 +287,21 @@ class PurchaseRequest extends AbstractLibraryRequest
     {
         // verify that required parameters are provided
         // calls \Omnipay\Common\Message\AbstractRequest::validate()
-        $requiredParams = ['amount', 'currency', 'accountId', 'description', 'email'];
+        $requiredParams = ['amount', 'currency', 'accountId', 'description'];
         if ($this->getFingerprint()) {
             $requiredParams[] = 'fingerprint';
         } else {
-            array_push($requiredParams, ['browserIp', 'browserDomain']);
+            $requiredParams = array_merge($requiredParams, ['clientIp', 'browserDomain']);
         }
 
         // pass the param list to the validate function
         call_user_func_array([$this,'validate'], $requiredParams);
+
+        // require an email address
+        $email = $this->getEmail();
+        if (empty($email)) {
+            throw new InvalidRequestException("The email parameter is required");
+        }
 
         $card = $this->getCard();
         $data = [
