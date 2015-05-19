@@ -121,18 +121,16 @@ class Response extends AbstractResponse
 
     public function getMessage()
     {
-        if (isset($this->data['error']) &&
-            isset($this->data['error']['message'])) {
-            return $this->data['error']['message'];
+        if (isset($this->data['error'])) {
+            return $this->data['error'];
         }
         return null;
     }
 
     public function getCode()
     {
-        if (isset($this->data['error']) &&
-            isset($this->data['error']['code'])) {
-            return $this->data['error']['code'];
+        if (isset($this->data['code'])) {
+            return $this->data['code'];
         }
         return null;
     }
