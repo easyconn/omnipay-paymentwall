@@ -16,9 +16,6 @@ namespace Omnipay\PaymentWall\Message;
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
  * and the Brick API to communicate to PaymentWall.
  *
- * FIXME: There are no  transaction references coming back from the gateway and there
- * are no cards being stored.  Also see Quirks, below.
- *
  * <h3>Examples</h3>
  *
  * <h4>Set Up and Initialise Gateway</h4>

@@ -18,9 +18,6 @@ use Omnipay\Common\AbstractGateway;
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
  * and the Brick API to communicate to PaymentWall.
  *
- * Add this to your app bootstrap file to pull in the library
- * require_once __DIR__ . '/path/to/vendor/paymentwall/paymentwall-php/lib/paymentwall.php';
- *
  * <h4>Example</h4>
  *
  * <code>
@@ -76,7 +73,8 @@ use Omnipay\Common\AbstractGateway;
  *   message is sent, as a component of the response to the purchase
  *   message.  This card token can then be used to make purchases
  *   in place of card data, just like other gateways.
- * * Refunds are not supported, these must be done manually.
+ * * Refunds are not supported, these must be done manually.  Voids
+ *   are supported.
  *
  * @see \Omnipay\Common\AbstractGateway
  * @see \Omnipay\PaymentWall\Message\AbstractRestRequest

@@ -85,6 +85,7 @@ use Omnipay\Common\Exception\RuntimeException;
  *       'fingerprint'               => '*token provided by Brick.js*',
  *       'browserDomain'             => 'SiteName.com',
  *       'cardReference'             => 'token_asdf1234asdf1234',
+ *       'email'                     => 'customer@example.com',
  *   ));
  *   $response = $transaction->send();
  *   if ($response->isSuccessful()) {
@@ -93,16 +94,6 @@ use Omnipay\Common\Exception\RuntimeException;
  *       echo "Transaction reference = " . $sale_id . "\n";
  *   }
  * </code>
- *
- * <h4>Quirks</h4>
- *
- * * There is no separate createCard message in this gateway.  The
- *   PaymentWall gateway only supports card creation at the time of a
- *   purchase.  Instead, a cardReference is returned when a purchase
- *   message is sent, as a component of the response to the purchase
- *   message.  This card token can then be used to make purchases
- *   in place of card data, just like other gateways.
- * * Refunds are not supported, these must be done manually.
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @link https://www.paymentwall.com/

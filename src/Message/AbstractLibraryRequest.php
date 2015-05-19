@@ -10,8 +10,6 @@ namespace Omnipay\PaymentWall\Message;
 /**
  * PaymentWall Abstract Library Request
  *
- * FIXME: This is not finished yet.
- *
  * This is the parent class for all PaymentWall Library requests.
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
