@@ -1,5 +1,5 @@
 {
-    "name": "delatbabel/omnipay-paymentwall",
+    "name": "incube8/omnipay-paymentwall",
     "type": "library",
     "description": "PaymentWall driver for the Omnipay payment processing library",
     "keywords": [
