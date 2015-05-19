@@ -36,10 +36,7 @@
     "autoload": {
         "psr-4": {
             "Omnipay\\PaymentWall\\": "src/"
-        },
-        "classmap": [
-            "vendor/paymentwall/paymentwall-php/lib/Paymentwall/"
-        ]
+        }
     },
     "extra": {
         "branch-alias": {
