@@ -286,7 +286,9 @@ class PurchaseRequest extends AbstractLibraryRequest
             array_push($requiredParams, ['browserIp', 'browserDomain']);
         }
 
-        $this->validate();
+        // pass the param list to the validate function
+        call_user_func_array([$this,'validate'], $requiredParams);
+
         $card = $this->getCard();
         $data = [
             'purchase'  => [
