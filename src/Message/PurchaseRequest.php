@@ -288,17 +288,9 @@ class PurchaseRequest extends AbstractLibraryRequest
 
         $this->validate();
         $card = $this->getCard();
-        return [
-            'token'     => $this->getToken(),
-            'card'      => [
-                'public_key'        => $this->getPublicKey(),
-                'card[number]'      => $card->getNumber(),
-                'card[exp_month]'   => $card->getExpiryMonth(),
-                'card[exp_year]'    => $card->getExpiryYear(),
-                'card[cvv]'         => $card->getCvv(),
-            ],
+        $data = [
             'purchase'  => [
-                'token'                 => null,
+                'token'                 => $this->getToken(),
                 'email'                 => $card->getEmail(),
                 'customer[firstname]'   => $card->getFirstName(),
                 'customer[lastname]'    => $card->getLastName(),
@@ -314,8 +306,20 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'pingback_url'          => $this->getPingBackURL(),
             ]
         ];
-    }
 
+        // if there is no authorization token we need to provide sendData with
+        // the card data so that it can get a one-time token from PaymentWall
+        if (empty($data['purchase']['token'])) {
+            $data['card'] = [
+                'public_key'        => $this->getPublicKey(),
+                'card[number]'      => $card->getNumber(),
+                'card[exp_month]'   => $card->getExpiryMonth(),
+                'card[exp_year]'    => $card->getExpiryYear(),
+                'card[cvv]'         => $card->getCvv(),
+            ];
+        }
+        return $data;
+    }
 
     /**
      * Submit a payment through the PaymentWall Library
@@ -327,27 +331,21 @@ class PurchaseRequest extends AbstractLibraryRequest
      */
     public function sendData($data)
     {
-        if (empty($data['card']) or empty($data['purchase'])) {
-            $data = $this->getData();
-        }
-
         // Initialise the PaymentWall configuration
         $this->setPaymentWallObject();
 
-        // if no token exist, create one
-        $token = $data['token'];
-        if (empty($token)) {
+        // if no token exists, create one
+        if (empty($data['purchase']['token'])) {
             // Create a one time token
             $tokenModel = new \Paymentwall_OneTimeToken();
             $tokenObject = $tokenModel->create($data['card']);
 
-            $token = $tokenObject->getToken();
+            $data['purchase']['token'] = $tokenObject->getToken();
         }
-        if (empty($token)) {
+        if (empty($data['purchase']['token'])) {
             throw new RuntimeException('Payment Token could not be created');
         }
 
-        $data['purchase']['token'] = $token;
         $charge = new \Paymentwall_Charge();
         $charge->create($data['purchase']);
 
