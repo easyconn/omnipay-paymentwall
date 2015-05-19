@@ -7,16 +7,6 @@ namespace Omnipay\PaymentWall;
 
 use Omnipay\Common\AbstractGateway;
 
-if (!class_exists('Paymentwall_Instance')) {
-    // Pull in paymentwall library which has no namespacing.
-    $dirname = __FILE__;
-    do {
-        $dirname = dirname($dirname);
-        $filename = $dirname . '/vendor/paymentwall/paymentwall-php/lib/paymentwall.php';
-    } while (! file_exists($filename));
-    require_once $filename;
-}
-
 /**
  * PaymentWall Gateway
  *

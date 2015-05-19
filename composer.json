@@ -21,7 +21,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/delatbabel/paymentwall-php"
+            "url": "https://github.com/incube8/paymentwall-php"
         }
     ],
     "require": {
@@ -36,7 +36,10 @@
     "autoload": {
         "psr-4": {
             "Omnipay\\PaymentWall\\": "src/"
-        }
+        },
+        "classmap": [
+            "vendor/paymentwall/paymentwall-php/lib/Paymentwall/"
+        ]
     },
     "extra": {
         "branch-alias": {

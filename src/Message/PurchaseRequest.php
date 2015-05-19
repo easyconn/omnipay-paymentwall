@@ -281,7 +281,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     /**
      * Build an array from the ParameterBag object that is ready for sendData
      *
-     * @see https://www.paymentwall.com/en/documentation/Brick/2968#charge_create
+     * @link https://www.paymentwall.com/en/documentation/Brick/2968#charge_create
      * @return array
      */
     public function getData()
@@ -297,20 +297,56 @@ class PurchaseRequest extends AbstractLibraryRequest
 
         $this->validate();
         $card = $this->getCard();
-        return [
-            'token'     => $this->getToken(),
-            'card'      => [
-                'public_key'        => $this->getPublicKey(),
-                'card[number]'      => $card->getNumber(),
-                'card[exp_month]'   => $card->getExpiryMonth(),
-                'card[exp_year]'    => $card->getExpiryYear(),
-                'card[cvv]'         => $card->getCvv(),
-            ],
-            'purchase'  => [
+        $token = '';
+        // A card token can be provided if the card has been stored
+        // in the gateway.
+        if ($this->getCardReference()) {
+            $token = $this->getCardReference();
+        } elseif ($this->getToken()) {
+            $token = $this->getToken();
+        }
+
+        if (empty($token)) {
+            // No card token provided, return data with card.
+            $this->validate('card');
+            $card = $this->getCard();
+            return [
                 'token'                 => null,
-                'email'                 => $card->getEmail(),
-                'customer[firstname]'   => $card->getFirstName(),
-                'customer[lastname]'    => $card->getLastName(),
+                'card'      => [
+                    'public_key'        => $this->getPublicKey(),
+                    'card[number]'      => $card->getNumber(),
+                    'card[exp_month]'   => $card->getExpiryMonth(),
+                    'card[exp_year]'    => $card->getExpiryYear(),
+                    'card[cvv]'         => $card->getCvv(),
+                ],
+                'purchase'  => [
+                    'token'                 => null,
+                    'email'                 => $card->getEmail(),
+                    'customer[firstname]'   => $card->getFirstName(),
+                    'customer[lastname]'    => $card->getLastName(),
+                    'uid'                   => $this->getAccountId(),
+                    'plan'                  => $this->getPackageId(),
+                    'amount'                => $this->getAmount(),
+                    'currency'              => $this->getCurrency(),
+                    'fingerprint'           => $this->getFingerprint(),
+                    'description'           => $this->getDescription(),
+                    'browser_ip'            => $this->getClientIp(),
+                    'browser_domain'        => $this->getBrowserDomain(),
+                    'customer[zip]'         => $card->getBillingPostcode(),
+                    'pingback_url'          => $this->getPingBackURL(),
+                ]
+            ];
+        }
+
+        // Purchase with a token provided, should be no need for card data.
+        // FIXME: Should the token be [token] or [purchase][token] or both?
+        // For the time being I'm assuming both.
+        return [
+            'public_key'        => $this->getPublicKey(),
+            'token'             => $token,
+            'purchase'  => [
+                'token'                 => $token,
+                'email'                 => $this->getEmail(),
                 'uid'                   => $this->getAccountId(),
                 'plan'                  => $this->getPackageId(),
                 'amount'                => $this->getAmount(),
@@ -319,7 +355,6 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'description'           => $this->getDescription(),
                 'browser_ip'            => $this->getClientIp(),
                 'browser_domain'        => $this->getBrowserDomain(),
-                'customer[zip]'         => $card->getBillingPostcode(),
                 'pingback_url'          => $this->getPingBackURL(),
             ]
         ];
@@ -356,12 +391,19 @@ class PurchaseRequest extends AbstractLibraryRequest
             throw new RuntimeException('Payment Token could not be created');
         }
 
+        // FIXME: Should this be [token] or [purchase][token] or both?
+        // For the time being I'm assuming both.
+        $data['token'] = $token;
         $data['purchase']['token'] = $token;
         $charge = new \Paymentwall_Charge();
         $charge->create($data['purchase']);
 
+        // Force the charge properties to be an array
+        $properties = $charge->getProperties();
+        $properties = json_decode(json_encode($properties), true);
+
         // Construct the response object
-        $this->response = new Response($this, $charge->getProperties());
+        $this->response = new Response($this, $properties);
 
         if ($charge->isSuccessful()) {
             if ($charge->isCaptured()) {
