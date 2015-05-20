@@ -277,6 +277,39 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
+     * Get the capture flag
+     *
+     * This will only return false if the parameter is set AND false. The default
+     * value is true.
+     *
+     * @return bool
+     */
+    public function getCapture()
+    {
+        if (!$this->parameters->has('capture')) {
+            return true;
+        }
+        return $this->getParameter('capture');
+    }
+
+    /**
+     * Set the capture flag
+     *
+     * optional parameter capture. Setting this to false allows for card validation/
+     * authorization. The call to charge returns a charge object that
+     *
+     * Whether or not to immediately capture the charge. Default is true
+
+     * @param $value
+     *
+     * @return PurchaseRequest
+     */
+    public function setCapture($value)
+    {
+        return $this->setParameter('capture', (bool) $value);
+    }
+
+    /**
      * Build an array from the ParameterBag object that is ready for sendData
      *
      * @throws InvalidRequestException directly for missing email, indirectly through validate
@@ -320,6 +353,7 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'browser_domain'        => $this->getBrowserDomain(),
                 'customer[zip]'         => $card->getBillingPostcode(),
                 'pingback_url'          => $this->getPingBackURL(),
+                'options[capture]'      => $this->getCapture(),
             ]
         ];
 
