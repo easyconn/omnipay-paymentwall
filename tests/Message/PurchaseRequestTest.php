@@ -44,9 +44,12 @@ class PurchaseRequestTest extends TestCase
             'amount'                => '10.00',
             'currency'              => 'AUD',
             'clientIp'              => '127.0.0.1',
+            'browserDomain'         => 'PairMeUp',
             'accountId'             => 12341234,
             'packageId'             => 1234,
             'packageName'           => 'Super Deluxe Excellent Discount Package',
+            'description'           => 'Super Deluxe Excellent Discount Package',
+            'email'                 => 'customer@example.com',
             'card'                  => $this->card,
         ]);
     }
