@@ -396,6 +396,8 @@ class PurchaseRequest extends AbstractLibraryRequest
             throw new RuntimeException('Payment Token could not be created');
         }
 
+        // Now we know that we have an actual token (one time or
+        // permanent), we can create the charge request.
         $charge = new \Paymentwall_Charge();
         $charge->create($data['purchase']);
 

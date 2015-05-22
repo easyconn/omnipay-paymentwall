@@ -38,7 +38,8 @@ class Response extends AbstractResponse
      * @param boolean $captured
      * @return Response provides a fluent interface
      */
-    public function setCaptured($captured) {
+    public function setCaptured($captured)
+    {
         $this->captured = $captured;
         return $this;
     }
@@ -48,7 +49,8 @@ class Response extends AbstractResponse
      *
      * @return boolean
      */
-    public function isCaptured() {
+    public function isCaptured()
+    {
         return $this->captured;
     }
 
@@ -58,7 +60,8 @@ class Response extends AbstractResponse
      * @param boolean $underReview
      * @return Response provides a fluent interface
      */
-    public function setUnderReview($underReview) {
+    public function setUnderReview($underReview)
+    {
         $this->underReview = $underReview;
         return $this;
     }
@@ -68,7 +71,8 @@ class Response extends AbstractResponse
      *
      * @return boolean
      */
-    public function isUnderReview() {
+    public function isUnderReview()
+    {
         return $this->underReview;
     }
 
