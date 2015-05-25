@@ -368,6 +368,15 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'card[cvv]'         => $card->getCvv(),
             ];
         }
+
+        // Callback URLs if they are set
+        if ($this->getReturnUrl()) {
+            $data['success_url'] = $this->getReturnUrl();
+        }
+        if ($this->getNotifyUrl()) {
+            $data['pingback_url'] = $this->getNotifyUrl();
+        }
+
         return $data;
     }
 
