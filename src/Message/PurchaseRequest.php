@@ -320,7 +320,6 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'browser_ip'            => $this->getClientIp(),
                 'browser_domain'        => $this->getBrowserDomain(),
                 'customer[zip]'         => $card->getBillingPostcode(),
-                'pingback_url'          => $this->notifyUrl(),
                 'options[capture]'      => $this->getCapture(),
             ]
         ];
