@@ -245,38 +245,6 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the custom pingBack URL
-     *
-     * @return string
-     */
-    public function getPingBackURL()
-    {
-        return $this->getParameter('pingBackURL');
-    }
-
-    /**
-     * Set the request PingBackURL
-     *
-     * Optional parameter pingBackURL
-     *
-     * URL of pingback listener script where pingbacks should be sent. Takes effect
-     * only if activated for the merchant account per request. Requires widget call
-     * to be signed with signature version 2 or higher.
-     *
-     * Use this to override the default pingback url. Allows you to share a project
-     * (and one set of keys) across multiple testing environments while still
-     * receiving the pingbacks
-     *
-     * @param string $value a valid, absolute URL including http(s)
-     *
-     * @return PurchaseRequest provides a fluent interface.
-     */
-    public function setPingBackURL($value)
-    {
-        return $this->setParameter('pingBackURL', $value);
-    }
-
-    /**
      * Get the capture flag
      *
      * This will only return false if the parameter is set AND false. The default
@@ -352,7 +320,7 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'browser_ip'            => $this->getClientIp(),
                 'browser_domain'        => $this->getBrowserDomain(),
                 'customer[zip]'         => $card->getBillingPostcode(),
-                'pingback_url'          => $this->getPingBackURL(),
+                'pingback_url'          => $this->notifyUrl(),
                 'options[capture]'      => $this->getCapture(),
             ]
         ];
