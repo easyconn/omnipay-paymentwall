@@ -337,11 +337,12 @@ class PurchaseRequest extends AbstractLibraryRequest
         }
 
         // Callback URLs if they are set
+        // PW expects them as part of the purchase data
         if ($this->getReturnUrl()) {
-            $data['success_url'] = $this->getReturnUrl();
+            $data['purchase']['success_url'] = $this->getReturnUrl();
         }
         if ($this->getNotifyUrl()) {
-            $data['pingback_url'] = $this->getNotifyUrl();
+            $data['purchase']['pingback_url'] = $this->getNotifyUrl();
         }
 
         return $data;
