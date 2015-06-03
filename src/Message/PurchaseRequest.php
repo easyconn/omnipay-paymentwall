@@ -278,6 +278,36 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
+     * Get the capture flag
+     *
+     * This will only return false if the parameter is set AND false. The default
+     * value is true.
+     *
+     * @return array
+     */
+    public function getCustomParameters()
+    {
+        return $this->getParameter('customParameters');
+    }
+
+    /**
+     * Set the custom parameters
+     *
+     * optional parameters custom. Array of custom parameters, e.g. custom[field1]=1, custom[field2]=2
+     *
+     * This allows us to pass data that will be returned in the callbacks, or used
+     * for fraud prevention/detection
+     *
+     * @param array $value
+     *
+     * @return PurchaseRequest
+     */
+    public function setCustomParameters($value)
+    {
+        return $this->setParameter('customParameters', $value);
+    }
+
+    /**
      * Build an array from the ParameterBag object that is ready for sendData
      *
      * @throws InvalidRequestException directly for missing email, indirectly through validate
@@ -343,6 +373,11 @@ class PurchaseRequest extends AbstractLibraryRequest
         }
         if ($this->getNotifyUrl()) {
             $data['purchase']['pingback_url'] = $this->getNotifyUrl();
+        }
+
+        // apply any custom parameters
+        foreach ($this->getCustomParameters() as $key => $value) {
+            $data['purchase']['custom['.$key.']'] = $value;
         }
 
         return $data;
