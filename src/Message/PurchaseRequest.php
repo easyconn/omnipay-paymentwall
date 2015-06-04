@@ -376,8 +376,11 @@ class PurchaseRequest extends AbstractLibraryRequest
         }
 
         // apply any custom parameters
-        foreach ($this->getCustomParameters() as $key => $value) {
-            $data['purchase']['custom['.$key.']'] = $value;
+        // $this->getParameter() returns a value not compatible with foreach when not defined
+        if ($this->getCustomParameters()) {
+            foreach ($this->getCustomParameters() as $key => $value) {
+                $data['purchase']['custom['.$key.']'] = $value;
+            }
         }
 
         return $data;
