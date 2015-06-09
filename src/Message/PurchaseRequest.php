@@ -405,10 +405,13 @@ class PurchaseRequest extends AbstractLibraryRequest
             $tokenModel = new \Paymentwall_OneTimeToken();
             $tokenObject = $tokenModel->create($data['card']);
 
+            if ($tokenObject->type == 'Error') {
+                throw new RuntimeException($tokenObject->error, $tokenObject->code);
+            }
             $data['purchase']['token'] = $tokenObject->getToken();
         }
         if (empty($data['purchase']['token'])) {
-            throw new RuntimeException('Payment Token could not be created');
+            throw new RuntimeException('Payment Token could not be created', 231);
         }
 
         // Now we know that we have an actual token (one time or
