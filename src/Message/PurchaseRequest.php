@@ -167,7 +167,8 @@ class PurchaseRequest extends AbstractLibraryRequest
     public function getEmail()
     {
         $email = $this->getParameter('email');
-        if (empty($email)) {
+        $card = $this->getCard();
+        if (empty($email) && ! empty($card)) {
             $email = $this->getCard()->getEmail();
         }
         return $email;
@@ -325,22 +326,22 @@ class PurchaseRequest extends AbstractLibraryRequest
             $requiredParams = array_merge($requiredParams, ['clientIp', 'browserDomain']);
         }
 
+        // We need to have a token or a card
+        $token = $this->getToken();
+        if (empty($token)) {
+            $token = $this->getCardReference();
+        }
+        if (empty($token)) {
+            $requiredParams[] = 'card';
+        }
+
         // pass the param list to the validate function
         call_user_func_array([$this,'validate'], $requiredParams);
 
-        // require an email address
-        $email = $this->getEmail();
-        if (empty($email)) {
-            throw new InvalidRequestException("The email parameter is required");
-        }
-
-        $card = $this->getCard();
         $data = [
             'purchase'  => [
-                'token'                 => $this->getToken(),
-                'email'                 => $card->getEmail(),
-                'customer[firstname]'   => $card->getFirstName(),
-                'customer[lastname]'    => $card->getLastName(),
+                'token'                 => $token,
+                'email'                 => $this->getEmail(),
                 'uid'                   => $this->getAccountId(),
                 'plan'                  => $this->getPackageId(),
                 'amount'                => $this->getAmount(),
@@ -349,7 +350,6 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'description'           => $this->getDescription(),
                 'browser_ip'            => $this->getClientIp(),
                 'browser_domain'        => $this->getBrowserDomain(),
-                'customer[zip]'         => $card->getBillingPostcode(),
                 'options[capture]'      => $this->getCapture(),
             ]
         ];
@@ -357,6 +357,7 @@ class PurchaseRequest extends AbstractLibraryRequest
         // if there is no authorization token we need to provide sendData with
         // the card data so that it can get a one-time token from PaymentWall
         if (empty($data['purchase']['token'])) {
+            $card = $this->getCard();
             $data['card'] = [
                 'public_key'        => $this->getPublicKey(),
                 'card[number]'      => $card->getNumber(),
@@ -364,6 +365,11 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'card[exp_year]'    => $card->getExpiryYear(),
                 'card[cvv]'         => $card->getCvv(),
             ];
+
+            // Fill some of the purchase data from the card data
+            $data['purchase']['customer[firstname]'] = $card->getFirstName();
+            $data['purchase']['customer[lastname]']  = $card->getLastName();
+            $data['purchase']['customer[zip]']       = $card->getBillingPostcode();
         }
 
         // Callback URLs if they are set
