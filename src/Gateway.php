@@ -18,7 +18,7 @@ use Omnipay\Common\AbstractGateway;
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
  * and the Brick API to communicate to PaymentWall.
  *
- * <h4>Example</h4>
+ * ### Example
  *
  * <code>
  *   // Create a gateway for the PaymentWall REST Gateway
@@ -65,7 +65,7 @@ use Omnipay\Common\AbstractGateway;
  *   }
  * </code>
  *
- * <h4>Quirks</h4>
+ * ### Quirks
  *
  * * There is no separate createCard message in this gateway.  The
  *   PaymentWall gateway only supports card creation at the time of a
@@ -75,6 +75,61 @@ use Omnipay\Common\AbstractGateway;
  *   in place of card data, just like other gateways.
  * * Refunds are not supported, these must be done manually.  Voids
  *   are supported.
+ *
+ * ### Full parameter Set
+ *
+ * This includes all optional parameters including those that are used
+ * for fraud detection/prevention.
+ *
+ * <code>
+ *   charge => [
+ *       uid
+ *       plan
+ *       amount
+ *       currency
+ *       fingerprint
+ *       description
+ *       browser_ip
+ *       browser_domain
+ *       customer => [
+ *           sex
+ *           firstname
+ *           lastname
+ *           username
+ *           zip
+ *           birthday
+ *       ]
+ *       history = > [
+ *           membership
+ *           membership_date
+ *           registration_date
+ *           registration_country
+ *           registration_ip
+ *           registration_email
+ *           registration_email_verified
+ *           registration_name
+ *           registration_lastname
+ *           registration_source
+ *           logins_number
+ *           payments_number
+ *           payments_amount
+ *           followers
+ *           messages_sent
+ *           messages_sent_last_24hours
+ *           messages_received
+ *           interactions
+ *           interactions_last_24hours
+ *           risk_score
+ *           was_banned
+ *           delivered_products
+ *           cancelled_payments
+ *           registration_age
+ *       ]
+ *       3dsecure
+ *       options => []
+ *       custom => []
+ *   ]
+ * </code>
  *
  * @see \Omnipay\Common\AbstractGateway
  * @see \Omnipay\PaymentWall\Message\AbstractRestRequest
