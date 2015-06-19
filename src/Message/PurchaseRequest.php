@@ -327,9 +327,9 @@ class PurchaseRequest extends AbstractLibraryRequest
         }
 
         // We need to have a token or a card
-        $token = $this->getToken();
+        $token = $this->getCardReference();
         if (empty($token)) {
-            $token = $this->getCardReference();
+            $token = $this->getToken();
         }
         if (empty($token)) {
             $requiredParams[] = 'card';
