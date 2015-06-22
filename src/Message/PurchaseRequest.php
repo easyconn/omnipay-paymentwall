@@ -19,9 +19,9 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
  * and the Brick API to communicate to PaymentWall.
  *
- * <h3>Examples</h3>
+ * ### Examples
  *
- * <h4>Set Up and Initialise Gateway</h4>
+ * #### Set Up and Initialise Gateway
  *
  * <code>
  *   // Create a gateway for the PaymentWall REST Gateway
@@ -36,7 +36,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   ));
  * </code>
  *
- * <h4>Payment with Card Details</h4>
+ * #### Payment with Card Details
  *
  * <code>
  *   // Create a credit card object
@@ -72,7 +72,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *   }
  * </code>
  *
- * <h4>Payment with Card Token</h4>
+ * #### Payment with Card Token
  *
  * <code>
  *   // Do a purchase transaction on the gateway
@@ -94,6 +94,80 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       $sale_id = $response->getTransactionReference();
  *       echo "Transaction reference = " . $sale_id . "\n";
  *   }
+ * </code>
+ *
+ * ### Test Payments
+ *
+ * Test payments can be performed by setting a testMode parameter to any
+ * value that PHP evaluates as true and using the following card number
+ * / CVV combinations:
+ *
+ * #### Card Numbers
+ *
+ * * 4242424242424242
+ * * 4000000000000002
+ *
+ * #### CVV Codes | Expected Response
+ *
+ * * 111         Error: Please ensure the CVV/CVC number is correct before retrying the transaction
+ * * 222         Error: Please contact your credit card company to check your available balance
+ * * 333         Error: Please contact your credit card company to approve your payment
+ *
+ * Any valid CVV that is not listed above will result in a success when using the test system
+ *
+ * ### Full parameter Set
+ *
+ * This includes all optional parameters including those that are used
+ * for fraud detection/prevention.
+ *
+ * <code>
+ *   charge => [
+ *       uid
+ *       plan
+ *       amount
+ *       currency
+ *       fingerprint
+ *       description
+ *       browser_ip
+ *       browser_domain
+ *       customer => [
+ *           sex
+ *           firstname
+ *           lastname
+ *           username
+ *           zip
+ *           birthday
+ *       ]
+ *       history = > [
+ *           membership
+ *           membership_date
+ *           registration_date
+ *           registration_country
+ *           registration_ip
+ *           registration_email
+ *           registration_email_verified
+ *           registration_name
+ *           registration_lastname
+ *           registration_source
+ *           logins_number
+ *           payments_number
+ *           payments_amount
+ *           followers
+ *           messages_sent
+ *           messages_sent_last_24hours
+ *           messages_received
+ *           interactions
+ *           interactions_last_24hours
+ *           risk_score
+ *           was_banned
+ *           delivered_products
+ *           cancelled_payments
+ *           registration_age
+ *       ]
+ *       3dsecure
+ *       options => []
+ *       custom => []
+ *   ]
  * </code>
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
