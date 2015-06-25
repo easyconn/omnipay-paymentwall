@@ -621,7 +621,7 @@ class PurchaseRequest extends AbstractLibraryRequest
         }
 
         if ($this->getHistoryData()) {
-            foreach ($this->getCustomerData() as $key => $value) {
+            foreach ($this->getHistoryData() as $key => $value) {
                 $data['purchase']['history['.$key.']'] = $value;
             }
         }
