@@ -121,7 +121,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * for fraud detection/prevention.
  *
  * <code>
- *   charge => [
+ *   purchase => [
  *       uid
  *       plan
  *       amount
@@ -353,10 +353,12 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the capture flag
+     * Get the custom parameters
      *
-     * This will only return false if the parameter is set AND false. The default
-     * value is true.
+     * optional parameters custom. Array of custom parameters, e.g. custom[field1]=1, custom[field2]=2
+     *
+     * This allows us to pass data that will be returned in the callbacks, or used
+     * for fraud prevention/detection
      *
      * @return array
      */
@@ -374,12 +376,161 @@ class PurchaseRequest extends AbstractLibraryRequest
      * for fraud prevention/detection
      *
      * @param array $value
-     *
      * @return PurchaseRequest
      */
     public function setCustomParameters($value)
     {
         return $this->setParameter('customParameters', $value);
+    }
+
+    /**
+     * Get the customer data
+     *
+     * optional parameter customer.
+     *
+     * <code>
+     *       customer => [
+     *           sex
+     *           firstname
+     *           lastname
+     *           username
+     *           zip
+     *           birthday
+     *       ]
+     * </code>
+     *
+     * All of the array elements are optional -- provide what you can and
+     * ignore the rest.
+     *
+     * This is used for fraud prevention/detection
+     *
+     * @return array
+     */
+    public function getCustomerData()
+    {
+        return $this->getParameter('customerData');
+    }
+
+    /**
+     * Set the customer data
+     *
+     * optional parameter customer.
+     *
+     * <code>
+     *       customer => [
+     *           sex
+     *           firstname
+     *           lastname
+     *           username
+     *           zip
+     *           birthday
+     *       ]
+     * </code>
+     *
+     * All of the array elements are optional -- provide what you can and
+     * ignore the rest.
+     *
+     * This is used for fraud prevention/detection
+     *
+     * @param array $value
+     * @return PurchaseRequest
+     */
+    public function setCustomerData($value)
+    {
+        return $this->setParameter('customerData', $value);
+    }
+
+    /**
+     * Get the history data
+     *
+     * optional parameter history.
+     *
+     * <code>
+     *       history = > [
+     *           membership
+     *           membership_date
+     *           registration_date
+     *           registration_country
+     *           registration_ip
+     *           registration_email
+     *           registration_email_verified
+     *           registration_name
+     *           registration_lastname
+     *           registration_source
+     *           logins_number
+     *           payments_number
+     *           payments_amount
+     *           followers
+     *           messages_sent
+     *           messages_sent_last_24hours
+     *           messages_received
+     *           interactions
+     *           interactions_last_24hours
+     *           risk_score
+     *           was_banned
+     *           delivered_products
+     *           cancelled_payments
+     *           registration_age
+     *       ]
+     * </code>
+     *
+     * All of the array elements are optional -- provide what you can and
+     * ignore the rest.
+     *
+     * This is used for fraud prevention/detection
+     *
+     * @return array
+     */
+    public function getHistoryData()
+    {
+        return $this->getParameter('historyData');
+    }
+
+    /**
+     * Set the history data
+     *
+     * optional parameter history.
+     *
+     * <code>
+     *       history = > [
+     *           membership
+     *           membership_date
+     *           registration_date
+     *           registration_country
+     *           registration_ip
+     *           registration_email
+     *           registration_email_verified
+     *           registration_name
+     *           registration_lastname
+     *           registration_source
+     *           logins_number
+     *           payments_number
+     *           payments_amount
+     *           followers
+     *           messages_sent
+     *           messages_sent_last_24hours
+     *           messages_received
+     *           interactions
+     *           interactions_last_24hours
+     *           risk_score
+     *           was_banned
+     *           delivered_products
+     *           cancelled_payments
+     *           registration_age
+     *       ]
+     * </code>
+     *
+     * All of the array elements are optional -- provide what you can and
+     * ignore the rest.
+     *
+     * This is used for fraud prevention/detection
+     *
+     * @param array $value
+     * @return PurchaseRequest
+     */
+    public function setHistoryData($value)
+    {
+        return $this->setParameter('historyData', $value);
     }
 
     /**
@@ -460,6 +611,18 @@ class PurchaseRequest extends AbstractLibraryRequest
         if ($this->getCustomParameters()) {
             foreach ($this->getCustomParameters() as $key => $value) {
                 $data['purchase']['custom['.$key.']'] = $value;
+            }
+        }
+
+        if ($this->getCustomerData()) {
+            foreach ($this->getCustomerData() as $key => $value) {
+                $data['purchase']['customer['.$key.']'] = $value;
+            }
+        }
+
+        if ($this->getHistoryData()) {
+            foreach ($this->getCustomerData() as $key => $value) {
+                $data['purchase']['history['.$key.']'] = $value;
             }
         }
 
