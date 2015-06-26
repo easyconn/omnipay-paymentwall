@@ -353,6 +353,72 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
+     * Get the billing country name.
+     *
+     * @return string
+     */
+    public function getBillingCountry()
+    {
+        return $this->getParameter('billingCountry');
+    }
+
+    /**
+     * Sets the billing country name.
+     *
+     * @param string $value
+     * @return CreditCard provides a fluent interface.
+     */
+    public function setBillingCountry($value)
+    {
+        return $this->setParameter('billingCountry', $value);
+    }
+
+    /**
+     * Get the billing phone number.
+     *
+     * @return string
+     */
+    public function getBillingPhone()
+    {
+        return $this->getParameter('billingPhone');
+    }
+
+    /**
+     * Sets the billing phone number.
+     *
+     * @param string $value
+     * @return CreditCard provides a fluent interface.
+     */
+    public function setBillingPhone($value)
+    {
+        return $this->setParameter('billingPhone', $value);
+    }
+
+    /**
+     * Get the billing postcode.
+     *
+     * @return string
+     */
+    public function getPostcode()
+    {
+        return $this->getParameter('billingPostcode');
+    }
+
+    /**
+     * Sets the billing and shipping postcode.
+     *
+     * @param string $value
+     * @return CreditCard provides a fluent interface.
+     */
+    public function setPostcode($value)
+    {
+        $this->setParameter('billingPostcode', $value);
+        $this->setParameter('shippingPostcode', $value);
+
+        return $this;
+    }
+
+    /**
      * Get the custom parameters
      *
      * optional parameters custom. Array of custom parameters, e.g. custom[field1]=1, custom[field2]=2
