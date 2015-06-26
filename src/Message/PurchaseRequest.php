@@ -576,6 +576,9 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'browser_ip'            => $this->getClientIp(),
                 'browser_domain'        => $this->getBrowserDomain(),
                 'options[capture]'      => $this->getCapture(),
+                'billingCountry'        => $this->getBillingCountry(),
+                'billingPhone'          => $this->getBillingPhone(),
+                'billingPostcode'       => $this->getPostcode()
             ]
         ];
 
