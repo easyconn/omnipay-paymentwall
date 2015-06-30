@@ -5,9 +5,9 @@ namespace Omnipay\PaymentWall\Message;
 use Omnipay\Common\CreditCard;
 use Omnipay\Tests\TestCase;
 
-class PurchaseRequestTest extends TestCase
+class ResponseTest extends TestCase
 {
-    /** @var PurchaseRequest */
+    /** @var Response */
     protected $request;
 
     /** @var CreditCard */
@@ -36,22 +36,26 @@ class PurchaseRequestTest extends TestCase
         $this->card->setStartMonth(1);
         $this->card->setStartYear(2000);
 
-        $this->request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->request = new VoidRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize([
-            'apiType'               => $gateway::API_GOODS,
+            'transactionReference'  => 'ASDF1234',
             'publicKey'             => 'asdfasdf',
             'privateKey'            => 'asdfasdf',
-            'amount'                => '10.00',
-            'currency'              => 'AUD',
             'clientIp'              => '127.0.0.1',
             'browserDomain'         => 'PairMeUp',
-            'accountId'             => 12341234,
-            'packageId'             => 1234,
-            'packageName'           => 'Super Deluxe Excellent Discount Package',
-            'description'           => 'Super Deluxe Excellent Discount Package',
-            'email'                 => 'customer@example.com',
-            'card'                  => $this->card,
         ]);
+
+        // Sample response data for testing
+        $data = [
+            'success'       => true,
+            'id'            => 1234,
+            'card'          => [
+                'token'     => 'qwerty12341234',
+            ],
+            'error'         => 'The quick brown fox',
+            'code'          => 200,
+        ];
+        $this->response = new Response($this->request, $data, 200);
     }
 
     public function tearDown() {
@@ -60,14 +64,20 @@ class PurchaseRequestTest extends TestCase
 
     public function testGetData()
     {
-        $data = $this->request->getData();
+        $data = $this->response->getData();
 
-        $this->assertSame('10.00', $data['purchase']['amount']);
+        $this->response->setCaptured(true);
+        $this->response->setUnderReview(false);
 
-        $this->assertSame($this->card->getNumber(), $data['card']['card[number]']);
-        $this->assertSame($this->card->getExpiryMonth(), $data['card']['card[exp_month]']);
-        $this->assertSame($this->card->getExpiryYear(), $data['card']['card[exp_year]']);
-        $this->assertSame($this->card->getCvv(), $data['card']['card[cvv]']);
+        $this->assertSame('qwerty12341234', $data['card']['token']);
+
+        $this->assertTrue($this->response->isCaptured());
+        $this->assertFalse($this->response->isUnderReview());
+        $this->assertTrue($this->response->isSuccessful());
+        $this->assertSame(1234, $this->response->getTransactionReference());
+        $this->assertSame(200, $this->response->getCode());
+        $this->assertSame('qwerty12341234', $this->response->getCardReference());
+        $this->assertSame('The quick brown fox', $this->response->getMessage());
     }
 
 /* Can't do this because can't create mocks.

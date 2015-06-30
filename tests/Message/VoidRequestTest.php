@@ -5,13 +5,10 @@ namespace Omnipay\PaymentWall\Message;
 use Omnipay\Common\CreditCard;
 use Omnipay\Tests\TestCase;
 
-class PurchaseRequestTest extends TestCase
+class VoidRequestTest extends TestCase
 {
-    /** @var PurchaseRequest */
+    /** @var VoidRequest */
     protected $request;
-
-    /** @var CreditCard */
-    protected $card;
 
     public static function setUpBeforeClass() {
     /* can't create mocks because the classes that we are mocking contain
@@ -32,25 +29,13 @@ class PurchaseRequestTest extends TestCase
         $this->gateway = new \Omnipay\PaymentWall\Gateway();
         $gateway = $this->gateway;
 
-        $this->card = new CreditCard($this->getValidCard());
-        $this->card->setStartMonth(1);
-        $this->card->setStartYear(2000);
-
-        $this->request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->request = new VoidRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize([
-            'apiType'               => $gateway::API_GOODS,
+            'transactionReference'  => 'ASDF1234',
             'publicKey'             => 'asdfasdf',
             'privateKey'            => 'asdfasdf',
-            'amount'                => '10.00',
-            'currency'              => 'AUD',
             'clientIp'              => '127.0.0.1',
             'browserDomain'         => 'PairMeUp',
-            'accountId'             => 12341234,
-            'packageId'             => 1234,
-            'packageName'           => 'Super Deluxe Excellent Discount Package',
-            'description'           => 'Super Deluxe Excellent Discount Package',
-            'email'                 => 'customer@example.com',
-            'card'                  => $this->card,
         ]);
     }
 
@@ -62,12 +47,7 @@ class PurchaseRequestTest extends TestCase
     {
         $data = $this->request->getData();
 
-        $this->assertSame('10.00', $data['purchase']['amount']);
-
-        $this->assertSame($this->card->getNumber(), $data['card']['card[number]']);
-        $this->assertSame($this->card->getExpiryMonth(), $data['card']['card[exp_month]']);
-        $this->assertSame($this->card->getExpiryYear(), $data['card']['card[exp_year]']);
-        $this->assertSame($this->card->getCvv(), $data['card']['card[cvv]']);
+        $this->assertSame('ASDF1234', $data['sale_id']);
     }
 
 /* Can't do this because can't create mocks.
