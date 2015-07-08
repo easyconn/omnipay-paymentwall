@@ -627,7 +627,7 @@ class PurchaseRequest extends AbstractLibraryRequest
         }
 
         // pass the param list to the validate function
-        call_user_func_array([$this,'validate'], $requiredParams);
+        call_user_func_array([$this, 'validate'], $requiredParams);
 
         $data = [
             'purchase'  => [
