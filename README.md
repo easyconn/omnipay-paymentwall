@@ -74,8 +74,12 @@ class as to the contents of these.
 
 ## Unit Testing
 
-Tests are in the tests folder.  Basic unit tests are in place for most of the code including
+Tests are in the tests folder.  Basic unit tests are in place for some of the code including
 mock message responses.
+
+Test cases are somewhat limited because the test functionality requires creating mocks of
+some of the PaymentWall library functions which are called statically.  Pull requests with
+additional tests and test cases are especially welcome.
 
 ## API Documentation
 
