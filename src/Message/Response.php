@@ -133,6 +133,9 @@ class Response extends AbstractResponse
 
     public function getCode()
     {
+        if (isset($this->data['error']) && isset($this->data['error']['code'])) {
+            return $this->data['error']['code'];
+        }
         if (isset($this->data['code'])) {
             return $this->data['code'];
         }
