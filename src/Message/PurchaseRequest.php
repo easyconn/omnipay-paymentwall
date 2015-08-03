@@ -699,11 +699,28 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
+     * Build an error response and return it.
+     *
+     * @param string    $message
+     * @param string    $code
+     * @return Response
+     */
+    public function returnError($message, $code)
+    {
+        $data = array(
+            'type'          => 'Error',
+            'object'        => 'Error',
+            'error'         => $message,
+            'code'          => $code,
+        );
+        $this->response = new Response($this, $data);
+        return $this->response;
+    }
+
+    /**
      * Submit a payment through the PaymentWall Library
      *
      * @param mixed $data
-     *
-     * @throws RuntimeException
      * @return Response
      */
     public function sendData($data)
@@ -718,12 +735,12 @@ class PurchaseRequest extends AbstractLibraryRequest
             $tokenObject = $tokenModel->create($data['card']);
 
             if ($tokenObject->type == 'Error') {
-                throw new RuntimeException($tokenObject->error, $tokenObject->code);
+                return $this->returnError($tokenObject->error, $tokenObject->code);
             }
             $data['purchase']['token'] = $tokenObject->getToken();
         }
         if (empty($data['purchase']['token'])) {
-            throw new RuntimeException('Payment Token could not be created', 231);
+            return $this->returnError('Payment Token could not be created', 231);
         }
 
         // Now we know that we have an actual token (one time or
