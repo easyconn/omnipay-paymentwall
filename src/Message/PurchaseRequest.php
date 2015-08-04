@@ -705,13 +705,14 @@ class PurchaseRequest extends AbstractLibraryRequest
      * @param string    $code
      * @return Response
      */
-    public function returnError($message, $code)
+    public function returnError($message, $code, $responseLogInformation = null)
     {
         $data = array(
             'type'          => 'Error',
             'object'        => 'Error',
             'error'         => $message,
             'code'          => $code,
+            'log'           => $responseLogInformation
         );
         $this->response = new Response($this, $data);
         return $this->response;
@@ -746,8 +747,12 @@ class PurchaseRequest extends AbstractLibraryRequest
         // Now we know that we have an actual token (one time or
         // permanent), we can create the charge request.
         $charge = new \Paymentwall_Charge();
-        $charge->create($data['purchase']);
 
+        try {
+            $charge->create($data['purchase']);
+        } catch (\Exception $e) {
+            return $this->returnError('Cannot process payment', 231, $charge->getResponseLogInformation());
+        }
         // Force the charge properties to be an array
         $properties = $charge->getProperties();
         $properties = json_decode(json_encode($properties), true);
