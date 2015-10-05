@@ -37,7 +37,7 @@ class PurchaseRequestTest extends TestCase
         $this->card->setStartYear(2000);
 
         $this->request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->initialize([
+        $this->request->initialize(array(
             'apiType'               => $gateway::API_GOODS,
             'publicKey'             => 'asdfasdf',
             'privateKey'            => 'asdfasdf',
@@ -51,7 +51,7 @@ class PurchaseRequestTest extends TestCase
             'description'           => 'Super Deluxe Excellent Discount Package',
             'email'                 => 'customer@example.com',
             'card'                  => $this->card,
-        ]);
+        ));
     }
 
     public function tearDown() {

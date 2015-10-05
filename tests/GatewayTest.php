@@ -13,11 +13,11 @@ class GatewayTest extends GatewayTestCase
 
         $this->gateway = new Gateway();
         $gateway = $this->gateway;
-        $this->gateway->initialize([
+        $this->gateway->initialize(array(
             'apiType'      => $gateway::API_GOODS,
             'publicKey'    => '',
             'privateKey'   => '',
-        ]);
+        ));
 
         $this->card = new CreditCard($this->getValidCard());
         $this->card->setStartMonth(1);
@@ -26,7 +26,7 @@ class GatewayTest extends GatewayTestCase
 
     public function testPurchase()
     {
-        $request = $this->gateway->purchase([
+        $request = $this->gateway->purchase(array(
             'amount'                    => '10.00',
             'currency'                  => 'AUD',
             'clientIp'                  => '127.0.0.1',
@@ -34,7 +34,7 @@ class GatewayTest extends GatewayTestCase
             'packageId'                 => 1234,
             'packageName'               => 'Super Deluxe Excellent Discount Package',
             'card'                      => $this->card,
-        ]);
+        ));
 
         $this->assertInstanceOf('Omnipay\PaymentWall\Message\PurchaseRequest', $request);
         $this->assertSame('10.00', $request->getAmount());

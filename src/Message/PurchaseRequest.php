@@ -610,11 +610,11 @@ class PurchaseRequest extends AbstractLibraryRequest
     {
         // verify that required parameters are provided
         // calls \Omnipay\Common\Message\AbstractRequest::validate()
-        $requiredParams = ['amount', 'currency', 'accountId', 'description'];
+        $requiredParams = array('amount', 'currency', 'accountId', 'description');
         if ($this->getFingerprint()) {
             $requiredParams[] = 'fingerprint';
         } else {
-            $requiredParams = array_merge($requiredParams, ['clientIp', 'browserDomain']);
+            $requiredParams = array_merge($requiredParams, array('clientIp', 'browserDomain'));
         }
 
         // We need to have a token or a card
@@ -627,10 +627,10 @@ class PurchaseRequest extends AbstractLibraryRequest
         }
 
         // pass the param list to the validate function
-        call_user_func_array([$this, 'validate'], $requiredParams);
+        call_user_func_array(array($this, 'validate'), $requiredParams);
 
-        $data = [
-            'purchase'  => [
+        $data = array(
+            'purchase'  => array(
                 'token'                 => $token,
                 'email'                 => $this->getEmail(),
                 'uid'                   => $this->getAccountId(),
@@ -645,20 +645,20 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'billingCountry'        => $this->getBillingCountry(),
                 'billingPhone'          => $this->getBillingPhone(),
                 'billingPostcode'       => $this->getPostcode()
-            ]
-        ];
+            )
+        );
 
         // if there is no authorization token we need to provide sendData with
         // the card data so that it can get a one-time token from PaymentWall
         if (empty($data['purchase']['token'])) {
             $card = $this->getCard();
-            $data['card'] = [
+            $data['card'] = array(
                 'public_key'        => $this->getPublicKey(),
                 'card[number]'      => $card->getNumber(),
                 'card[exp_month]'   => $card->getExpiryMonth(),
                 'card[exp_year]'    => $card->getExpiryYear(),
                 'card[cvv]'         => $card->getCvv(),
-            ];
+            );
 
             // Fill some of the purchase data from the card data
             $data['purchase']['customer[firstname]'] = $card->getFirstName();
