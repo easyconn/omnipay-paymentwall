@@ -2,6 +2,8 @@
 
 **PaymentWall driver for the Omnipay PHP payment processing library**
 
+[![Build Status](https://travis-ci.org/incube8/omnipay-paymentwall.svg?branch=master)](https://travis-ci.org/incube8/omnipay-paymentwall)
+
 [Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
 processing library for PHP 5.3+. This package implements PaymentWall support for Omnipay.
 

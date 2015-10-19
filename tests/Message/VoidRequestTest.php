@@ -30,13 +30,13 @@ class VoidRequestTest extends TestCase
         $gateway = $this->gateway;
 
         $this->request = new VoidRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->initialize([
+        $this->request->initialize(array(
             'transactionReference'  => 'ASDF1234',
             'publicKey'             => 'asdfasdf',
             'privateKey'            => 'asdfasdf',
             'clientIp'              => '127.0.0.1',
             'browserDomain'         => 'PairMeUp',
-        ]);
+        ));
     }
 
     public function tearDown() {

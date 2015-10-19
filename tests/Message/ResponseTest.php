@@ -37,24 +37,24 @@ class ResponseTest extends TestCase
         $this->card->setStartYear(2000);
 
         $this->request = new VoidRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->initialize([
+        $this->request->initialize(array(
             'transactionReference'  => 'ASDF1234',
             'publicKey'             => 'asdfasdf',
             'privateKey'            => 'asdfasdf',
             'clientIp'              => '127.0.0.1',
             'browserDomain'         => 'PairMeUp',
-        ]);
+        ));
 
         // Sample response data for testing
-        $data = [
+        $data = array(
             'success'       => true,
             'id'            => 1234,
-            'card'          => [
+            'card'          => array(
                 'token'     => 'qwerty12341234',
-            ],
+            ),
             'error'         => 'The quick brown fox',
             'code'          => 200,
-        ];
+        );
         $this->response = new Response($this->request, $data, 200);
     }
 
