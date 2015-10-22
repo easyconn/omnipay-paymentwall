@@ -610,7 +610,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     {
         // verify that required parameters are provided
         // calls \Omnipay\Common\Message\AbstractRequest::validate()
-        $requiredParams = array('amount', 'currency', 'accountId', 'description');
+        $requiredParams = array('amount', 'currency', 'accountId', 'description', 'email');
         if ($this->getFingerprint()) {
             $requiredParams[] = 'fingerprint';
         } else {
