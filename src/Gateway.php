@@ -244,6 +244,28 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Create an authorize request.
+     *
+     * @param array $parameters
+     * @return \Omnipay\PaymentWall\Message\AuthorizeRequest
+     */
+    public function authorize(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PaymentWall\Message\AuthorizeRequest', $parameters);
+    }
+
+    /**
+     * Create a capture request.
+     *
+     * @param array $parameters
+     * @return \Omnipay\PaymentWall\Message\CaptureRequest
+     */
+    public function capture(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PaymentWall\Message\CaptureRequest', $parameters);
+    }
+
+    /**
      * Create a void request.
      *
      * @param array $parameters
