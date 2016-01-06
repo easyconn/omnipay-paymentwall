@@ -22,6 +22,23 @@ abstract class AbstractLibraryRequest extends \Omnipay\Common\Message\AbstractRe
     const API_VERSION = '1';
 
     /**
+     * Get the Payment wall API end point
+     *
+     * @var string
+     */
+    protected $endPoint = 'https://api.paymentwall.com/api';
+
+    /**
+     * Fetch EndPoint for Payment Wall Api
+     *
+     * @return string
+     */
+    protected function getEndpoint()
+    {
+        return $this->endPoint;
+    }
+
+    /**
      * Get the gateway apiType -- used in every request
      *
      * @return string
