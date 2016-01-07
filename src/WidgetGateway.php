@@ -10,6 +10,14 @@
 namespace Omnipay\PaymentWall;
 
 use Omnipay\Common\AbstractGateway;
+
+/**
+ * PaymentWall widget Gateway
+ *
+ * Class WidgetGateway
+ *
+ * FIXME: Description and examples required here.
+ */
 class WidgetGateway extends AbstractGateway
 {
 

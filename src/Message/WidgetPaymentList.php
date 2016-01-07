@@ -53,12 +53,11 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       echo "Transaction reference = " . $sale_id . "\n";
  *   }
  * </code>
-
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @link https://www.paymentwall.com/
  * @link https://github.com/paymentwall/paymentwall-php
- * @see Omnipay\PaymentWall\Gateway
+ * @see Omnipay\PaymentWall\WidgetGateway
  */
 class WidgetPaymentList extends AbstractLibraryRequest
 {

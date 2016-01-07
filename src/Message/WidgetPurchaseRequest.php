@@ -23,6 +23,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *
  * ### Examples
  *
+ * FIXME: These examples are not correct for the WidgetGateway.
+ *
  * #### Set Up and Initialise Gateway
  *
  * <code>
@@ -162,8 +164,9 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @link https://www.paymentwall.com/
  * @link https://github.com/paymentwall/paymentwall-php
- * @see Omnipay\PaymentWall\Gateway
+ * @see Omnipay\PaymentWall\WidgetGateway
  */
+// FIXME: Broken class name.
 class PurchaseRequest extends AbstractLibraryRequest
 {
 
@@ -285,6 +288,8 @@ class PurchaseRequest extends AbstractLibraryRequest
     /**
      * Build an array from the ParameterBag object that is ready for sendData
      *
+     * FIXME: The link below is not correct for this API call.
+     *
      * @throws InvalidRequestException directly for missing email, indirectly through validate
      * @link https://www.paymentwall.com/en/documentation/Brick/2968#charge_create
      * @return array
@@ -293,6 +298,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     {
         // verify that required parameters are provided
         // calls \Omnipay\Common\Message\AbstractRequest::validate()
+        // FIXME: It seems that email, clientIp and browserDomain are required parameters.
         $requiredParams = array('accountId','widgetKey','packageId','amount','currency','description');
 
         // pass the param list to the validate function
@@ -336,6 +342,7 @@ class PurchaseRequest extends AbstractLibraryRequest
             'code'          => $code,
             'log'           => $responseLogInformation
         );
+        // FIXME: This is not correct. I think that you need a new response class here.
         $this->response = new Response($this, $data);
         return $this->response;
     }
@@ -355,6 +362,11 @@ class PurchaseRequest extends AbstractLibraryRequest
 
         try{
             //$widget->getHtmlCode(); will redirect user to widget page
+            // FIXME: No I don't think that getHtmlCode is what you want. I think that
+            // you want a new response class here that is a redirect response.  The
+            // redirect URL is the $widget->getUrl() result.  See the email from Ivan
+            // on 21st Dec.  Check how some of the other gateways create their
+            // redirect responses.
             echo $widget->getHtmlCode();
         } catch (\Exception $e) {
             return $this->returnError('Cannot process payment', 231, $e->getMessage());
