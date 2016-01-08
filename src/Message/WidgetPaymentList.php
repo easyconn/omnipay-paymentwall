@@ -25,7 +25,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * #### Set Up and Initialise Gateway
  *
  * <code>
- *   // Create a gateway for the PaymentWall REST Gateway
+ *
+ *  // Create a gateway for the PaymentWall Widget Gateway
  *   // (routes to GatewayFactory::create)
  *   $gateway = Omnipay::create('PaymentWall_Widget');
  *
@@ -35,23 +36,21 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *       'publicKey'    => 'YOUR_PUBLIC_KEY',
  *       'privateKey'   => 'YOUR_PRIVATE_KEY',
  *   ));
- * </code>
  *
- * #### Fetch all payment systems from paymentWall widget by country
  *
- * <code>
- *
- *   // Do a  transaction on the gateway to fetch all payment systmes by country
+ *   // Fetch all the payment options by country code
  *   $transaction = $gateway->pullPaymentList(array(
- *       'country_code'                  => 'US'
+ *       'country_code'              => 'US',
+ *       'browserDomain'             => 'SiteName.com',
  *   ));
  *
  *   $response = $transaction->send();
  *   if ($response->isSuccessful()) {
- *       echo "Purchase transaction was successful!\n";
- *       $sale_id = $response->getTransactionReference();
- *       echo "Transaction reference = " . $sale_id . "\n";
+ *       echo "Payment System API response!\n";
+ *       $paymentSystem = $response->getData();
+ *       echo "Payment Systems = " . $paymentSystem . "\n";
  *   }
+ *
  * </code>
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
@@ -159,7 +158,7 @@ class WidgetPaymentList extends AbstractLibraryRequest
      */
     public function sendData($data)
     {
-
+        //Create HTTPREQUEST using endpoint and the query parameters
         $httpRequest = $this->httpClient->createRequest(
             $this->getHttpMethod(),
             $this->getEndpoint() . '/?' . http_build_query($data),
