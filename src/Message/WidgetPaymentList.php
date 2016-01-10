@@ -168,6 +168,7 @@ class WidgetPaymentList extends AbstractLibraryRequest
         try{
             $httpResponse = $httpRequest->send();
 
+            // FIXME: I think you need a different type of response class here.
             $this->response = new Response($this, $httpResponse->getBody(true), $httpResponse->getStatusCode());
 
             return $this->response;

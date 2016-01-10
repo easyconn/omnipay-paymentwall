@@ -1,6 +1,6 @@
 <?php
 /**
- * PaymentWall Library Response
+ * PaymentWall Widget Purchase Response
  *
  * Class WidgetPurchaseResponse
  *
@@ -13,12 +13,16 @@ use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
 
 /**
- * PaymentWall Library Response
+ * PaymentWall Widget Purchase Response
  *
- * This is the response class for all PaymentWall Library requests.
+ * This is the response class for all PaymentWall Widget Purchase requests.
+ *
+ * FIXME: This needs to implement the RedirectResponse interface.
+ *
+ * FIXME: Docblock return statements are incorrect throughout.
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
- * @see \Omnipay\PaymentWall\Gateway
+ * @see \Omnipay\PaymentWall\WidgetGateway
  */
 class WidgetPurchaseResponse extends AbstractResponse
 {
@@ -72,6 +76,8 @@ class WidgetPurchaseResponse extends AbstractResponse
     /**
      * Get captured status
      *
+     * FIXME: Accesses undefined class variable.
+     *
      * @return boolean
      */
     public function isCaptured()
@@ -93,6 +99,8 @@ class WidgetPurchaseResponse extends AbstractResponse
 
     /**
      * Get under review status
+     *
+     * FIXME: Accesses undefined class variable.
      *
      * @return boolean
      */

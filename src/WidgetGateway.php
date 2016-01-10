@@ -19,8 +19,13 @@ use Omnipay\Common\AbstractGateway;
  * rewards publics, SaaS companies and many other verticals to monetize their
  * digital content and services.
  *
+ * FIXME: Comment below is not correct.  This does not use the Brick API.
+ *
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
  * and the Brick API to communicate to PaymentWall.
+ *
+ * FIXME: Add a "Quirks" section here.  We at least need to explain that refund and void
+ * are not supported.
  *
  * ### Example
  *
@@ -55,6 +60,11 @@ use Omnipay\Common\AbstractGateway;
  *   }
  * </code>
  *
+ * FIXME: Explain what this does and why it is needed.  Assume the audience knows about
+ * omnipay but this pullPaymentList call is new to them (because no other gateway implements
+ * such a call).
+ *
+ * FIXME: Tidy up spacing and code alignment.
  *
  * <code>
  *
@@ -91,8 +101,7 @@ use Omnipay\Common\AbstractGateway;
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @link https://www.paymentwall.com/
  * @link https://github.com/paymentwall/paymentwall-php
- *
- * */
+ */
 
 class WidgetGateway extends AbstractGateway
 {
@@ -226,6 +235,10 @@ class WidgetGateway extends AbstractGateway
 
     /**
      * Fetch payment system list for PW widget gateway
+     *
+     * FIXME: Class name should end in "Request".
+     *
+     * FIXME: Is there a relative response class?  If so it should end in "Response".
      *
      * @param array $parameters
      * @return \Omnipay\Common\Message\AbstractRequest
