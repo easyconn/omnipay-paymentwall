@@ -133,6 +133,7 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
      *
      * @param string    $message
      * @param string    $code
+     * @param mixed     $responseLogInformation
      * @return Response
      */
     public function returnError($message, $code, $responseLogInformation = null)

@@ -11,7 +11,6 @@ namespace Omnipay\PaymentWall\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
-use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
  * PaymentWall Widget Payment List Response

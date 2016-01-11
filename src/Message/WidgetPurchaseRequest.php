@@ -9,7 +9,6 @@
 
 namespace Omnipay\PaymentWall\Message;
 
-use Omnipay\Common\Exception\RuntimeException;
 use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
@@ -185,7 +184,7 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
      * Validate the parameters
      *
      *  @throws InvalidRequestException directly for missing email, indirectly through validate
-     *  @return empty
+     *  @return void
      */
     public function getData()
     {
@@ -204,6 +203,7 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
      *
      * @param string    $message
      * @param string    $code
+     * @param mixed     $responseLogInformation
      * @return Response
      */
     public function returnError($message, $code, $responseLogInformation = null)
@@ -217,6 +217,27 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
         );
         $this->response = new WidgetPurchaseResponse($this, $data);
         return $this->response;
+    }
+
+    /**
+     * Get the gateway widgetKey -- used in every request
+     *
+     * @return string
+     */
+    public function getWidgetKey()
+    {
+        return $this->getParameter('widgetKey');
+    }
+
+    /**
+     * Set the gateway widgetKey -- used in every request
+     *
+     * @param string $value
+     * @return PurchaseRequest provides a fluent interface.
+     */
+    public function setWidgetKey($value)
+    {
+        return $this->setParameter('widgetKey', $value);
     }
 
     /**
