@@ -1,8 +1,8 @@
 <?php
 /**
- * PaymentWall Widget Purchase Response
+ * PaymentWall Widget Payment list Response
  *
- * Class WidgetPurchaseResponse
+ * Class WidgetPaymentListResponse
  *
  * @author Satheesh Narayanan <satheesh@incube8.sg>
  */
@@ -14,19 +14,19 @@ use Omnipay\Common\Message\RequestInterface;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
- * PaymentWall Widget Purchase Response
+ * PaymentWall Widget Payment List Response
  *
- * This is the response class for all PaymentWall Widget Purchase requests.
+ * This is the response class for all PaymentWall Widget payment list requests.
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @see \Omnipay\PaymentWall\WidgetGateway
  */
-class WidgetPurchaseResponse extends AbstractResponse implements RedirectResponseInterface
+class WidgetPaymentListResponse extends AbstractResponse implements RedirectResponseInterface
 {
     protected $statusCode;
 
     /**
-     * WidgetPurchaseResponse constructor.
+     * WidgetPaymentListResponse constructor.
      * @param RequestInterface $request
      * @param mixed $data
      * @param int $statusCode

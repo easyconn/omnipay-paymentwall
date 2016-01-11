@@ -1,6 +1,6 @@
 <?php
 /**
- * PaymentWall Purchase Request
+ * PaymentWall Widget Payment List Request
  *
  * @author Satheesh Narayanan <satheesh@incube8.sg>
  */
@@ -58,7 +58,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * @link https://github.com/paymentwall/paymentwall-php
  * @see Omnipay\PaymentWall\WidgetGateway
  */
-class WidgetPaymentList extends AbstractLibraryRequest
+class WidgetPaymentListRequest extends AbstractLibraryRequest
 {
 
     /**
@@ -168,8 +168,7 @@ class WidgetPaymentList extends AbstractLibraryRequest
         try{
             $httpResponse = $httpRequest->send();
 
-            // FIXME: I think you need a different type of response class here.
-            $this->response = new Response($this, $httpResponse->getBody(true), $httpResponse->getStatusCode());
+            $this->response = new WidgetPaymentListResponse($this, $httpResponse->getBody(true), $httpResponse->getStatusCode());
 
             return $this->response;
         } catch (\Exception $e) {

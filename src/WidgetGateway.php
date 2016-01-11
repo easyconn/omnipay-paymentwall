@@ -19,13 +19,11 @@ use Omnipay\Common\AbstractGateway;
  * rewards publics, SaaS companies and many other verticals to monetize their
  * digital content and services.
  *
- * FIXME: Comment below is not correct.  This does not use the Brick API.
- *
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
- * and the Brick API to communicate to PaymentWall.
  *
- * FIXME: Add a "Quirks" section here.  We at least need to explain that refund and void
- * are not supported.
+ * basically this gateway system will redirect the user to paymentwall widget gateway page where user can see all
+ * the payment options and they redirected to the user selected payment method web page. Also PaymentWall widget won't
+ * Void payment and refund
  *
  * ### Example
  *
@@ -60,11 +58,8 @@ use Omnipay\Common\AbstractGateway;
  *   }
  * </code>
  *
- * FIXME: Explain what this does and why it is needed.  Assume the audience knows about
- * omnipay but this pullPaymentList call is new to them (because no other gateway implements
- * such a call).
- *
- * FIXME: Tidy up spacing and code alignment.
+ * This uses the Paymentwall library at https://github.com/paymentwall/paymentwall-php to fetch all the payment options
+ * by country code. Normally it will fetch all the payment button image URL and its name
  *
  * <code>
  *
@@ -81,7 +76,7 @@ use Omnipay\Common\AbstractGateway;
  *
  *
  *   // Fetch all the payment options by country code
- *   $transaction = $gateway->pullPaymentList(array(
+ *   $transaction = $gateway->pullPaymentListRequest(array(
  *       'country_code'              => 'US',
  *       'browserDomain'             => 'SiteName.com',
  *   ));
@@ -236,16 +231,12 @@ class WidgetGateway extends AbstractGateway
     /**
      * Fetch payment system list for PW widget gateway
      *
-     * FIXME: Class name should end in "Request".
-     *
-     * FIXME: Is there a relative response class?  If so it should end in "Response".
-     *
      * @param array $parameters
      * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function pullPaymentList(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\PaymentWall\Message\WidgetPaymentList', $parameters);
+        return $this->createRequest('\Omnipay\PaymentWall\Message\WidgetPaymentListRequest', $parameters);
     }
 
 }
