@@ -21,75 +21,79 @@ use Omnipay\Common\AbstractGateway;
  *
  * This uses the PaymentWall library at https://github.com/paymentwall/paymentwall-php
  *
- * basically this gateway system will redirect the user to paymentwall widget gateway page where user can see all
- * the payment options and they redirected to the user selected payment method web page. Also PaymentWall widget won't
- * Void payment and refund
+ * Basically this gateway system will redirect the user to paymentwall widget gateway page
+ * where user can see all the payment options and they redirected to the user selected
+ * payment method web page. Also PaymentWall widget does not support voids or refunds.
  *
  * ### Example
  *
  * <code>
- *   // Create a gateway for the PaymentWall Widget Gateway
- *   // (routes to GatewayFactory::create)
- *   $gateway = Omnipay::create('PaymentWall_Widget');
+ * // Create a gateway for the PaymentWall Widget Gateway
+ * // (routes to GatewayFactory::create)
+ * $gateway = Omnipay::create('PaymentWall_Widget');
  *
- *   // Initialise the gateway
- *   $gateway->initialize(array(
- *       'apiType'      => $gateway::API_GOODS,
- *       'publicKey'    => 'YOUR_PUBLIC_KEY',
- *       'privateKey'   => 'YOUR_PRIVATE_KEY',
- *   ));
+ * // Initialise the gateway
+ * $gateway->initialize(array(
+ *     'apiType'      => $gateway::API_GOODS,
+ *     'publicKey'    => 'YOUR_PUBLIC_KEY',
+ *     'privateKey'   => 'YOUR_PRIVATE_KEY',
+ * ));
  *
- *
- *   // Build PaymentWall Widget Payment Url
- *   $transaction = $gateway->purchase(array(
- *       'amount'                    => '10.00',
- *       'accountId'                 => 12341234,
- *       'currency'                  => 'AUD',
- *       'clientIp'                  => '127.0.0.1',
- *       'packageId'                 => 1234,
- *       'description'               => 'Super Deluxe Excellent Discount Package',
- *       'browserDomain'             => 'SiteName.com',
- *   ));
- *   $response = $transaction->send();
- *   if ($response->isSuccessful()) {
- *       echo "Build paymentWall Widget URL!\n";
- *       $pwUrl = $response->getUrl();
- *       echo "PaymentWall Widget URL = " . $pwUrl . "\n";
- *   }
+ * // Build PaymentWall Widget Payment Url
+ * $transaction = $gateway->purchase(array(
+ *     'amount'                    => '10.00',
+ *     'accountId'                 => 12341234,
+ *     'currency'                  => 'AUD',
+ *     'clientIp'                  => '127.0.0.1',
+ *     'packageId'                 => 1234,
+ *     'description'               => 'Super Deluxe Excellent Discount Package',
+ *     'browserDomain'             => 'SiteName.com',
+ * ));
+ * $response = $transaction->send();
+ * if ($response->isSuccessful()) {
+ *     echo "Build paymentWall Widget URL!\n";
+ *     $pwUrl = $response->getUrl();
+ *     echo "PaymentWall Widget URL = " . $pwUrl . "\n";
+ * }
  * </code>
  *
- * This uses the Paymentwall library at https://github.com/paymentwall/paymentwall-php to fetch all the payment options
- * by country code. Normally it will fetch all the payment button image URL and its name
+ * ### Widget Buttons
+ *
+ * This uses the Paymentwall library at https://github.com/paymentwall/paymentwall-php to fetch all
+ * of the payment options by country code. Normally it will fetch all of the payment button image
+ * URLs and their names, into an array.  This is normally just used for display purposes so that
+ * the customer can see the available payment types before being redirected to the PaymentWall
+ * widget gateway.
  *
  * <code>
+ * // Create a gateway for the PaymentWall Widget Gateway
+ * // (routes to GatewayFactory::create)
+ * $gateway = Omnipay::create('PaymentWall_Widget');
  *
- *  // Create a gateway for the PaymentWall Widget Gateway
- *   // (routes to GatewayFactory::create)
- *   $gateway = Omnipay::create('PaymentWall_Widget');
+ * // Initialise the gateway
+ * $gateway->initialize(array(
+ *     'apiType'      => $gateway::API_GOODS,
+ *     'publicKey'    => 'YOUR_PUBLIC_KEY',
+ *     'privateKey'   => 'YOUR_PRIVATE_KEY',
+ * ));
  *
- *   // Initialise the gateway
- *   $gateway->initialize(array(
- *       'apiType'      => $gateway::API_GOODS,
- *       'publicKey'    => 'YOUR_PUBLIC_KEY',
- *       'privateKey'   => 'YOUR_PRIVATE_KEY',
- *   ));
+ * // Fetch all the payment options by country code
+ * $transaction = $gateway->pullPaymentListRequest(array(
+ *     'country_code'              => 'US',
+ *     'browserDomain'             => 'SiteName.com',
+ * ));
  *
- *
- *   // Fetch all the payment options by country code
- *   $transaction = $gateway->pullPaymentListRequest(array(
- *       'country_code'              => 'US',
- *       'browserDomain'             => 'SiteName.com',
- *   ));
- *
- *   $response = $transaction->send();
- *   if ($response->isSuccessful()) {
- *       echo "Payment System API response!\n";
- *       $paymentSystem = $response->getData();
- *       echo "Payment Systems = " . $paymentSystem . "\n";
- *   }
- *
+ * $response = $transaction->send();
+ * if ($response->isSuccessful()) {
+ *     echo "Payment System API response!\n";
+ *     $paymentSystem = $response->getData();
+ *     echo "Payment Systems = " . $paymentSystem . "\n";
+ * }
  * </code>
  *
+ * ### Quirks
+ *
+ * Refunds and voids are not supported.
  *
  * @see \Omnipay\Common\AbstractGateway
  * @see \Omnipay\PaymentWall\Message\AbstractRestRequest
@@ -127,8 +131,8 @@ class WidgetGateway extends AbstractGateway
             'publicKey'     => '',
             'privateKey'    => '',
             'widgetKey'     => '',
-            'signVersion'  => 3,
-            'country_code' => 'US'
+            'signVersion'   => 3,
+            'country_code'  => 'US'
         );
     }
 
@@ -145,13 +149,13 @@ class WidgetGateway extends AbstractGateway
     /**
      * Set the gateway apiType -- used in every request
      *
+     * @param string $value
      * @return Gateway provides a fluent interface.
      */
     public function setApiType($value)
     {
         return $this->setParameter('apiType', $value);
     }
-
 
     /**
      * Get the gateway publicKey -- used in every request
@@ -166,6 +170,7 @@ class WidgetGateway extends AbstractGateway
     /**
      * Set the gateway publicKey -- used in every request
      *
+     * @param string $value
      * @return Gateway provides a fluent interface.
      */
     public function setPublicKey($value)
@@ -185,7 +190,8 @@ class WidgetGateway extends AbstractGateway
 
     /**
      * Set the gateway privateKey -- used in every request
-     * @param $value
+     *
+     * @param string $value
      * @return Gateway provides a fluent interface.
      */
     public function setPrivateKey($value)
@@ -194,7 +200,7 @@ class WidgetGateway extends AbstractGateway
     }
 
     /**
-     * Get the gateway privateKey -- used in every request
+     * Get the gateway widgetKey -- used in every request
      *
      * @return string
      */
@@ -204,8 +210,9 @@ class WidgetGateway extends AbstractGateway
     }
 
     /**
-     * Set the gateway privateKey -- used in every request
-     * @param $value
+     * Set the gateway widgetKey -- used in every request
+     *
+     * @param string $value
      * @return Gateway provides a fluent interface.
      */
     public function setWidgetKey($value)
@@ -221,7 +228,7 @@ class WidgetGateway extends AbstractGateway
      * Create a purchase request.
      *
      * @param array $parameters
-     * @return \Omnipay\PaymentWall\Message\PurchaseRequest
+     * @return \Omnipay\PaymentWall\Message\WidgetPurchaseRequest
      */
     public function purchase(array $parameters = array())
     {
@@ -232,11 +239,10 @@ class WidgetGateway extends AbstractGateway
      * Fetch payment system list for PW widget gateway
      *
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\PaymentWall\Message\WidgetPaymentListRequest
      */
     public function pullPaymentList(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\PaymentWall\Message\WidgetPaymentListRequest', $parameters);
     }
-
 }

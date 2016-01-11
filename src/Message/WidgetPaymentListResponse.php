@@ -21,7 +21,7 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @see \Omnipay\PaymentWall\WidgetGateway
  */
-class WidgetPaymentListResponse extends AbstractResponse implements RedirectResponseInterface
+class WidgetPaymentListResponse extends AbstractResponse
 {
     protected $statusCode;
 
@@ -38,26 +38,6 @@ class WidgetPaymentListResponse extends AbstractResponse implements RedirectResp
     }
 
     /**
-     * Declare the response is Redirect Method
-     *
-     * @return bool
-     */
-    public function isRedirect()
-    {
-        return true;
-    }
-
-    /**
-     * Fetch the Redirect URL from response data
-     *
-     * @return mixed
-     */
-    public function getRedirectUrl()
-    {
-        return $this->data;
-    }
-
-    /**
      * Return the response status
      *
      * @return bool
@@ -69,92 +49,6 @@ class WidgetPaymentListResponse extends AbstractResponse implements RedirectResp
             return false;
         }
 
-        if (! empty($this->data['success'])) {
-            return true;
-        }
-
-        if (empty($this->data['error'])) {
-            return true;
-        }
-
-        // PaymentWall returns an empty response for API calls that are not
-        // implemented, so in this case assume that the call failed.
-        return false;
-    }
-
-    /**
-     * Get Transaction Reference
-     *
-     * @return string|null
-     */
-    public function getTransactionReference()
-    {
-        // This is usually correct for payments, authorizations, etc
-        if (isset($this->data['id'])) {
-            return $this->data['id'];
-        }
-        return null;
-    }
-
-    /**
-     * Get Card Reference
-     *
-     * @return string|null
-     */
-    public function getCardReference()
-    {
-        if (isset($this->data['card']['token'])) {
-            return $this->data['card']['token'];
-        }
-        return null;
-    }
-
-    /**
-     * Fetch error Message if any
-     *
-     * @return string|null
-     */
-    public function getMessage()
-    {
-        if (isset($this->data['error'])) {
-            return $this->data['error'];
-        }
-        return null;
-    }
-
-    /**
-     * Fetch code from response
-     *
-     * @return string|null
-     */
-    public function getCode()
-    {
-        if (isset($this->data['error']) && is_array($this->data['error']) && isset($this->data['error']['code'])) {
-            return $this->data['error']['code'];
-        }
-        if (isset($this->data['code'])) {
-            return $this->data['code'];
-        }
-        return null;
-    }
-
-    /**
-     * Get redirect method
-     *
-     * @return null
-     */
-    public function getRedirectMethod()
-    {
-        return null;
-    }
-
-    /**
-     * Fetch redirect data
-     *
-     * @return null
-     */
-    public function getRedirectData()
-    {
-        return null;
+        return true;
     }
 }

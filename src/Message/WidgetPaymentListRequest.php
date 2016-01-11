@@ -25,32 +25,32 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * #### Set Up and Initialise Gateway
  *
  * <code>
+ * // Create a gateway for the PaymentWall Widget Gateway
+ * // (routes to GatewayFactory::create)
+ * $gateway = Omnipay::create('PaymentWall_Widget');
  *
- *  // Create a gateway for the PaymentWall Widget Gateway
- *   // (routes to GatewayFactory::create)
- *   $gateway = Omnipay::create('PaymentWall_Widget');
+ * // Initialise the gateway
+ * $gateway->initialize(array(
+ *     'apiType'      => $gateway::API_GOODS,
+ *     'publicKey'    => 'YOUR_PUBLIC_KEY',
+ *     'privateKey'   => 'YOUR_PRIVATE_KEY',
+ * ));
+ * </code>
  *
- *   // Initialise the gateway
- *   $gateway->initialize(array(
- *       'apiType'      => $gateway::API_GOODS,
- *       'publicKey'    => 'YOUR_PUBLIC_KEY',
- *       'privateKey'   => 'YOUR_PRIVATE_KEY',
- *   ));
+ * #### Fetch all the payment options by country code
  *
+ * <code>
+ * $transaction = $gateway->pullPaymentList(array(
+ *     'country_code'              => 'US',
+ *     'browserDomain'             => 'SiteName.com',
+ * ));
  *
- *   // Fetch all the payment options by country code
- *   $transaction = $gateway->pullPaymentList(array(
- *       'country_code'              => 'US',
- *       'browserDomain'             => 'SiteName.com',
- *   ));
- *
- *   $response = $transaction->send();
- *   if ($response->isSuccessful()) {
- *       echo "Payment System API response!\n";
- *       $paymentSystem = $response->getData();
- *       echo "Payment Systems = " . $paymentSystem . "\n";
- *   }
- *
+ * $response = $transaction->send();
+ * if ($response->isSuccessful()) {
+ *     echo "Payment System API response!\n";
+ *     $paymentSystem = $response->getData();
+ *     echo "Payment Systems = " . $paymentSystem . "\n";
+ * }
  * </code>
  *
  * @link https://www.paymentwall.com/en/documentation/getting-started
@@ -60,7 +60,6 @@ use Omnipay\Common\Exception\InvalidRequestException;
  */
 class WidgetPaymentListRequest extends AbstractLibraryRequest
 {
-
     /**
      * Get transaction endpoint.
      *
@@ -104,7 +103,6 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
         return $this->setParameter('country_code', $value);
     }
 
-
     /**
      * Build an array from the ParameterBag object that is ready for sendData
      *
@@ -115,7 +113,7 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
     public function getData()
     {
         $params = array(
-            'key' => $this->getPublicKey(),
+            'key'          => $this->getPublicKey(),
             'country_code' => $this->getCountryCode(),
             'sign_version' => 2
         );
@@ -154,7 +152,7 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
      * Submit the data to the Paymentwall api to fetch all Payment systems
      *
      * @param mixed $data
-     * @return Response
+     * @return WidgetPaymentListResponse
      */
     public function sendData($data)
     {
@@ -165,7 +163,7 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
             []
         );
 
-        try{
+        try {
             $httpResponse = $httpRequest->send();
 
             $this->response = new WidgetPaymentListResponse($this, $httpResponse->getBody(true), $httpResponse->getStatusCode());

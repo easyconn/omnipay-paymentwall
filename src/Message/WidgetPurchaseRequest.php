@@ -12,7 +12,6 @@ namespace Omnipay\PaymentWall\Message;
 use Omnipay\Common\Exception\RuntimeException;
 use Omnipay\Common\Exception\InvalidRequestException;
 
-
 /**
  * PaymentWall Widget Gateway
  *
@@ -182,7 +181,6 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
         return $this->setParameter('browserDomain', $value);
     }
 
-
     /**
      * Validate the parameters
      *
@@ -253,10 +251,9 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
             )
         );
 
-        try{
+        try {
             // $widget->getHtmlCode(); //will redirect user to widget page
             return new WidgetPurchaseResponse($this, $widget->getUrl());
-
         } catch (\Exception $e) {
             return $this->returnError('Cannot process payment', 231, $e->getMessage());
         }
