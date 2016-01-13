@@ -172,12 +172,32 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
      * Domain of the website where the payment is originating from
      *
      * @param string $value Name or URL of the site making the payment
-     *
      * @return PurchaseRequest provides a fluent interface.
      */
     public function setBrowserDomain($value)
     {
         return $this->setParameter('browserDomain', $value);
+    }
+
+    /**
+     * Get Country Code
+     *
+     * @return string 2 character country code.
+     */
+    public function getCountry()
+    {
+        return $this->getParameter('country');
+    }
+
+    /**
+     * Set the request country code
+     *
+     * @param string $value 2 character country code
+     * @return PurchaseRequest provides a fluent interface.
+     */
+    public function setCountry($value)
+    {
+        return $this->setParameter('country', $value);
     }
 
     /**
@@ -268,7 +288,8 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
                 'browser_ip'        => $this->getClientIp(),
                 'browser_domain'    => $this->getBrowserDomain(),
                 'success_url'       => $this->getReturnUrl(),
-                'pingback_url'      => $this->getNotifyUrl()
+                'pingback_url'      => $this->getNotifyUrl(),
+                'country_code'      => $this->getCountry(),
             )
         );
 
