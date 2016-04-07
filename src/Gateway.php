@@ -72,9 +72,24 @@ use Omnipay\Common\AbstractGateway;
  *   purchase.  Instead, a cardReference is returned when a purchase
  *   message is sent, as a component of the response to the purchase
  *   message.  This card token can then be used to make purchases
- *   in place of card data, just like other gateways.
+ *   in place of card data, just like other gateways.  An authorize()
+ *   request can also be used to create a payment token, for the amount
+ *   of $0.00 USD *except* for American Express cards where an authorize
+ *   amount of $0.10 USD must be used.
  * * Refunds are not supported, these must be done manually.  Voids
- *   are supported.
+ *   are supported.  The refund() call within the API in fact does a
+ *   void.
+ * * During notify callbacks (referred to as "pingbacks" by PaymentWall)
+ *   the transaction amount will frequently be reported in USD regardless
+ *   of the currency of the original purchase.
+ * * An error code of 3201 while attempting a void() call should be treated
+ *   as a success. This error code indicates that the payment has already
+ *   been cancelled manually at the gateway by PaymentWall staff and so
+ *   this error code actually is just communicating "payment cannot be voided,
+ *   already voided".
+ * * Many functions of the gateway that work in production mode either do
+ *   not work in test mode or work differently in test mode.  Be prepared
+ *   to do some testing in production mode.
  *
  * ### Full parameter Set
  *
