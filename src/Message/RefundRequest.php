@@ -1,12 +1,12 @@
 <?php
 /**
- * PaymentWall Void Request
+ * PaymentWall Refund Request
  */
 
 namespace Omnipay\PaymentWall\Message;
 
 /**
- * PaymentWall Void Request
+ * PaymentWall Refund Request
  *
  * Paymentwall is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall assists game publishers, dating publics,
@@ -37,21 +37,21 @@ namespace Omnipay\PaymentWall\Message;
  *
  * For examples of that see the PurchaseRequest message class.
  *
- * <h4>Void an existing Transaction</h4>
+ * <h4>Refund an existing Transaction</h4>
  *
  * This assumes that the transaction has been made and that
  * the transaction ID is stored in $sale_id
  *
  * <code>
  *   // Do a purchase transaction on the gateway
- *   $transaction = $gateway->void(array(
+ *   $transaction = $gateway->refund(array(
  *       'transactionReference'      => $sale_id
  *   ));
  *   $response = $transaction->send();
  *   if ($response->isSuccessful()) {
- *       echo "Void transaction was successful!\n";
- *       $void_id = $response->getTransactionReference();
- *       echo "Transaction reference = " . $void_id . "\n";
+ *       echo "Refund transaction was successful!\n";
+ *       $refund_id = $response->getTransactionReference();
+ *       echo "Transaction reference = " . $refund_id . "\n";
  *   }
  * </code>
  *
@@ -60,4 +60,30 @@ namespace Omnipay\PaymentWall\Message;
  * @link https://github.com/paymentwall/paymentwall-php
  * @see Omnipay\PaymentWall\Gateway
  */
-class VoidRequest extends RefundRequest {}
+class RefundRequest extends AbstractLibraryRequest
+{
+    public function getData()
+    {
+        $this->validate('transactionReference');
+        $data                   = parent::getData();
+        $data['sale_id']        = $this->getTransactionReference();
+        return $data;
+    }
+
+    public function sendData($data)
+    {
+        // Initialise the PaymentWall configuration
+        $this->setPaymentWallObject();
+
+        // Create the charge object
+        $charge = new \Paymentwall_Charge($data['sale_id']);
+        $charge->refund();
+
+        // Get the response data -- this is returned as a JSON string.
+        $charge_data = json_decode($charge->getRawResponseData(), true);
+
+        // Construct the response object
+        $this->response = new Response($this, $charge_data);
+        return $this->response;
+    }
+}
