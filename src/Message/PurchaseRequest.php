@@ -685,7 +685,9 @@ class PurchaseRequest extends AbstractLibraryRequest
 
         if ($this->getCustomerData()) {
             foreach ($this->getCustomerData() as $key => $value) {
-                $data['purchase']['customer['.$key.']'] = $value;
+                if (! empty($value) || empty($data['purchase']['customer['.$key.']'])) {
+                    $data['purchase']['customer['.$key.']'] = $value;
+                }
             }
         }
 
