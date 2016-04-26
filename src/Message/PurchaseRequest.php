@@ -648,6 +648,28 @@ class PurchaseRequest extends AbstractLibraryRequest
             )
         );
 
+        // apply any custom parameters
+        // $this->getParameter() returns a value not compatible with foreach when not defined
+        if ($this->getCustomParameters()) {
+            foreach ($this->getCustomParameters() as $key => $value) {
+                $data['purchase']['custom['.$key.']'] = $value;
+            }
+        }
+
+        if ($this->getCustomerData()) {
+            foreach ($this->getCustomerData() as $key => $value) {
+                if (! empty($value)) {
+                    $data['purchase']['customer['.$key.']'] = $value;
+                }
+            }
+        }
+
+        if ($this->getHistoryData()) {
+            foreach ($this->getHistoryData() as $key => $value) {
+                $data['purchase']['history['.$key.']'] = $value;
+            }
+        }
+
         // if there is no authorization token we need to provide sendData with
         // the card data so that it can get a one-time token from PaymentWall
         if (empty($data['purchase']['token'])) {
@@ -673,28 +695,6 @@ class PurchaseRequest extends AbstractLibraryRequest
         }
         if ($this->getNotifyUrl()) {
             $data['purchase']['pingback_url'] = $this->getNotifyUrl();
-        }
-
-        // apply any custom parameters
-        // $this->getParameter() returns a value not compatible with foreach when not defined
-        if ($this->getCustomParameters()) {
-            foreach ($this->getCustomParameters() as $key => $value) {
-                $data['purchase']['custom['.$key.']'] = $value;
-            }
-        }
-
-        if ($this->getCustomerData()) {
-            foreach ($this->getCustomerData() as $key => $value) {
-                if (! empty($value) || empty($data['purchase']['customer['.$key.']'])) {
-                    $data['purchase']['customer['.$key.']'] = $value;
-                }
-            }
-        }
-
-        if ($this->getHistoryData()) {
-            foreach ($this->getHistoryData() as $key => $value) {
-                $data['purchase']['history['.$key.']'] = $value;
-            }
         }
 
         return $data;
