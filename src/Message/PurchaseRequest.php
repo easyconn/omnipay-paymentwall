@@ -609,7 +609,7 @@ class PurchaseRequest extends AbstractLibraryRequest
      */
     public function getSecure()
     {
-        return $this->getParameter('packageId');
+        return $this->getParameter('secure');
     }
 
     /**
