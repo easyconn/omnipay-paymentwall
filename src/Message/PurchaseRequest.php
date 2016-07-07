@@ -5,7 +5,7 @@
 
 namespace Omnipay\PaymentWall\Message;
 
-use Omnipay\Common\Exception\RuntimeException;
+use Omnipay\Common\CreditCard;
 use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
@@ -164,7 +164,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
  *           cancelled_payments
  *           registration_age
  *       ]
- *       3dsecure
+ *       secure
  *       options => []
  *       custom => []
  *   ]
@@ -600,6 +600,34 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
+     * Get the request secure flag
+     *
+     * This is a boolean flag to indicate whether 3-D secure is turned on for this transaction or not.
+     * Note that the flag can be over-ridden by gateway parameters set up at PaymentWall.
+     *
+     * @return boolean
+     */
+    public function getSecure()
+    {
+        return $this->getParameter('packageId');
+    }
+
+    /**
+     * Set the request secure flag
+     *
+     * This is a boolean flag to indicate whether 3-D secure is turned on for this transaction or not.
+     * Note that the flag can be over-ridden by gateway parameters set up at PaymentWall.
+     *
+     * @param boolean $value
+     *
+     * @return PurchaseRequest provides a fluent interface.
+     */
+    public function setSecure($value)
+    {
+        return $this->setParameter('secure', $value);
+    }
+
+    /**
      * Build an array from the ParameterBag object that is ready for sendData
      *
      * @throws InvalidRequestException directly for missing email, indirectly through validate
@@ -647,6 +675,11 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'billingPostcode'       => $this->getPostcode()
             )
         );
+
+        // Special handling for secure flag, only provide it if it is set to true
+        if ($this->getSecure()) {
+            $data['purchase']['secure'] = 1;
+        }
 
         // apply any custom parameters
         // $this->getParameter() returns a value not compatible with foreach when not defined
