@@ -1,15 +1,14 @@
 <?php
 /**
- * PaymentWall Library Response
+ * PaymentWall Library Response.
  */
-
 namespace Omnipay\PaymentWall\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
 
 /**
- * PaymentWall Library Response
+ * PaymentWall Library Response.
  *
  * This is the response class for all PaymentWall Library requests.
  *
@@ -20,10 +19,10 @@ class Response extends AbstractResponse
 {
     protected $statusCode;
 
-    /** @var boolean */
+    /** @var bool */
     protected $captured = false;
 
-    /** @var boolean */
+    /** @var bool */
     protected $underReview = false;
 
     public function __construct(RequestInterface $request, $data, $statusCode = 200)
@@ -33,21 +32,23 @@ class Response extends AbstractResponse
     }
 
     /**
-     * Set captured status
+     * Set captured status.
      *
-     * @param boolean $captured
+     * @param bool $captured
+     *
      * @return Response provides a fluent interface
      */
     public function setCaptured($captured)
     {
         $this->captured = $captured;
+
         return $this;
     }
 
     /**
-     * Get captured status
+     * Get captured status.
      *
-     * @return boolean
+     * @return bool
      */
     public function isCaptured()
     {
@@ -55,21 +56,23 @@ class Response extends AbstractResponse
     }
 
     /**
-     * Set under review status
+     * Set under review status.
      *
-     * @param boolean $underReview
+     * @param bool $underReview
+     *
      * @return Response provides a fluent interface
      */
     public function setUnderReview($underReview)
     {
         $this->underReview = $underReview;
+
         return $this;
     }
 
     /**
-     * Get under review status
+     * Get under review status.
      *
-     * @return boolean
+     * @return bool
      */
     public function isUnderReview()
     {
@@ -83,7 +86,7 @@ class Response extends AbstractResponse
             return false;
         }
 
-        if (! empty($this->data['success'])) {
+        if (!empty($this->data['success'])) {
             return true;
         }
 
@@ -97,7 +100,7 @@ class Response extends AbstractResponse
     }
 
     /**
-     * Get Transaction Reference
+     * Get Transaction Reference.
      *
      * @return string
      */
@@ -107,11 +110,10 @@ class Response extends AbstractResponse
         if (isset($this->data['id'])) {
             return $this->data['id'];
         }
-        return null;
     }
 
     /**
-     * Get Card Reference
+     * Get Card Reference.
      *
      * @return string
      */
@@ -120,7 +122,6 @@ class Response extends AbstractResponse
         if (isset($this->data['card']['token'])) {
             return $this->data['card']['token'];
         }
-        return null;
     }
 
     public function getMessage()
@@ -128,7 +129,6 @@ class Response extends AbstractResponse
         if (isset($this->data['error'])) {
             return $this->data['error'];
         }
-        return null;
     }
 
     public function getCode()
@@ -139,6 +139,5 @@ class Response extends AbstractResponse
         if (isset($this->data['code'])) {
             return $this->data['code'];
         }
-        return null;
     }
 }

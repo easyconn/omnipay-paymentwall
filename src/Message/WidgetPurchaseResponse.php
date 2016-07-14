@@ -1,20 +1,19 @@
 <?php
 /**
- * PaymentWall Widget Purchase Response
+ * PaymentWall Widget Purchase Response.
  *
  * Class WidgetPurchaseResponse
  *
  * @author Satheesh Narayanan <satheesh@incube8.sg>
  */
-
 namespace Omnipay\PaymentWall\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RequestInterface;
 use Omnipay\Common\Message\RedirectResponseInterface;
+use Omnipay\Common\Message\RequestInterface;
 
 /**
- * PaymentWall Widget Purchase Response
+ * PaymentWall Widget Purchase Response.
  *
  * This is the response class for all PaymentWall Widget Purchase requests.
  *
@@ -27,9 +26,10 @@ class WidgetPurchaseResponse extends AbstractResponse implements RedirectRespons
 
     /**
      * WidgetPurchaseResponse constructor.
+     *
      * @param RequestInterface $request
-     * @param mixed $data
-     * @param int $statusCode
+     * @param mixed            $data
+     * @param int              $statusCode
      */
     public function __construct(RequestInterface $request, $data, $statusCode = 200)
     {
@@ -38,7 +38,7 @@ class WidgetPurchaseResponse extends AbstractResponse implements RedirectRespons
     }
 
     /**
-     * Declare the response is Redirect Method
+     * Declare the response is Redirect Method.
      *
      * @return bool
      */
@@ -48,7 +48,7 @@ class WidgetPurchaseResponse extends AbstractResponse implements RedirectRespons
     }
 
     /**
-     * Fetch the Redirect URL from response data
+     * Fetch the Redirect URL from response data.
      *
      * @return mixed
      */
@@ -58,7 +58,7 @@ class WidgetPurchaseResponse extends AbstractResponse implements RedirectRespons
     }
 
     /**
-     * Return the response status
+     * Return the response status.
      *
      * @return bool
      */
@@ -69,7 +69,7 @@ class WidgetPurchaseResponse extends AbstractResponse implements RedirectRespons
             return false;
         }
 
-        if (! empty($this->data['success'])) {
+        if (!empty($this->data['success'])) {
             return true;
         }
 
@@ -83,7 +83,7 @@ class WidgetPurchaseResponse extends AbstractResponse implements RedirectRespons
     }
 
     /**
-     * Get Transaction Reference
+     * Get Transaction Reference.
      *
      * @return string|null
      */
@@ -93,11 +93,10 @@ class WidgetPurchaseResponse extends AbstractResponse implements RedirectRespons
         if (isset($this->data['id'])) {
             return $this->data['id'];
         }
-        return null;
     }
 
     /**
-     * Get Card Reference
+     * Get Card Reference.
      *
      * @return string|null
      */
@@ -106,11 +105,10 @@ class WidgetPurchaseResponse extends AbstractResponse implements RedirectRespons
         if (isset($this->data['card']['token'])) {
             return $this->data['card']['token'];
         }
-        return null;
     }
 
     /**
-     * Fetch error Message if any
+     * Fetch error Message if any.
      *
      * @return string|null
      */
@@ -119,11 +117,10 @@ class WidgetPurchaseResponse extends AbstractResponse implements RedirectRespons
         if (isset($this->data['error'])) {
             return $this->data['error'];
         }
-        return null;
     }
 
     /**
-     * Fetch code from response
+     * Fetch code from response.
      *
      * @return string|null
      */
@@ -135,26 +132,23 @@ class WidgetPurchaseResponse extends AbstractResponse implements RedirectRespons
         if (isset($this->data['code'])) {
             return $this->data['code'];
         }
-        return null;
     }
 
     /**
-     * Get redirect method
+     * Get redirect method.
      *
      * @return null
      */
     public function getRedirectMethod()
     {
-        return null;
     }
 
     /**
-     * Fetch redirect data
+     * Fetch redirect data.
      *
      * @return null
      */
     public function getRedirectData()
     {
-        return null;
     }
 }

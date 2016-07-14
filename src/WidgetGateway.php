@@ -1,18 +1,17 @@
 <?php
 /**
- * PaymentWall widget Gateway
+ * PaymentWall widget Gateway.
  *
  * Class WidgetGateway
  *
  * @author Satheesh Narayanan <satheesh@incube8.sg>
- *
  */
 namespace Omnipay\PaymentWall;
 
 use Omnipay\Common\AbstractGateway;
 
 /**
- * PaymentWall Widget Gateway
+ * PaymentWall Widget Gateway.
  *
  * Paymentwall Widget is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall Widget assists game publishers, dating publics,
@@ -101,16 +100,14 @@ use Omnipay\Common\AbstractGateway;
  * @link https://www.paymentwall.com/
  * @link https://github.com/paymentwall/paymentwall-php
  */
-
 class WidgetGateway extends AbstractGateway
 {
-
-    const API_VC    = \Paymentwall_Config::API_VC;
+    const API_VC = \Paymentwall_Config::API_VC;
     const API_GOODS = \Paymentwall_Config::API_GOODS;
-    const API_CART  = \Paymentwall_Config::API_CART;
+    const API_CART = \Paymentwall_Config::API_CART;
 
     /**
-     * Get the gateway display name
+     * Get the gateway display name.
      *
      * @return string
      */
@@ -120,7 +117,7 @@ class WidgetGateway extends AbstractGateway
     }
 
     /**
-     * Get the gateway default parameters
+     * Get the gateway default parameters.
      *
      * @return array
      */
@@ -132,12 +129,12 @@ class WidgetGateway extends AbstractGateway
             'privateKey'    => '',
             'widgetKey'     => '',
             'signVersion'   => 3,
-            'country_code'  => 'US'
+            'country_code'  => 'US',
         );
     }
 
     /**
-     * Get the gateway apiType -- used in every request
+     * Get the gateway apiType -- used in every request.
      *
      * @return string
      */
@@ -147,9 +144,10 @@ class WidgetGateway extends AbstractGateway
     }
 
     /**
-     * Set the gateway apiType -- used in every request
+     * Set the gateway apiType -- used in every request.
      *
      * @param string $value
+     *
      * @return Gateway provides a fluent interface.
      */
     public function setApiType($value)
@@ -158,7 +156,7 @@ class WidgetGateway extends AbstractGateway
     }
 
     /**
-     * Get the gateway publicKey -- used in every request
+     * Get the gateway publicKey -- used in every request.
      *
      * @return string
      */
@@ -168,9 +166,10 @@ class WidgetGateway extends AbstractGateway
     }
 
     /**
-     * Set the gateway publicKey -- used in every request
+     * Set the gateway publicKey -- used in every request.
      *
      * @param string $value
+     *
      * @return Gateway provides a fluent interface.
      */
     public function setPublicKey($value)
@@ -179,7 +178,7 @@ class WidgetGateway extends AbstractGateway
     }
 
     /**
-     * Get the gateway privateKey -- used in every request
+     * Get the gateway privateKey -- used in every request.
      *
      * @return string
      */
@@ -189,9 +188,10 @@ class WidgetGateway extends AbstractGateway
     }
 
     /**
-     * Set the gateway privateKey -- used in every request
+     * Set the gateway privateKey -- used in every request.
      *
      * @param string $value
+     *
      * @return Gateway provides a fluent interface.
      */
     public function setPrivateKey($value)
@@ -200,7 +200,7 @@ class WidgetGateway extends AbstractGateway
     }
 
     /**
-     * Get the gateway widgetKey -- used in every request
+     * Get the gateway widgetKey -- used in every request.
      *
      * @return string
      */
@@ -210,9 +210,10 @@ class WidgetGateway extends AbstractGateway
     }
 
     /**
-     * Set the gateway widgetKey -- used in every request
+     * Set the gateway widgetKey -- used in every request.
      *
      * @param string $value
+     *
      * @return Gateway provides a fluent interface.
      */
     public function setWidgetKey($value)
@@ -228,6 +229,7 @@ class WidgetGateway extends AbstractGateway
      * Create a purchase request.
      *
      * @param array $parameters
+     *
      * @return \Omnipay\PaymentWall\Message\WidgetPurchaseRequest
      */
     public function purchase(array $parameters = array())
@@ -236,9 +238,10 @@ class WidgetGateway extends AbstractGateway
     }
 
     /**
-     * Fetch payment system list for PW widget gateway
+     * Fetch payment system list for PW widget gateway.
      *
      * @param array $parameters
+     *
      * @return \Omnipay\PaymentWall\Message\WidgetPaymentListRequest
      */
     public function pullPaymentList(array $parameters = array())

@@ -1,15 +1,14 @@
 <?php
 /**
- * PaymentWall Purchase Request
+ * PaymentWall Purchase Request.
  */
-
 namespace Omnipay\PaymentWall\Message;
 
 use Omnipay\Common\CreditCard;
 use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
- * PaymentWall Purchase Request
+ * PaymentWall Purchase Request.
  *
  * Paymentwall is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall assists game publishers, dating publics,
@@ -177,9 +176,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  */
 class PurchaseRequest extends AbstractLibraryRequest
 {
-
     /**
-     * Get the request packageId
+     * Get the request packageId.
      *
      * @return string
      */
@@ -189,7 +187,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request packageId
+     * Set the request packageId.
      *
      * Optional parameter, plan
      *
@@ -205,7 +203,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the request accountId
+     * Get the request accountId.
      *
      * @return string
      */
@@ -215,7 +213,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request accountId
+     * Set the request accountId.
      *
      * Optional parameter, uuid
      *
@@ -232,7 +230,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the request email
+     * Get the request email.
      *
      * The email can be in the parameter bag or the card data
      *
@@ -242,14 +240,15 @@ class PurchaseRequest extends AbstractLibraryRequest
     {
         $email = $this->getParameter('email');
         $card = $this->getCard();
-        if (empty($email) && ! empty($card)) {
+        if (empty($email) && !empty($card)) {
             $email = $this->getCard()->getEmail();
         }
+
         return $email;
     }
 
     /**
-     * Set the request email
+     * Set the request email.
      *
      * Required parameter, email
      *
@@ -267,7 +266,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the Brick.js fingerprint
+     * Get the Brick.js fingerprint.
      *
      * @return string
      */
@@ -277,7 +276,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request FingerPrint
+     * Set the request FingerPrint.
      *
      * Required parameter fingerprint, if browserIp and browserDomain are not supplied
      *
@@ -294,7 +293,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get browserDomain
+     * Get browserDomain.
      *
      * @return string Site name or URL
      */
@@ -304,7 +303,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request browserDomain
+     * Set the request browserDomain.
      *
      * Required parameter browserDomain, if fingerprint is not supplied
      *
@@ -320,7 +319,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the capture flag
+     * Get the capture flag.
      *
      * This will only return false if the parameter is set AND false. The default
      * value is true.
@@ -332,11 +331,12 @@ class PurchaseRequest extends AbstractLibraryRequest
         if (!$this->parameters->has('capture')) {
             return true;
         }
+
         return $this->getParameter('capture');
     }
 
     /**
-     * Set the capture flag
+     * Set the capture flag.
      *
      * optional parameter capture. Setting this to false allows for card validation/
      * authorization. The call to charge returns a charge object that
@@ -366,6 +366,7 @@ class PurchaseRequest extends AbstractLibraryRequest
      * Sets the billing country name.
      *
      * @param string $value
+     *
      * @return CreditCard provides a fluent interface.
      */
     public function setBillingCountry($value)
@@ -387,6 +388,7 @@ class PurchaseRequest extends AbstractLibraryRequest
      * Sets the billing phone number.
      *
      * @param string $value
+     *
      * @return CreditCard provides a fluent interface.
      */
     public function setBillingPhone($value)
@@ -408,6 +410,7 @@ class PurchaseRequest extends AbstractLibraryRequest
      * Sets the billing and shipping postcode.
      *
      * @param string $value
+     *
      * @return CreditCard provides a fluent interface.
      */
     public function setPostcode($value)
@@ -419,7 +422,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the custom parameters
+     * Get the custom parameters.
      *
      * optional parameters custom. Array of custom parameters, e.g. custom[field1]=1, custom[field2]=2
      *
@@ -434,7 +437,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the custom parameters
+     * Set the custom parameters.
      *
      * optional parameters custom. Array of custom parameters, e.g. custom[field1]=1, custom[field2]=2
      *
@@ -442,6 +445,7 @@ class PurchaseRequest extends AbstractLibraryRequest
      * for fraud prevention/detection
      *
      * @param array $value
+     *
      * @return PurchaseRequest
      */
     public function setCustomParameters($value)
@@ -450,7 +454,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the customer data
+     * Get the customer data.
      *
      * optional parameter customer.
      *
@@ -478,7 +482,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the customer data
+     * Set the customer data.
      *
      * optional parameter customer.
      *
@@ -499,6 +503,7 @@ class PurchaseRequest extends AbstractLibraryRequest
      * This is used for fraud prevention/detection
      *
      * @param array $value
+     *
      * @return PurchaseRequest
      */
     public function setCustomerData($value)
@@ -507,7 +512,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the history data
+     * Get the history data.
      *
      * optional parameter history.
      *
@@ -553,7 +558,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the history data
+     * Set the history data.
      *
      * optional parameter history.
      *
@@ -592,6 +597,7 @@ class PurchaseRequest extends AbstractLibraryRequest
      * This is used for fraud prevention/detection
      *
      * @param array $value
+     *
      * @return PurchaseRequest
      */
     public function setHistoryData($value)
@@ -600,12 +606,12 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the request secure flag
+     * Get the request secure flag.
      *
      * This is a boolean flag to indicate whether 3-D secure is turned on for this transaction or not.
      * Note that the flag can be over-ridden by gateway parameters set up at PaymentWall.
      *
-     * @return boolean
+     * @return bool
      */
     public function getSecure()
     {
@@ -613,12 +619,12 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request secure flag
+     * Set the request secure flag.
      *
      * This is a boolean flag to indicate whether 3-D secure is turned on for this transaction or not.
      * Note that the flag can be over-ridden by gateway parameters set up at PaymentWall.
      *
-     * @param boolean $value
+     * @param bool $value
      *
      * @return PurchaseRequest provides a fluent interface.
      */
@@ -628,10 +634,12 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Build an array from the ParameterBag object that is ready for sendData
+     * Build an array from the ParameterBag object that is ready for sendData.
      *
      * @throws InvalidRequestException directly for missing email, indirectly through validate
+     *
      * @link https://www.paymentwall.com/en/documentation/Brick/2968#charge_create
+     *
      * @return array
      */
     public function getData()
@@ -672,8 +680,8 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'options[capture]'      => $this->getCapture(),
                 'billingCountry'        => $this->getBillingCountry(),
                 'billingPhone'          => $this->getBillingPhone(),
-                'billingPostcode'       => $this->getPostcode()
-            )
+                'billingPostcode'       => $this->getPostcode(),
+            ),
         );
 
         // Special handling for secure flag, only provide it if it is set to true
@@ -691,7 +699,7 @@ class PurchaseRequest extends AbstractLibraryRequest
 
         if ($this->getCustomerData()) {
             foreach ($this->getCustomerData() as $key => $value) {
-                if (! empty($value)) {
+                if (!empty($value)) {
                     $data['purchase']['customer['.$key.']'] = $value;
                 }
             }
@@ -717,8 +725,8 @@ class PurchaseRequest extends AbstractLibraryRequest
 
             // Fill some of the purchase data from the card data
             $data['purchase']['customer[firstname]'] = $card->getFirstName();
-            $data['purchase']['customer[lastname]']  = $card->getLastName();
-            $data['purchase']['customer[zip]']       = $card->getBillingPostcode();
+            $data['purchase']['customer[lastname]'] = $card->getLastName();
+            $data['purchase']['customer[zip]'] = $card->getBillingPostcode();
         }
 
         // Callback URLs if they are set
@@ -736,8 +744,9 @@ class PurchaseRequest extends AbstractLibraryRequest
     /**
      * Build an error response and return it.
      *
-     * @param string    $message
-     * @param string    $code
+     * @param string $message
+     * @param string $code
+     *
      * @return Response
      */
     public function returnError($message, $code, $responseLogInformation = null)
@@ -747,16 +756,18 @@ class PurchaseRequest extends AbstractLibraryRequest
             'object'        => 'Error',
             'error'         => $message,
             'code'          => $code,
-            'log'           => $responseLogInformation
+            'log'           => $responseLogInformation,
         );
         $this->response = new Response($this, $data);
+
         return $this->response;
     }
 
     /**
-     * Submit a payment through the PaymentWall Library
+     * Submit a payment through the PaymentWall Library.
      *
      * @param mixed $data
+     *
      * @return Response
      */
     public function sendData($data)
@@ -802,6 +813,7 @@ class PurchaseRequest extends AbstractLibraryRequest
                 $this->response->setUnderReview(true);
             }
         }
+
         return $this->response;
     }
 }

@@ -1,19 +1,18 @@
 <?php
 /**
- * PaymentWall Widget Payment list Response
+ * PaymentWall Widget Payment list Response.
  *
  * Class WidgetPaymentListResponse
  *
  * @author Satheesh Narayanan <satheesh@incube8.sg>
  */
-
 namespace Omnipay\PaymentWall\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
 
 /**
- * PaymentWall Widget Payment List Response
+ * PaymentWall Widget Payment List Response.
  *
  * This is the response class for all PaymentWall Widget payment list requests.
  *
@@ -26,9 +25,10 @@ class WidgetPaymentListResponse extends AbstractResponse
 
     /**
      * WidgetPaymentListResponse constructor.
+     *
      * @param RequestInterface $request
-     * @param mixed $data
-     * @param int $statusCode
+     * @param mixed            $data
+     * @param int              $statusCode
      */
     public function __construct(RequestInterface $request, $data, $statusCode = 200)
     {
@@ -37,7 +37,7 @@ class WidgetPaymentListResponse extends AbstractResponse
     }
 
     /**
-     * Return the response status
+     * Return the response status.
      *
      * @return bool
      */

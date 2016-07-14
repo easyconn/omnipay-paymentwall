@@ -1,18 +1,17 @@
 <?php
 /**
- * PaymentWall Purchase Request
+ * PaymentWall Purchase Request.
  *
  * Class WidgetPurchaseRequest
  *
  * @author Satheesh Narayanan <satheesh@incube8.sg>
  */
-
 namespace Omnipay\PaymentWall\Message;
 
 use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
- * PaymentWall Widget Gateway
+ * PaymentWall Widget Gateway.
  *
  * Paymentwall Widget is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall Widget assists game publishers, dating publics,
@@ -61,13 +60,11 @@ use Omnipay\Common\Exception\InvalidRequestException;
  * @link https://www.paymentwall.com/en/documentation/getting-started
  * @link https://www.paymentwall.com/
  * @link https://github.com/paymentwall/paymentwall-php
- *
  * */
 class WidgetPurchaseRequest extends AbstractLibraryRequest
 {
-
     /**
-     * Get the request packageId
+     * Get the request packageId.
      *
      * @return string
      */
@@ -77,7 +74,7 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request packageId
+     * Set the request packageId.
      *
      * Optional parameter, plan
      *
@@ -93,7 +90,7 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the request accountId
+     * Get the request accountId.
      *
      * @return string
      */
@@ -103,7 +100,7 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request accountId
+     * Set the request accountId.
      *
      * Optional parameter, uuid
      *
@@ -120,7 +117,7 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the request email
+     * Get the request email.
      *
      * The email can be in the parameter bag or the card data
      *
@@ -130,14 +127,15 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     {
         $email = $this->getParameter('email');
         $card = $this->getCard();
-        if (empty($email) && ! empty($card)) {
+        if (empty($email) && !empty($card)) {
             $email = $this->getCard()->getEmail();
         }
+
         return $email;
     }
 
     /**
-     * Set the request email
+     * Set the request email.
      *
      * Required parameter, email
      *
@@ -155,7 +153,7 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get browserDomain
+     * Get browserDomain.
      *
      * @return string Site name or URL
      */
@@ -165,13 +163,14 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request browserDomain
+     * Set the request browserDomain.
      *
      * Required parameter browserDomain, if fingerprint is not supplied
      *
      * Domain of the website where the payment is originating from
      *
      * @param string $value Name or URL of the site making the payment
+     *
      * @return PurchaseRequest provides a fluent interface.
      */
     public function setBrowserDomain($value)
@@ -180,7 +179,7 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get Country Code
+     * Get Country Code.
      *
      * @return string 2 character country code.
      */
@@ -190,9 +189,10 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the request country code
+     * Set the request country code.
      *
      * @param string $value 2 character country code
+     *
      * @return PurchaseRequest provides a fluent interface.
      */
     public function setCountry($value)
@@ -201,29 +201,30 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Validate the parameters
+     * Validate the parameters.
      *
      *  @throws InvalidRequestException directly for missing email, indirectly through validate
+     *
      *  @return void
      */
     public function getData()
     {
         // verify that required parameters are provided
         // calls \Omnipay\Common\Message\AbstractRequest::validate()
-        $requiredParams = ['email', 'clientIp', 'browserDomain', 'accountId','widgetKey','packageId','amount','currency','description'];
+        $requiredParams = array('email', 'clientIp', 'browserDomain', 'accountId', 'widgetKey', 'packageId', 'amount', 'currency', 'description');
 
         // pass the param list to the validate function
         call_user_func_array(array($this, 'validate'), $requiredParams);
         //Using the getData method only to validate the data, so return nothing
-        return;
     }
 
     /**
      * Build an error response and return it.
      *
-     * @param string    $message
-     * @param string    $code
-     * @param mixed     $responseLogInformation
+     * @param string $message
+     * @param string $code
+     * @param mixed  $responseLogInformation
+     *
      * @return Response
      */
     public function returnError($message, $code, $responseLogInformation = null)
@@ -233,14 +234,15 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
             'object'        => 'Error',
             'error'         => $message,
             'code'          => $code,
-            'log'           => $responseLogInformation
+            'log'           => $responseLogInformation,
         );
         $this->response = new WidgetPurchaseResponse($this, $data);
+
         return $this->response;
     }
 
     /**
-     * Get the gateway widgetKey -- used in every request
+     * Get the gateway widgetKey -- used in every request.
      *
      * @return string
      */
@@ -250,9 +252,10 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the gateway widgetKey -- used in every request
+     * Set the gateway widgetKey -- used in every request.
      *
      * @param string $value
+     *
      * @return PurchaseRequest provides a fluent interface.
      */
     public function setWidgetKey($value)
@@ -261,9 +264,10 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Submit a payment through the PaymentWall Library
+     * Submit a payment through the PaymentWall Library.
      *
      * @param mixed $data
+     *
      * @return Response
      */
     public function sendData($data)
@@ -281,7 +285,7 @@ class WidgetPurchaseRequest extends AbstractLibraryRequest
                     $this->getCurrency(),
                     $this->getDescription(),
                     \Paymentwall_Product::TYPE_FIXED
-                )
+                ),
             ),
             array( //Pass the additional/custom parameters
                 'email'             => $this->getEmail(),

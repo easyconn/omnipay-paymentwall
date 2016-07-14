@@ -1,14 +1,13 @@
 <?php
 /**
- * PaymentWall Gateway
+ * PaymentWall Gateway.
  */
-
 namespace Omnipay\PaymentWall;
 
 use Omnipay\Common\AbstractGateway;
 
 /**
- * PaymentWall Gateway
+ * PaymentWall Gateway.
  *
  * Paymentwall is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall assists game publishers, dating publics,
@@ -154,13 +153,12 @@ use Omnipay\Common\AbstractGateway;
  */
 class Gateway extends AbstractGateway
 {
-
-    const API_VC      = \Paymentwall_Config::API_VC;
-    const API_GOODS   = \Paymentwall_Config::API_GOODS;
-    const API_CART    = \Paymentwall_Config::API_CART;
+    const API_VC = \Paymentwall_Config::API_VC;
+    const API_GOODS = \Paymentwall_Config::API_GOODS;
+    const API_CART = \Paymentwall_Config::API_CART;
 
     /**
-     * Get the gateway display name
+     * Get the gateway display name.
      *
      * @return string
      */
@@ -170,7 +168,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Get the gateway default parameters
+     * Get the gateway default parameters.
      *
      * @return array
      */
@@ -184,7 +182,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Get the gateway apiType -- used in every request
+     * Get the gateway apiType -- used in every request.
      *
      * @return string
      */
@@ -194,7 +192,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Set the gateway apiType -- used in every request
+     * Set the gateway apiType -- used in every request.
      *
      * @return Gateway provides a fluent interface.
      */
@@ -204,7 +202,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Get the gateway publicKey -- used in every request
+     * Get the gateway publicKey -- used in every request.
      *
      * @return string
      */
@@ -214,7 +212,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Set the gateway publicKey -- used in every request
+     * Set the gateway publicKey -- used in every request.
      *
      * @return Gateway provides a fluent interface.
      */
@@ -224,7 +222,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Get the gateway privateKey -- used in every request
+     * Get the gateway privateKey -- used in every request.
      *
      * @return string
      */
@@ -234,7 +232,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Set the gateway privateKey -- used in every request
+     * Set the gateway privateKey -- used in every request.
      *
      * @return Gateway provides a fluent interface.
      */
@@ -251,6 +249,7 @@ class Gateway extends AbstractGateway
      * Create a purchase request.
      *
      * @param array $parameters
+     *
      * @return \Omnipay\PaymentWall\Message\PurchaseRequest
      */
     public function purchase(array $parameters = array())
@@ -262,6 +261,7 @@ class Gateway extends AbstractGateway
      * Create an authorize request.
      *
      * @param array $parameters
+     *
      * @return \Omnipay\PaymentWall\Message\AuthorizeRequest
      */
     public function authorize(array $parameters = array())
@@ -273,6 +273,7 @@ class Gateway extends AbstractGateway
      * Create a capture request.
      *
      * @param array $parameters
+     *
      * @return \Omnipay\PaymentWall\Message\CaptureRequest
      */
     public function capture(array $parameters = array())
@@ -284,6 +285,7 @@ class Gateway extends AbstractGateway
      * Create a void request.
      *
      * @param array $parameters
+     *
      * @return \Omnipay\PaymentWall\Message\VoidRequest
      */
     public function void(array $parameters = array())
@@ -295,6 +297,7 @@ class Gateway extends AbstractGateway
      * Create a refund request.
      *
      * @param array $parameters
+     *
      * @return \Omnipay\PaymentWall\Message\RefundRequest
      */
     public function refund(array $parameters = array())
