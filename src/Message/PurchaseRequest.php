@@ -628,6 +628,64 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
+     * Get the secure redirect url
+     *
+     * For 3D Secure payments: URL of the billing page where brick_secure_token and brick_charge_id
+     * should be sent via POST after the user completes 3D Secure step.
+     * It is recommended to embed brick_fingerprint and brick_token into this URL along with the order ID to subsequently pass them into the Charge
+     *
+     * @return string
+     */
+    public function getSecureRedirectUrl()
+    {
+        return $this->getParameter('secureRedirectUrl');
+    }
+
+    /**
+     * Set the secure redirect url
+     *
+     * For 3D Secure payments: URL of the billing page where brick_secure_token and brick_charge_id
+     * should be sent via POST after the user completes 3D Secure step.
+     * It is recommended to embed brick_fingerprint and brick_token into this URL along with the order ID to subsequently pass them into the Charge
+     *
+     * @param string $value
+     *
+     * @return PurchaseRequest provides a fluent interface.
+     */
+    public function setSecureRedirectUrl($value)
+    {
+        return $this->setParameter('secureRedirectUrl', $value);
+    }
+
+    /**
+     * Get the secure token
+     *
+     * 3D Secure token returned to the website after the user completing the 3D Secure step.
+     * Required for submitting additional information after 3D Secure step.
+     *
+     * @return string
+     */
+    public function getSecureToken()
+    {
+        return $this->getParameter('secureToken');
+    }
+
+    /**
+     * Set the secure token
+     *
+     * 3D Secure token returned to the website after the user completing the 3D Secure step.
+     * Required for submitting additional information after 3D Secure step.
+     *
+     * @param string $value
+     *
+     * @return PurchaseRequest provides a fluent interface.
+     */
+    public function setSecureToken($value)
+    {
+        return $this->setParameter('secureToken', $value);
+    }
+
+    /**
      * Build an array from the ParameterBag object that is ready for sendData
      *
      * @throws InvalidRequestException directly for missing email, indirectly through validate
@@ -672,7 +730,10 @@ class PurchaseRequest extends AbstractLibraryRequest
                 'options[capture]'      => $this->getCapture(),
                 'billingCountry'        => $this->getBillingCountry(),
                 'billingPhone'          => $this->getBillingPhone(),
-                'billingPostcode'       => $this->getPostcode()
+                'billingPostcode'       => $this->getPostcode(),
+                'secure_redirect_url'   => $this->getSecureRedirectUrl(),
+                'secure_token'          => $this->getSecureToken(),
+                'charge_id'             => $this->getTransactionReference(),
             )
         );
 
