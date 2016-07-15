@@ -1,12 +1,11 @@
 <?php
 /**
- * PaymentWall Refund Request
+ * PaymentWall Refund Request.
  */
-
 namespace Omnipay\PaymentWall\Message;
 
 /**
- * PaymentWall Refund Request
+ * PaymentWall Refund Request.
  *
  * Paymentwall is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall assists game publishers, dating publics,
@@ -65,8 +64,9 @@ class RefundRequest extends AbstractLibraryRequest
     public function getData()
     {
         $this->validate('transactionReference');
-        $data                   = parent::getData();
-        $data['sale_id']        = $this->getTransactionReference();
+        $data = parent::getData();
+        $data['sale_id'] = $this->getTransactionReference();
+
         return $data;
     }
 
@@ -84,6 +84,7 @@ class RefundRequest extends AbstractLibraryRequest
 
         // Construct the response object
         $this->response = new Response($this, $charge_data);
+
         return $this->response;
     }
 }

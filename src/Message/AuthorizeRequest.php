@@ -1,15 +1,11 @@
 <?php
 /**
- * PaymentWall Authorize Request
+ * PaymentWall Authorize Request.
  */
-
 namespace Omnipay\PaymentWall\Message;
 
-use Omnipay\Common\Exception\RuntimeException;
-use Omnipay\Common\Exception\InvalidRequestException;
-
 /**
- * PaymentWall Authorize Request
+ * PaymentWall Authorize Request.
  *
  * Paymentwall is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall assists game publishers, dating publics,
@@ -177,9 +173,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
  */
 class AuthorizeRequest extends PurchaseRequest
 {
-
     /**
-     * Get the capture flag
+     * Get the capture flag.
      *
      * The default value is false.
      *
@@ -190,6 +185,7 @@ class AuthorizeRequest extends PurchaseRequest
         if (!$this->parameters->has('capture')) {
             return false;
         }
+
         return $this->getParameter('capture');
     }
 }

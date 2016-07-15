@@ -1,16 +1,15 @@
 <?php
 /**
- * PaymentWall Widget Payment List Request
+ * PaymentWall Widget Payment List Request.
  *
  * @author Satheesh Narayanan <satheesh@incube8.sg>
  */
-
 namespace Omnipay\PaymentWall\Message;
 
 use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
- * PaymentWall widget fetch payment system Request
+ * PaymentWall widget fetch payment system Request.
  *
  * Paymentwall is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall assists game publishers, dating publics,
@@ -69,7 +68,7 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
      */
     protected function getEndpoint()
     {
-        return parent::getEndpoint() . '/payment-systems';
+        return parent::getEndpoint().'/payment-systems';
     }
 
     /**
@@ -96,6 +95,7 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
 
     /**
      * @param $value
+     *
      * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function setCountryCode($value)
@@ -104,10 +104,12 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Build an array from the ParameterBag object that is ready for sendData
+     * Build an array from the ParameterBag object that is ready for sendData.
      *
      * @throws InvalidRequestException directly for missing email, indirectly through validate
+     *
      * @link https://www.paymentwall.com/en/documentation/Payment-Systems-API/2661
+     *
      * @return array
      */
     public function getData()
@@ -115,10 +117,10 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
         $params = array(
             'key'          => $this->getPublicKey(),
             'country_code' => $this->getCountryCode(),
-            'sign_version' => 2
+            'sign_version' => 2,
         );
 
-        // generate the payment wall widget signature
+        // generate the Paymentwall widget signature
         \Paymentwall_Config::getInstance()->set(array('private_key' => $this->getPrivateKey()));
         $params['sign'] = (new \Paymentwall_Signature_Widget())->calculate(
             $params,
@@ -131,9 +133,10 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
     /**
      * Build an error response and return it.
      *
-     * @param string    $message
-     * @param string    $code
-     * @param mixed     $responseLogInformation
+     * @param string $message
+     * @param string $code
+     * @param mixed  $responseLogInformation
+     *
      * @return Response
      */
     public function returnError($message, $code, $responseLogInformation = null)
@@ -143,16 +146,18 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
             'object'        => 'Error',
             'error'         => $message,
             'code'          => $code,
-            'log'           => $responseLogInformation
+            'log'           => $responseLogInformation,
         );
         $this->response = new Response($this, $data);
+
         return $this->response;
     }
 
     /**
-     * Submit the data to the Paymentwall api to fetch all Payment systems
+     * Submit the data to the Paymentwall api to fetch all Payment systems.
      *
      * @param mixed $data
+     *
      * @return WidgetPaymentListResponse
      */
     public function sendData($data)
@@ -160,8 +165,8 @@ class WidgetPaymentListRequest extends AbstractLibraryRequest
         //Create HTTPREQUEST using endpoint and the query parameters
         $httpRequest = $this->httpClient->createRequest(
             $this->getHttpMethod(),
-            $this->getEndpoint() . '/?' . http_build_query($data),
-            []
+            $this->getEndpoint().'/?'.http_build_query($data),
+            array()
         );
 
         try {
