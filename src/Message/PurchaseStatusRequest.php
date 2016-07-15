@@ -1,12 +1,11 @@
 <?php
 /**
- * PaymentWall Status Request
+ * PaymentWall Status Request.
  */
-
 namespace Omnipay\PaymentWall\Message;
 
 /**
- * PaymentWall PaymentWall Status Request
+ * PaymentWall PaymentWall Status Request.
  *
  * Paymentwall is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall assists game publishers, dating publics,
@@ -58,8 +57,9 @@ class PurchaseStatusRequest extends AbstractLibraryRequest
     public function getData()
     {
         $this->validate('transactionReference');
-        $data                   = parent::getData();
-        $data['sale_id']        = $this->getTransactionReference();
+        $data = parent::getData();
+        $data['sale_id'] = $this->getTransactionReference();
+
         return $data;
     }
 
@@ -77,6 +77,7 @@ class PurchaseStatusRequest extends AbstractLibraryRequest
 
         // Construct the response object
         $this->response = new Response($this, $charge_data);
+
         return $this->response;
     }
 }
