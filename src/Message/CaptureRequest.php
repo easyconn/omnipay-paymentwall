@@ -1,12 +1,11 @@
 <?php
 /**
- * PaymentWall Capture Request
+ * PaymentWall Capture Request.
  */
-
 namespace Omnipay\PaymentWall\Message;
 
 /**
- * PaymentWall Capture Request
+ * PaymentWall Capture Request.
  *
  * Paymentwall is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall assists game publishers, dating publics,
@@ -62,14 +61,14 @@ namespace Omnipay\PaymentWall\Message;
  */
 class CaptureRequest extends AbstractLibraryRequest
 {
-
     public function getData()
     {
         // An amount parameter is required, as is a currency and
         // an account ID.
         $this->validate('transactionReference');
-        $data                   = parent::getData();
-        $data['sale_id']        = $this->getTransactionReference();
+        $data = parent::getData();
+        $data['sale_id'] = $this->getTransactionReference();
+
         return $data;
     }
 
@@ -94,6 +93,7 @@ class CaptureRequest extends AbstractLibraryRequest
 
         // Construct the response object
         $this->response = new Response($this, $charge_data);
+
         return $this->response;
     }
 }

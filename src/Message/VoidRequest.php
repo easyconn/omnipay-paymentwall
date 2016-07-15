@@ -1,12 +1,11 @@
 <?php
 /**
- * PaymentWall Void Request
+ * PaymentWall Void Request.
  */
-
 namespace Omnipay\PaymentWall\Message;
 
 /**
- * PaymentWall Void Request
+ * PaymentWall Void Request.
  *
  * Paymentwall is the leading digital payments platform for globally monetizing
  * digital goods and services. Paymentwall assists game publishers, dating publics,
@@ -60,4 +59,6 @@ namespace Omnipay\PaymentWall\Message;
  * @link https://github.com/paymentwall/paymentwall-php
  * @see Omnipay\PaymentWall\Gateway
  */
-class VoidRequest extends RefundRequest {}
+class VoidRequest extends RefundRequest
+{
+}

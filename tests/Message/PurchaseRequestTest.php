@@ -13,18 +13,19 @@ class PurchaseRequestTest extends TestCase
     /** @var CreditCard */
     protected $card;
 
-    public static function setUpBeforeClass() {
-    /* can't create mocks because the classes that we are mocking contain
-     * public static methods (so can't use normal mocks) and the alias
-     * mocks are failing because the classes are being loaded via a require_once
-     * statement rather than an autoloader.  FIXME: Get the classes loaded via an
-     * autoloader.
-        $success = json_encode(['success' => 1]);
-        $configMock = \Mockery::mock('alias:\Paymentwall_Config');
-        $configMock->shouldReceive('getInstance')->once();
-        $chargeMock = \Mockery::mock('alias:\Paymentwall_Charge');
-        $chargeMock->shouldReceive('charge')->once()->andReturn($success);
-     */
+    public static function setUpBeforeClass()
+    {
+        /* can't create mocks because the classes that we are mocking contain
+         * public static methods (so can't use normal mocks) and the alias
+         * mocks are failing because the classes are being loaded via a require_once
+         * statement rather than an autoloader.  FIXME: Get the classes loaded via an
+         * autoloader.
+            $success = json_encode(['success' => 1]);
+            $configMock = \Mockery::mock('alias:\Paymentwall_Config');
+            $configMock->shouldReceive('getInstance')->once();
+            $chargeMock = \Mockery::mock('alias:\Paymentwall_Charge');
+            $chargeMock->shouldReceive('charge')->once()->andReturn($success);
+         */
     }
 
     public function setUp()
@@ -54,7 +55,8 @@ class PurchaseRequestTest extends TestCase
         ));
     }
 
-    public function tearDown() {
+    public function tearDown()
+    {
         \Mockery::close();
     }
 
