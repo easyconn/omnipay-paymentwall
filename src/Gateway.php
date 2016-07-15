@@ -304,4 +304,9 @@ class Gateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\PaymentWall\Message\RefundRequest', $parameters);
     }
+
+    public function getPurchaseStatus(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PaymentWall\Message\PurchaseStatusRequest', $parameters);
+    }
 }
