@@ -634,7 +634,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the secure redirect url
+     * Get the secure redirect url.
      *
      * For 3D Secure payments: URL of the billing page where brick_secure_token and brick_charge_id
      * should be sent via POST after the user completes 3D Secure step.
@@ -648,7 +648,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the secure redirect url
+     * Set the secure redirect url.
      *
      * For 3D Secure payments: URL of the billing page where brick_secure_token and brick_charge_id
      * should be sent via POST after the user completes 3D Secure step.
@@ -664,7 +664,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Get the secure token
+     * Get the secure token.
      *
      * 3D Secure token returned to the website after the user completing the 3D Secure step.
      * Required for submitting additional information after 3D Secure step.
@@ -677,7 +677,7 @@ class PurchaseRequest extends AbstractLibraryRequest
     }
 
     /**
-     * Set the secure token
+     * Set the secure token.
      *
      * 3D Secure token returned to the website after the user completing the 3D Secure step.
      * Required for submitting additional information after 3D Secure step.
