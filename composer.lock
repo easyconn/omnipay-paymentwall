@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2d26c4ba5785d0327b1b3ee7f9f708a5",
+    "hash": "b5bc977c678c32d5e9ee7b41767fe707",
+    "content-hash": "057a9de81ef56c4892df1b3c4625d487",
     "packages": [
         {
             "name": "guzzle/guzzle",
@@ -200,16 +201,16 @@
         },
         {
             "name": "paymentwall/paymentwall-php",
-            "version": "dev-master",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/incube8/paymentwall-php.git",
-                "reference": "3355fb83f539972949f0265e4bf68d0b8e980811"
+                "url": "https://github.com/paymentwall/paymentwall-php.git",
+                "reference": "4f082c9a6a28973e149308822aae34baf253851b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/incube8/paymentwall-php/zipball/3355fb83f539972949f0265e4bf68d0b8e980811",
-                "reference": "3355fb83f539972949f0265e4bf68d0b8e980811",
+                "url": "https://api.github.com/repos/paymentwall/paymentwall-php/zipball/4f082c9a6a28973e149308822aae34baf253851b",
+                "reference": "4f082c9a6a28973e149308822aae34baf253851b",
                 "shasum": ""
             },
             "require": {
@@ -226,6 +227,7 @@
                     "lib/Paymentwall/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -236,7 +238,7 @@
                 }
             ],
             "description": "Paymentwall PHP Library. Paymentwall is the leading digital payments platform for globally monetizing digital goods and services.",
-            "homepage": "http://paymentwall.com?source=gh",
+            "homepage": "https://www.paymentwall.com/?source=gh",
             "keywords": [
                 "alternative payments",
                 "api",
@@ -248,10 +250,7 @@
                 "paymentwall",
                 "recurring billing"
             ],
-            "support": {
-                "source": "https://github.com/incube8/paymentwall-php/tree/master"
-            },
-            "time": "2015-11-12 04:55:36"
+            "time": "2016-07-01 12:06:30"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -484,7 +483,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/omnipay-dummy/zipball/02c34a0112625f21ef58466c85840a27169584d9",
+                "url": "https://api.github.com/repos/thephpleague/omnipay-dummy/zipball/8232954c15a24b848057c30ef25470d10dcfc956",
                 "reference": "02c34a0112625f21ef58466c85840a27169584d9",
                 "shasum": ""
             },
@@ -1075,7 +1074,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "paymentwall/paymentwall-php": 20,
         "omnipay/dummy": 20
     },
     "prefer-stable": false,

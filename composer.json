@@ -18,16 +18,10 @@
             "email": "del@incube8.sg"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/incube8/paymentwall-php"
-        }
-    ],
     "require": {
         "php": ">=5.3.3",
-        "paymentwall/paymentwall-php": "dev-master",
-        "omnipay/common": "~2.0"
+        "omnipay/common": "~2.0",
+        "paymentwall/paymentwall-php": "^2.2"
     },
     "require-dev": {
         "omnipay/tests": "~2.0",
