@@ -1,5 +1,5 @@
 {
-    "name": "incube8/omnipay-paymentwall",
+    "name": "easyconn/omnipay-paymentwall",
     "type": "library",
     "description": "PaymentWall driver for the Omnipay payment processing library",
     "keywords": [
@@ -10,7 +10,7 @@
         "pay",
         "payment"
     ],
-    "homepage": "https://github.com/incube8/omnipay-paymentwall",
+    "homepage": "https://github.com/easyconn/omnipay-paymentwall",
     "license": "MIT",
     "authors": [
         {
